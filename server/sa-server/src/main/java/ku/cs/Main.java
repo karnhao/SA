@@ -7,7 +7,7 @@ import com.sun.net.httpserver.HttpServer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        int port = 9000;
+        int port = 25565;
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new MyHandler());
