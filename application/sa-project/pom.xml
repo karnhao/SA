@@ -9,11 +9,6 @@
 
     <name>sa-project</name>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mainClass>ku.cs.MainApp</mainClass>
-    </properties>
-
 
 
     <dependencies>

@@ -1,9 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5a7b97ce-5d20-4906-806f-d96016130473" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/FXMLController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/sa_project/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/sa_project/MainApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/primary.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/Styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/fxml/primary.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/FXMLController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/sa_project/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/sa_project/MainApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/styles/Styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-base-11-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-base-11.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-base-23-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-base-23.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-controls-11-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-controls-11.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-controls-23-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-controls-23.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-fxml-11-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-fxml-11.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-fxml-23-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-fxml-23.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-graphics-11-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-graphics-11.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-graphics-23-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-graphics-23.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-media-11-win.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/modules/javafx-media-11.jar" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="JavaFXApplication" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2mvGV543CJtcYglAUuFhWeg37m2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/SA/application/sa-project/src/main/resources/ku/cs/images/icons",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\SA\application\sa-project\src\main\resources\ku\cs\images\icons" />
+      <recent name="D:\SA\application\sa-project\src\main\resources\ku\cs\views\components" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -37,7 +120,23 @@
       </list>
     </option>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5a7b97ce-5d20-4906-806f-d96016130473" name="Changes" comment="" />
+      <created>1727949656761</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1727949656761</updated>
+      <workItem from="1727949659004" duration="4277000" />
+      <workItem from="1727963436706" duration="8312000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

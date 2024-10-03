@@ -1,0 +1,16 @@
+* {
+    -fx-font-family: 'DB Ozone X Bold';
+}
+
+.button {
+    -fx-font-size: 200%;
+}
+
+.text-field {
+    -fx-font-size: 200%;
+}
+
+.combo-box .list-cell {
+    -fx-font-size: 200%;
+}
+

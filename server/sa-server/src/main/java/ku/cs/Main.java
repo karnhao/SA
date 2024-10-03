@@ -8,6 +8,8 @@ import java.sql.SQLException;
 
 import com.sun.net.httpserver.HttpServer;
 
+import ku.cs.controller.SignUpController;
+
 public class Main {
     public static void main(String[] args) throws IOException {
 
@@ -16,6 +18,8 @@ public class Main {
         String dataSourceUrl = "jdbc:mysql://localhost/sa";
         String user = "root";
         String password = "";
+
+        System.out.println("Connecting to " + dataSourceUrl);
 
         try {
             conn = DriverManager.getConnection(dataSourceUrl, user, password);
@@ -30,6 +34,7 @@ public class Main {
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new MyHandler(conn));
+        server.createContext("/reg", new SignUpController());
 
         server.setExecutor(null);
         server.start();
