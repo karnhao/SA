@@ -10,7 +10,6 @@ import java.net.*;
 
 public class Client {
     private static Client client = null;
-
     private final String serverIp;
     private final short serverPort;
     private String accessToken;
@@ -55,5 +54,9 @@ public class Client {
     private Client(String ip, short port) {
         this.serverIp = ip;
         this.serverPort = port;
+    }
+
+    public String getHostUrlString() {
+        return "http://" + this.serverIp + ":" + this.serverPort;
     }
 }

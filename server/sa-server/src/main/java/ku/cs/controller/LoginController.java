@@ -12,11 +12,11 @@ import com.sun.net.httpserver.HttpHandler;
 
 import ku.cs.service.SignUpService;
 
-public class SignUpController implements HttpHandler {
+public class LoginController implements HttpHandler {
 
     SignUpService service;
 
-    public SignUpController(SignUpService service) {
+    public LoginController(SignUpService service) {
         this.service = service;
     }
 

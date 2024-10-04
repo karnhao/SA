@@ -2,6 +2,7 @@ module ku.cs {
     requires transitive javafx.controls;
     requires javafx.fxml;
     requires animatefx;
+    requires org.json;
 
     opens ku.cs.sa_project to javafx.fxml;
     exports ku.cs.sa_project;

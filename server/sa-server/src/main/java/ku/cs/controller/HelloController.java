@@ -1,26 +1,12 @@
-package ku.cs;
+package ku.cs.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-public class MyHandler implements HttpHandler {
-
-    private Connection connection;
-    private Statement statement;
-    private ResultSet resultSet;
-
-    public MyHandler(Connection connection) {
-        this.connection = connection;
-        this.statement = null;
-        this.resultSet = null;
-    }
+public class HelloController implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

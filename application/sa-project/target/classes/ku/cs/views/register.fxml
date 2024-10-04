@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.RegisterController">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.RegisterController">
    <children>
       <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
@@ -18,11 +18,15 @@
             <Insets bottom="5.0" left="50.0" right="50.0" top="20.0" />
          </padding>
       </HBox>
-      <VBox fx:id="vBox" alignment="CENTER_LEFT" spacing="20.0">
-         <padding>
-            <Insets bottom="50.0" left="100.0" right="100.0" top="10.0" />
-         </padding>
-      </VBox>
+      <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <content>
+            <VBox fx:id="vBox" alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" styleClass="my-scroll-pane">
+               <padding>
+                  <Insets bottom="50.0" left="100.0" right="100.0" top="10.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onCreateAccountClick" text="Create Account" HBox.hgrow="ALWAYS">
