@@ -19,6 +19,6 @@
          <padding>
             <Insets top="-2.0" />
          </padding></TextField>
-      <Pane fx:id="pane" prefHeight="5.0" style="-fx-background-color: -dark-green-color;" stylesheets="@../../themes/default.css" />
+      <Pane fx:id="pane" minHeight="5.0" prefHeight="5.0" style="-fx-background-color: -dark-green-color;" stylesheets="@../../themes/default.css" />
    </children>
 </VBox>
