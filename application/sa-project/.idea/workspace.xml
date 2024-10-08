@@ -5,22 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5a7b97ce-5d20-4906-806f-d96016130473" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/controller/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/net/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/net/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ku/cs/views/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ku/cs/views/register.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/controller/RegisterController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/controller/RegisterController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/net/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/net/Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/views/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/views/register.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/controller/LoadingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/controller/LoadingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/controller/LoadingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/controller/LoadingController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../server/sa-server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/MyHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/controller/SignUpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/controller/SignUpController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,16 +39,23 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Maven.sa-project [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/SA/application/sa-project/src/main/resources/ku/cs/images/icons&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/6510450615/SA_Project/SA/application/sa-project&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -100,6 +97,14 @@
       </list>
     </option>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
@@ -115,6 +120,9 @@
       <workItem from="1727963436706" duration="8480000" />
       <workItem from="1728020946396" duration="10668000" />
       <workItem from="1728034607065" duration="395000" />
+      <workItem from="1728035881586" duration="740000" />
+      <workItem from="1728036632811" duration="145000" />
+      <workItem from="1728036844959" duration="61000" />
     </task>
     <servers />
   </component>
