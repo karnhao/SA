@@ -6,21 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="5a7b97ce-5d20-4906-806f-d96016130473" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/controller/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/net/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/net/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ku/cs/views/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ku/cs/views/register.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/controller/RegisterController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/controller/RegisterController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/net/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/net/Client.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ku/cs/views/register.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ku/cs/views/register.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../server/sa-server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/MyHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/controller/SignUpController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../server/sa-server/src/main/java/ku/cs/controller/SignUpController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/controller/LoadingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/controller/LoadingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ku/cs/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ku/cs/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ku/cs/views/components/secureTextForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ku/cs/views/components/secureTextForm.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ku/cs/views/components/textForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ku/cs/views/components/textForm.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ku/cs/views/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ku/cs/views/login.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +104,8 @@
       <workItem from="1727949659004" duration="4277000" />
       <workItem from="1727963436706" duration="8480000" />
       <workItem from="1728020946396" duration="10668000" />
-      <workItem from="1728034607065" duration="395000" />
+      <workItem from="1728034607065" duration="990000" />
+      <workItem from="1728374652653" duration="4126000" />
     </task>
     <servers />
   </component>
