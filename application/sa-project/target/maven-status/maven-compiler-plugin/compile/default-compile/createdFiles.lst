@@ -8,6 +8,7 @@ ku\cs\Main.class
 ku\cs\controller\SecureTextFormController.class
 ku\cs\service\LoadService$Loader.class
 module-info.class
+ku\cs\controller\EventItemController.class
 ku\cs\net\Client.class
 ku\cs\service\ProgressSetter.class
 ku\cs\controller\LoadingController.class
@@ -20,3 +21,5 @@ ku\cs\service\FXRouter$1.class
 ku\cs\sa_project\MainApp.class
 ku\cs\controller\DropDownController.class
 ku\cs\net\ClientRegister.class
+ku\cs\controller\EventPageController.class
+ku\cs\controller\ForgotPasswordController.class

@@ -1,10 +1,12 @@
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\service\DataApplication.java
+C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\EventItemController.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\service\Data.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\DropDownController.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\util\ComponentLoader.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\model\Setting.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\net\Client.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\service\LoadService.java
+C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\ForgotPasswordController.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\service\FXRouter.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\LoginController.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\LoadingController.java
@@ -14,6 +16,7 @@ C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\j
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\sa_project\MainApp.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\module-info.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\RootController.java
+C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\EventPageController.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\controller\TextFormController.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\service\ProgressSetter.java
 C:\Users\User\Desktop\6510450615\SA_Project\SA\application\sa-project\src\main\java\ku\cs\Main.java

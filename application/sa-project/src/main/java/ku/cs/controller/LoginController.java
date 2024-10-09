@@ -24,6 +24,7 @@ public class LoginController {
     }
 
     public void onForgotPassword() {
-
+        RootService.getController().open("forgotPassword.fxml");
     }
+
 }
