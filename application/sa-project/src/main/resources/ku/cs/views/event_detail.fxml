@@ -54,7 +54,7 @@
                 <Label fx:id="eventDetailLabel" style="-fx-font-size: 14px;" text="detail" />
             </HBox>
 
-            <!-- Musician List -->
+            <!-- Requirement List -->
             <HBox spacing="10">
                 <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Requirement:" />
                 <Label fx:id="RequirementLabel" style="-fx-font-size: 14px;" text="requirement" />

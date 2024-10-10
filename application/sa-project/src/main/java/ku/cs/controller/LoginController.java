@@ -19,10 +19,11 @@ public class LoginController {
     }
 
     public void onSignUpButton() {
-        RootService.getController().open("setting.fxml");
+        RootService.getController().open("change_password.fxml");
     }
 
     public void onLogin() {
+
         try {
             ClientLogin clientLogin = new ClientLogin();
             clientLogin.login(usernameField.getText(), passwordField.getText());
