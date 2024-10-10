@@ -1,5 +1,7 @@
 package ku.cs.entity;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 public class User {
     private String name;
     private String username;
@@ -95,4 +97,11 @@ public class User {
         return "User [" + this.uuid + ", " + this.username + ", " + this.name + "]";
     }
 
+    public boolean validatePassword(String password) {
+
+        if (this.password.equals(password)) return true;
+
+        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), this.password);
+        return result.verified;
+    }
 }

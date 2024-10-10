@@ -8,23 +8,23 @@ import javax.naming.InvalidNameException;
 import org.json.JSONObject;
 
 import ku.cs.entity.User;
+import ku.cs.repository.UserRepository;
 import ku.cs.request.SignUpRequest;
-import ku.cs.responsitory.UserResponsitory;
 
 public class SignUpService {
 
-    private UserResponsitory responsitory;
+    private UserRepository repository;
     
-    public SignUpService(UserResponsitory responsitory) {
-        this.responsitory = responsitory;
+    public SignUpService(UserRepository repository) {
+        this.repository = repository;
     }
 
     public boolean isUsernameAvailable(String username) throws SQLException {
-        return responsitory.getUserByUserName(username) == null;
+        return repository.getUserByUserName(username) == null;
     }
 
-    private void validateNull(String s) {
-        if (s == null || s.isEmpty()) throw new NullPointerException();
+    private void validateNull(String s, String name) {
+        if (s == null || s.isEmpty()) throw new NullPointerException(name + " is null");
     }
 
     private User createUserEntity(SignUpRequest signUpRequest) {
@@ -55,12 +55,12 @@ public class SignUpService {
     public void createUser(SignUpRequest signUpRequest) throws InvalidNameException, SQLException {
 
         // check null
-        validateNull(signUpRequest.getUsername());
-        validateNull(signUpRequest.getEmail());
-        validateNull(signUpRequest.getName());
-        validateNull(signUpRequest.getPhone_number());
-        validateNull(signUpRequest.getRole());
-        validateNull(signUpRequest.getPassword());
+        validateNull(signUpRequest.getUsername(), "username");
+        validateNull(signUpRequest.getEmail(), "email");
+        validateNull(signUpRequest.getName(), "name");
+        validateNull(signUpRequest.getPhone_number(), "phone number");
+        validateNull(signUpRequest.getRole(), "role");
+        validateNull(signUpRequest.getPassword(), "password");
 
         // check username available
         if (!isUsernameAvailable(signUpRequest.getUsername())) throw new InvalidNameException("This username is already taken");
@@ -69,10 +69,10 @@ public class SignUpService {
         User userEntity = createUserEntity(signUpRequest);
 
         
-        responsitory.createUser(userEntity);
+        repository.createUser(userEntity);
     }
 
     public User getUserByUserName(String userName) throws SQLException {
-        return responsitory.getUserByUserName(userName);
+        return repository.getUserByUserName(userName);
     }
 }
