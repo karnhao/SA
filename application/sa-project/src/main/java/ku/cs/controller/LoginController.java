@@ -19,7 +19,7 @@ public class LoginController {
     }
 
     public void onSignUpButton() {
-        RootService.getController().open("register.fxml");
+        RootService.getController().open("setting.fxml");
     }
 
     public void onLogin() {
