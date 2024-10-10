@@ -14,9 +14,12 @@ ku\cs\controller\LoadingController.class
 ku\cs\service\DataApplication.class
 ku\cs\controller\RootController.class
 ku\cs\service\LoadService.class
+ku\cs\controller\EventOwnerController.class
 ku\cs\controller\TextFormController.class
+ku\cs\controller\SettingController.class
 ku\cs\service\FXRouter$RouteScene.class
 ku\cs\service\FXRouter$1.class
 ku\cs\sa_project\MainApp.class
 ku\cs\controller\DropDownController.class
 ku\cs\net\ClientRegister.class
+ku\cs\controller\EventDetailController.class
