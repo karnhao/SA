@@ -8,11 +8,10 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import ku.cs.service.UserService;
 
-public class UserInfoController implements HttpHandler {
+public class UserInfoController extends Controller {
 
     private UserService service;
 
@@ -50,8 +49,7 @@ public class UserInfoController implements HttpHandler {
             os.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            exchange.sendResponseHeaders(500, -1);
+            responseError(exchange, e);
         }
     }
 
