@@ -30,6 +30,8 @@ public class LoginController {
             ClientUserInfo clientUserInfo = new ClientUserInfo();
             JSONObject userInfo = clientUserInfo.getUserInfo();
             System.out.println(userInfo.toString(4));
+
+            RootService.getController().open("navigation.fxml");
         } catch (Exception e) {
             RootService.showErrorBar(e.getMessage());
         }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.NavigationController">
+   <children>
+      <HBox alignment="CENTER_LEFT" style="-fx-background-color: -dark-green-color;">
+         <children>
+            <Label style="-fx-font-weight: bold;" text="Title" textFill="WHITE">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </HBox.margin>
+            </Label>
+            <HBox fx:id="hBox" alignment="CENTER_LEFT">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></HBox>
+         </children>
+      </HBox>
+      <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+   </children>
+</VBox>
