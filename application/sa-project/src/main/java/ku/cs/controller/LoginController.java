@@ -17,7 +17,7 @@ public class LoginController {
     }
 
     public void onSignUpButton() {
-        RootService.getController().open("setting.fxml");
+        RootService.getController().open("change_password.fxml");
     }
 
     public void onLogin() {

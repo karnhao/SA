@@ -10,10 +10,11 @@ import ku.cs.util.ComponentLoader;
 public class SettingController {
     @FXML
     public ImageView profileImage;
+    @FXML
     public VBox vBox;
     private TextFormController nameFormController;
     private TextFormController phoneFormController;
-    private TextFormController emailFormController;;
+    private TextFormController emailFormController;
 
     public void initialize() {
 
@@ -23,14 +24,14 @@ public class SettingController {
         nameFormController.getTextField().setPromptText("Your name");
 
         // Setting phone Form
-        nameFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
-        nameFormController.setTitleText("Phone Number");
-        nameFormController.getTextField().setPromptText("Your phone");
+        phoneFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
+        phoneFormController.setTitleText("Phone Number");
+        phoneFormController.getTextField().setPromptText("Your phone");
 
         // Setting email Form
-        nameFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
-        nameFormController.setTitleText("Your email");
-        nameFormController.getTextField().setPromptText("Your email");
+        emailFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
+        emailFormController.setTitleText("Your email");
+        emailFormController.getTextField().setPromptText("Your email");
     }
 
     public void OnChangeProfileImage(ActionEvent actionEvent) {
