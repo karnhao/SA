@@ -10,13 +10,13 @@ import org.json.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import ku.cs.service.SignUpService;
+import ku.cs.service.UserService;
 
-public class SignUpController implements HttpHandler {
+public class UserInfoController implements HttpHandler {
 
-    SignUpService service;
+    private UserService service;
 
-    public SignUpController(SignUpService service) {
+    public UserInfoController(UserService service) {
         this.service = service;
     }
 
@@ -40,20 +40,19 @@ public class SignUpController implements HttpHandler {
 
             JSONObject jsonObject = new JSONObject(jsonString);
 
-            service.createUser(jsonObject);
-            String response = "Create User Successfully";
+            String accessToken = jsonObject.getString("access_token");
+
+            JSONObject responseJSON = service.getUser(accessToken);
+            String response = responseJSON.toString();
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
+
         } catch (Exception e) {
             e.printStackTrace();
-            String errorMessage = e.getClass().getSimpleName() + " " + e.getMessage();
-            exchange.sendResponseHeaders(500, errorMessage.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(errorMessage.getBytes());
-            os.close();
+            exchange.sendResponseHeaders(500, -1);
         }
-
     }
+
 }
