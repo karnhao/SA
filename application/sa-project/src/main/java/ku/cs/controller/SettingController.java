@@ -1,6 +1,5 @@
 package ku.cs.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -34,19 +33,21 @@ public class SettingController {
         emailFormController.getTextField().setPromptText("Your email");
     }
 
-    public void OnChangeProfileImage(ActionEvent actionEvent) {
+    public void OnChangeProfileImage() {
+
     }
 
-    public void OnLogOut(ActionEvent actionEvent) {
+    public void OnLogOut() {
+        RootService.open("login.fxml");
     }
 
-    public void OnChangePassword(ActionEvent actionEvent) {
+    public void OnChangePassword() {
+        RootService.getController().getNavigationController().open("change_password.fxml");
     }
 
-    public void OnBackToHome() {
-        RootService.getController().open("login.fxml");
-    }
-
-    public void OnApply(ActionEvent actionEvent) {
+    public void OnApply() {
+        System.out.println(nameFormController.getTextField().getText());
+        System.out.println(emailFormController.getTextField().getText());
+        System.out.println(phoneFormController.getTextField().getText());
     }
 }

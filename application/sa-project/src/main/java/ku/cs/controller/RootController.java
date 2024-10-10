@@ -18,6 +18,7 @@ import java.net.URL;
 
 public class RootController {
 
+    private NavigationController navigationController;
     private Data data;
     @FXML
     public StackPane loadingPane;
@@ -49,7 +50,7 @@ public class RootController {
     public void initialize() {
         RootService.setController(this);
         RootService.open("loading.fxml");
-        hBox.setTranslateY(-52);
+        hBox.setTranslateX(550);
         loadingPane.setVisible(false);
     }
 
@@ -84,7 +85,7 @@ public class RootController {
             outAnimation.stop();
             outAnimation = new TranslateTransition(Duration.seconds(0.1), hBox);
             outAnimation.setDelay(duration);
-            outAnimation.setToY(-52);
+            outAnimation.setToX(550);
             outAnimation.setOnFinished(actionEvent1 -> outAnimation = null);
             outAnimation.play();
             return;
@@ -97,14 +98,22 @@ public class RootController {
         else if (color == Color.RED) hBox.getStyleClass().addAll("light-red-background");
 
         inAnimation = new TranslateTransition(Duration.seconds(0.1), hBox);
-        inAnimation.setToY(0);
+        inAnimation.setToX(0);
         inAnimation.setOnFinished(actionEvent -> {
             outAnimation = new TranslateTransition(Duration.seconds(0.1), hBox);
             outAnimation.setDelay(duration);
-            outAnimation.setToY(-52);
+            outAnimation.setToX(550);
             outAnimation.setOnFinished(actionEvent1 -> outAnimation = null);
             outAnimation.play();
         });
         inAnimation.play();
+    }
+
+    public void assignNavigationController (NavigationController controller) {
+        this.navigationController = controller;
+    }
+
+    public NavigationController getNavigationController() {
+        return this.navigationController;
     }
 }

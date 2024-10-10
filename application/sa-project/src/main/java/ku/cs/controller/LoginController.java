@@ -38,6 +38,10 @@ public class LoginController {
         }
     }
 
+    public void onForceLogin() {
+        RootService.getController().open("navigation.fxml");
+    }
+
     public void onForgotPassword() {
         RootService.getController().open("forgotPassword.fxml");
     }

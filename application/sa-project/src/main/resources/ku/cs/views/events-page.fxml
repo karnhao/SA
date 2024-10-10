@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="50.0" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventPageController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventPageController">
    <children>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
@@ -15,30 +15,23 @@
                </font>
             </Label>
             <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="53.0" prefWidth="136.0" style="-fx-font-weight: bold;" styleClass="button-green" text="Create Event">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="53.0" prefWidth="136.0" styleClass="button-green" text="Create Event">
                <HBox.margin>
-                  <Insets right="20.0" />
+                  <Insets />
                </HBox.margin>
                <font>
-                  <Font size="18.0" />
-               </font></Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" prefWidth="67.0" style="-fx-font-weight: bold;" styleClass="button-green" text="Back">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="18.0" />
                </font></Button>
          </children>
          <VBox.margin>
-            <Insets left="20.0" right="10.0" top="40.0" />
+            <Insets left="10.0" right="10.0" top="40.0" />
          </VBox.margin></HBox>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="my-scroll-pane">
          <content>
             <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" />
          </content>
          <VBox.margin>
-            <Insets bottom="10.0" left="20.0" right="20.0" />
+            <Insets bottom="10.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
       </ScrollPane>
    </children>

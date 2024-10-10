@@ -87,6 +87,7 @@ public class LoadingController {
                     retryButton.setVisible(true);
                     LoadService.getLoader().close();
                 });
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
 
@@ -109,5 +110,9 @@ public class LoadingController {
     public void onRetryButtonPress() {
         startLoading();
         retryButton.setVisible(false);
+    }
+
+    public void onContinue() {
+        Platform.runLater(() -> RootService.open("login.fxml"));
     }
 }

@@ -2,14 +2,16 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.NavigationController">
    <children>
       <HBox alignment="CENTER_LEFT" style="-fx-background-color: -dark-green-color;">
          <children>
-            <Label style="-fx-font-weight: bold;" text="Title" textFill="WHITE">
+            <Label fx:id="titleLabel" style="-fx-font-weight: bold;" text="Title" textFill="WHITE">
                <font>
                   <Font size="36.0" />
                </font>
@@ -21,8 +23,24 @@
                <HBox.margin>
                   <Insets />
                </HBox.margin></HBox>
+            <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <StackPane maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" prefHeight="40.0" prefWidth="40.0" HBox.hgrow="NEVER">
+               <children>
+                  <Circle fill="WHITE" radius="20.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <ImageView fx:id="settingImageView" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#onSettingIconClick" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/icons/settings.png" />
+                     </image></ImageView>
+               </children>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </StackPane>
          </children>
       </HBox>
-      <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+      <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin></VBox>
    </children>
 </VBox>
