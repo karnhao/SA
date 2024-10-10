@@ -7,6 +7,7 @@ import ku.cs.service.RootService;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 
 public class Client {
     private static Client client = null;
@@ -58,5 +59,29 @@ public class Client {
 
     public String getHostUrlString() {
         return "http://" + this.serverIp + ":" + this.serverPort;
+    }
+
+    public HttpURLConnection getHttpURLConnection(String bodyJson, String path) throws URISyntaxException, IOException {
+        URL url = new URI(Client.getClient().getHostUrlString() + path).toURL();
+
+        System.out.println(url);
+
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("POST");
+
+        httpURLConnection.setRequestProperty("Content-Type", "application/json");
+        httpURLConnection.setRequestProperty("Accept", "application/json");
+
+        httpURLConnection.setDoOutput(true);
+
+        try (OutputStream os = httpURLConnection.getOutputStream()) {
+            byte[] input = bodyJson.getBytes(StandardCharsets.UTF_8);
+            os.write(input);
+        }
+        return httpURLConnection;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }

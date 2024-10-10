@@ -2,6 +2,7 @@ package ku.cs.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import ku.cs.net.ClientLogin;
 import ku.cs.service.RootService;
 
 
@@ -16,11 +17,17 @@ public class LoginController {
     }
 
     public void onSignUpButton() {
-        RootService.getController().open("register.fxml");
+        RootService.getController().open("change_password.fxml");
     }
 
     public void onLogin() {
-        RootService.getController().open("home-page.fxml");
+
+        try {
+            ClientLogin clientLogin = new ClientLogin();
+            clientLogin.login(usernameField.getText(), passwordField.getText());
+        } catch (Exception e) {
+            RootService.showErrorBar(e.getMessage());
+        }
     }
 
     public void onForgotPassword() {

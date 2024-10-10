@@ -10,13 +10,13 @@ import org.json.JSONObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import ku.cs.service.SignUpService;
+import ku.cs.service.LoginService;
 
 public class LoginController implements HttpHandler {
 
-    SignUpService service;
+    LoginService service;
 
-    public LoginController(SignUpService service) {
+    public LoginController(LoginService service) {
         this.service = service;
     }
 
@@ -32,23 +32,23 @@ public class LoginController implements HttpHandler {
     }
 
     private void handleRequest(HttpExchange exchange) throws IOException {
-        InputStream is = exchange.getRequestBody();
-        String jsonString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        
-        System.out.println(jsonString);
-
-        JSONObject jsonObject = new JSONObject(jsonString);
-
         try {
-            service.createUser(jsonObject);
-            String response = "Create User Successfully";
+            InputStream is = exchange.getRequestBody();
+            String jsonString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+
+            System.out.println(jsonString);
+
+            JSONObject jsonObject = new JSONObject(jsonString);
+
+            JSONObject responseJSON = service.login(jsonObject.getString("username"), jsonObject.getString("password"));
+            String response = responseJSON.toString();
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
         } catch (Exception e) {
             e.printStackTrace();
-            exchange.sendResponseHeaders(500, -1);
+            exchange.sendResponseHeaders(400, -1);
         }
 
     }

@@ -81,7 +81,6 @@ public class LoadingController {
             }
             try {
                 //Client.init(ipTextField.getText(), Short.parseShort(portTextField.getText()));
-
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     descriptionLabel.setText(e.getMessage());
