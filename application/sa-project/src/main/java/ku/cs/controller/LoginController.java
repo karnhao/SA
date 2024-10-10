@@ -20,7 +20,7 @@ public class LoginController {
     }
 
     public void onLogin() {
-        RootService.getController().open("register.fxml");
+        RootService.getController().open("home-page.fxml");
     }
 
     public void onForgotPassword() {
