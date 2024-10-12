@@ -100,4 +100,13 @@ public class UserRepository {
         }
     }
 
+    public void updateUserInfo(String UUID, String name, String email, String phone_number) throws SQLException {
+        try {
+            this.statement = connection.createStatement();
+            this.statement.executeUpdate(String.format("UPDATE user SET NAME = '%s', EMAIL_ADDRESS = '%s', PHONE_NUMBER = '%s' WHERE UUID = '%s';", name, email, phone_number, UUID));
+        } finally {
+            this.statement.close();
+        }
+    }
+
 }

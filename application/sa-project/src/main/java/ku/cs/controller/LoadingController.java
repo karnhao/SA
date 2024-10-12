@@ -71,7 +71,16 @@ public class LoadingController {
             ProgressSetter progressSetter = new ProgressSetter(100);
             LoadService.getLoader().addProgressSetter(progressSetter);
 
-            progressSetter.setPercentage(0.5); // 50% of the loading bar
+            // 50% of the loading bar smoothly
+            for (int i = 0; i < 50; i++) {
+                progressSetter.setPercentage(i / 100d);
+                LoadService.getLoader().updateBar();
+                try {
+                    Thread.sleep(4);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
             try {
                 // check server online, store server ip address & port from text field input in visual memory
@@ -86,7 +95,16 @@ public class LoadingController {
                 throw new RuntimeException(e);
             }
 
-            progressSetter.setPercentage(1); // 100% of the loading bar
+            // 50% of the loading bar smoothly
+            for (int i = 50; i < 100; i++) {
+                progressSetter.setPercentage(i / 100d);
+                LoadService.getLoader().updateBar();
+                try {
+                    Thread.sleep(4);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
             RootService.getController().setData(data);
             LoadService.getLoader().close();

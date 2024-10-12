@@ -2,38 +2,55 @@ package ku.cs.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
+import ku.cs.net.ClientUpdatePassword;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
+import org.json.JSONObject;
 
 public class ChangePasswordController {
     @FXML
     public VBox vBox;
-    private TextFormController OldPasswordFormController;
-    private TextFormController NewPasswordFormController;
-    private TextFormController AgainNewPasswordFormController;
+    private TextFormController oldPasswordFormController;
+    private SecureTextFormController newPasswordFormController;
+    private SecureTextFormController againNewPasswordFormController;
 
     public void initialize() {
 
         // Setting name Form
-        OldPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
-        OldPasswordFormController.setTitleText("Old Password");
-        OldPasswordFormController.getTextField().setPromptText("Input Old Password");
+        oldPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
+        oldPasswordFormController.setTitleText("Old Password");
+        oldPasswordFormController.getTextField().setPromptText("Input Old Password");
 
         // Setting phone Form
-        NewPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
-        NewPasswordFormController.setTitleText("New Password");
-        NewPasswordFormController.getTextField().setPromptText("Input New Password");
+        newPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        newPasswordFormController.setTitleText("New Password");
+        newPasswordFormController.setPromptText("Input New Password");
 
         // Setting email Form
-        AgainNewPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
-        AgainNewPasswordFormController.setTitleText("New Password Again");
-        AgainNewPasswordFormController.getTextField().setPromptText("Input New Password Again");
+        againNewPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        againNewPasswordFormController.setTitleText("New Password Again");
+        againNewPasswordFormController.setPromptText("Input New Password Again");
     }
 
     public void OnChangePassword() {
-        System.out.println(OldPasswordFormController.getTextField().getText());
-        System.out.println(NewPasswordFormController.getTextField().getText());
-        System.out.println(AgainNewPasswordFormController.getTextField().getText());
+
+        String oldPassword = oldPasswordFormController.getText();
+        String newPassword = newPasswordFormController.getText();
+        String newPasswordAgain = againNewPasswordFormController.getText();
+
+        if (!newPasswordAgain.equals(newPassword)) {
+            RootService.showErrorBar("Confirm Password Failed");
+            return;
+        }
+
+        try {
+            ClientUpdatePassword clientUpdatePassword = new ClientUpdatePassword();
+            String response = clientUpdatePassword.updatePassword(oldPassword, newPassword);
+            RootService.showBar(response);
+            RootService.getController().getNavigationController().open("setting.fxml");
+        } catch (Exception e) {
+            RootService.showErrorBar(e.getClass().getSimpleName() + "\n" + e.getMessage());
+        }
     }
 
     public void OnBackToHome() {

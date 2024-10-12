@@ -6,16 +6,17 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 
-public class ClientUpdatePassword {
-    public String updatePassword(String oldPassword, String newPassword) {
+public class ClientUpdateUserInfo {
+    public String updateInfo(String name, String email, String phoneNumber) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("access_token", Client.getClient().getAccessToken());
-            jsonObject.put("old_password", oldPassword);
-            jsonObject.put("password", newPassword);
+            jsonObject.put("name", name);
+            jsonObject.put("email", email);
+            jsonObject.put("phone_number", phoneNumber);
 
             // HTTP Connection with json body
-            HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), "/updatepassword");
+            HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), "/updateuserinfo");
 
             // Get Response JSON
             return Client.getClient().getResponseJSON(httpURLConnection).toString();

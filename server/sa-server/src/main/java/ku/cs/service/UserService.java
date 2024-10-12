@@ -33,6 +33,15 @@ public class UserService {
         return response;
     }
 
+    public String updateUserInfo(String token, String name, String email, String phoneNumber) throws SQLException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(token);
+        
+        repository.updateUserInfo(uuid, name, email, phoneNumber);
+        
+        return "Success";
+    }
+
     public String updatePassword(String token, String oldPassword, String newPassword) throws SQLException, AuthenticationException {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(token);

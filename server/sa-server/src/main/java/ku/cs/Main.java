@@ -17,6 +17,7 @@ import ku.cs.controller.HelloController;
 import ku.cs.controller.LoginController;
 import ku.cs.controller.SignUpController;
 import ku.cs.controller.UpdatePasswordController;
+import ku.cs.controller.UpdateUserInfoController;
 import ku.cs.controller.UserInfoController;
 import ku.cs.repository.UserRepository;
 import ku.cs.service.LoginService;
@@ -65,6 +66,7 @@ public class Main {
         server.createContext("/login", new LoginController(new LoginService(userResponsitory)));
         server.createContext("/userinfo", new UserInfoController(new UserService(userResponsitory)));
         server.createContext("/updatepassword", new UpdatePasswordController(new UserService(userResponsitory)));
+        server.createContext("/updateuserinfo", new UpdateUserInfoController(new UserService(userResponsitory)));
 
         server.setExecutor(null);
         server.start();

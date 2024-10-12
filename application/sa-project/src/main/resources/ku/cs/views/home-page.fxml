@@ -9,7 +9,7 @@
    <children>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
-            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold; -fx-font-size: 36;" text="Welcome ${user.name}" textFill="#006664">
+            <Label fx:id="titleLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-font-weight: bold; -fx-font-size: 36;" text="Welcome ${user.name}" textFill="#006664">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>

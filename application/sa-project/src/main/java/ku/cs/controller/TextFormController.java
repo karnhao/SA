@@ -23,4 +23,8 @@ public class TextFormController {
     public TextField getTextField() {
         return this.textField;
     }
+
+    public String getText() {
+        return this.getTextField().getText();
+    }
 }

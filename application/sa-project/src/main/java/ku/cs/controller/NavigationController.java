@@ -100,8 +100,10 @@ public class NavigationController {
             RootService.showErrorBar(e.getMessage());
 
             // Load Error Page
+            loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(RESOURCE_PATH + "load-error.fxml"));
             try {
+                e.printStackTrace();
                 fxml = loader.load();
                 VBox.setVgrow(fxml, Priority.ALWAYS);
                 LoadErrorController loadErrorController = loader.getController();

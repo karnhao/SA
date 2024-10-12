@@ -20,7 +20,7 @@ public class ClientLogin {
             // Get Response JSON
             JSONObject responseJSON = Client.getClient().getResponseJSON(httpURLConnection);
 
-            System.out.println(responseJSON.toString(4));
+            // save access_token
             String access_token = responseJSON.getString("access_token");
 
             Client.getClient().setAccessToken(access_token);
