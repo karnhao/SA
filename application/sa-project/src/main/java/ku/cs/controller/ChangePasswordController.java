@@ -1,6 +1,5 @@
 package ku.cs.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import ku.cs.service.RootService;
@@ -32,9 +31,12 @@ public class ChangePasswordController {
     }
 
     public void OnChangePassword() {
+        System.out.println(OldPasswordFormController.getTextField().getText());
+        System.out.println(NewPasswordFormController.getTextField().getText());
+        System.out.println(AgainNewPasswordFormController.getTextField().getText());
     }
 
     public void OnBackToHome() {
-        RootService.getController().open("login.fxml");
+        RootService.getController().getNavigationController().open("setting.fxml");
     }
 }

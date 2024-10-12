@@ -2,6 +2,8 @@ package ku.cs.service;
 
 import java.sql.SQLException;
 
+import javax.naming.AuthenticationException;
+
 import org.json.JSONObject;
 
 import ku.cs.entity.User;
@@ -29,6 +31,19 @@ public class UserService {
         response.put("uuid", user.getUuid());
 
         return response;
+    }
+
+    public String updatePassword(String token, String oldPassword, String newPassword) throws SQLException, AuthenticationException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(token);
+        User user = repository.getUserByUUID(uuid);
+        
+        if (user.validatePassword(oldPassword)) {
+            repository.updateUserPassword(uuid, newPassword);
+            return "OK";
+        } else {
+            throw new AuthenticationException("Invalid password");
+        }
     }
 
 }

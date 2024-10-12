@@ -2,6 +2,7 @@ package ku.cs.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
+import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
 public class HomePageController {
@@ -9,6 +10,7 @@ public class HomePageController {
 
     @FXML
     public void initialize() {
+        RootService.getController().getNavigationController().setTitleText("HOME");
         addHomeItem();
         addHomeItem();
         addHomeItem();

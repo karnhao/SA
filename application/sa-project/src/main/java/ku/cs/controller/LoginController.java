@@ -3,7 +3,9 @@ package ku.cs.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import ku.cs.net.ClientLogin;
+import ku.cs.net.ClientUserInfo;
 import ku.cs.service.RootService;
+import org.json.JSONObject;
 
 
 public class LoginController {
@@ -17,7 +19,7 @@ public class LoginController {
     }
 
     public void onSignUpButton() {
-        RootService.getController().open("change_password.fxml");
+        RootService.getController().open("register.fxml");
     }
 
     public void onLogin() {
@@ -25,9 +27,19 @@ public class LoginController {
         try {
             ClientLogin clientLogin = new ClientLogin();
             clientLogin.login(usernameField.getText(), passwordField.getText());
+
+            ClientUserInfo clientUserInfo = new ClientUserInfo();
+            JSONObject userInfo = clientUserInfo.getUserInfo();
+            System.out.println(userInfo.toString(4));
+
+            RootService.getController().open("navigation.fxml");
         } catch (Exception e) {
             RootService.showErrorBar(e.getMessage());
         }
+    }
+
+    public void onForceLogin() {
+        RootService.getController().open("navigation.fxml");
     }
 
     public void onForgotPassword() {

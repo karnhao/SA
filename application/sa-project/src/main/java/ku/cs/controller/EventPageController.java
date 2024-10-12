@@ -12,8 +12,6 @@ public class EventPageController {
         addEventItem();
         addEventItem();
         addEventItem();
-        addEventItem();
-        addEventItem();
     }
 
     public void addEventItem(){
