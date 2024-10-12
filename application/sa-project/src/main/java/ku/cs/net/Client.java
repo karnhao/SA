@@ -4,10 +4,13 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 import ku.cs.controller.RootController;
 import ku.cs.service.RootService;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.util.function.Predicate;
 
 public class Client {
     private static Client client = null;
@@ -81,7 +84,55 @@ public class Client {
         return httpURLConnection;
     }
 
+    public JSONObject getResponseJSON(HttpURLConnection httpURLConnection, Predicate<Integer> acceptStatus) throws IOException {
+
+        // Get Response Status Code
+        int responseCode = httpURLConnection.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+
+        if (!acceptStatus.test(responseCode)) {
+            String error = getResponseString(httpURLConnection.getErrorStream());
+            throw new RuntimeException("ERROR CODE : " + responseCode + " : " + error);
+        }
+
+        return getJsonObject(httpURLConnection);
+    }
+
+    private String getResponseString(InputStream inputStream) throws IOException {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(inputStream))) {
+            String r;
+            StringBuilder builder = new StringBuilder();
+
+            while ((r = in.readLine()) != null) {
+                builder.append(r);
+            }
+
+            return builder.toString();
+        }
+    }
+
+    private JSONObject getJsonObject(HttpURLConnection httpURLConnection) throws IOException {
+        JSONObject responseJSON;
+        String response = getResponseString(httpURLConnection.getInputStream());
+        try {
+            responseJSON = new JSONObject(response);
+        } catch (JSONException e) {
+            // Try to fix JSON format error
+            responseJSON = new JSONObject();
+            responseJSON.put("message", response);
+        }
+        return responseJSON;
+    }
+
+    public JSONObject getResponseJSON(HttpURLConnection httpURLConnection) throws IOException {
+        return this.getResponseJSON(httpURLConnection, status -> status >= 200 && status < 300);
+    }
+
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getAccessToken() {
+        return this.accessToken;
     }
 }

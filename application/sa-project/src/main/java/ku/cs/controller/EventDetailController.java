@@ -58,6 +58,6 @@ public class EventDetailController {
 
 
     public void OnBackToHome() {
-        RootService.getController().open("login.fxml");
+        RootService.getController().getNavigationController().open("home-page.fxml");
     }
 }

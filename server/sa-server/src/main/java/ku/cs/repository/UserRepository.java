@@ -37,6 +37,15 @@ public class UserRepository {
         }
     }
 
+    public void updateUserPassword(String UUID, String password) throws SQLException {
+        try {
+            this.statement = connection.createStatement();
+            this.statement.executeUpdate(String.format("UPDATE user SET ENCRYPTED_PASSWORD = '%s' WHERE UUID = '%s';", password, UUID));
+        } finally {
+            this.statement.close();
+        }
+    }
+
     public User getUserByUserName(String username) throws SQLException {
         try {
             this.statement = connection.createStatement();

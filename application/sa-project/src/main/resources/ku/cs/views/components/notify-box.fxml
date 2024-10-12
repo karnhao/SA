@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox fx:id="hBox" alignment="CENTER" fillHeight="false" maxHeight="100.0" maxWidth="512.0" opacity="0.85" prefHeight="100.0" prefWidth="512.0" style="-fx-border-radius: 5; -fx-border-color: #000000; -fx-border-width: 5; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.NotifyBoxController">
+   <children>
+      <Label fx:id="notificationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</HBox>

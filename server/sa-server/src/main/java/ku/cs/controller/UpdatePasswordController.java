@@ -9,28 +9,18 @@ import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import ku.cs.service.SignUpService;
+import ku.cs.service.UserService;
 
-public class SignUpController extends Controller {
+public class UpdatePasswordController extends Controller {
 
-    SignUpService service;
+    private UserService service;
 
-    public SignUpController(SignUpService service) {
-        this.service = service;
+    public UpdatePasswordController(UserService userService) {
+        this.service = userService;
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if (exchange.getRequestMethod().equals("POST")) {
-            handleRequest(exchange);
-        } else {
-            exchange.sendResponseHeaders(405, -1);
-        }
-
-        exchange.close();
-    }
-
-    private void handleRequest(HttpExchange exchange) throws IOException {
         try {
             InputStream is = exchange.getRequestBody();
             String jsonString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
@@ -39,8 +29,7 @@ public class SignUpController extends Controller {
 
             JSONObject jsonObject = new JSONObject(jsonString);
 
-            service.createUser(jsonObject);
-            String response = "Create User Successfully";
+            String response = service.updatePassword(jsonObject.getString("access_token"), jsonObject.getString("old_password"), jsonObject.getString("password"));
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
@@ -48,6 +37,6 @@ public class SignUpController extends Controller {
         } catch (Exception e) {
             responseError(exchange, e);
         }
-
     }
+    
 }

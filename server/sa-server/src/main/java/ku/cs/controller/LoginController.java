@@ -8,11 +8,10 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import ku.cs.service.LoginService;
 
-public class LoginController implements HttpHandler {
+public class LoginController extends Controller {
 
     LoginService service;
 
@@ -47,8 +46,7 @@ public class LoginController implements HttpHandler {
             os.write(response.getBytes());
             os.close();
         } catch (Exception e) {
-            e.printStackTrace();
-            exchange.sendResponseHeaders(400, -1);
+            responseError(exchange, e);
         }
 
     }
