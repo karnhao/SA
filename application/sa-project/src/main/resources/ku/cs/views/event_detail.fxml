@@ -64,4 +64,10 @@
          <Insets top="100.0" />
       </padding>
     </HBox>
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="40.0" VBox.vgrow="ALWAYS">
+      <children>
+         <Button fx:id="acceptButton" mnemonicParsing="false" style="-fx-font-size: 16; -fx-font-weight: bold;" styleClass="button-green" stylesheets="@../themes/default.css" text="Accept" />
+         <Button fx:id="cancelEventButton" mnemonicParsing="false" style="-fx-font-size: 16; -fx-font-weight: bold;" styleClass="button-green" stylesheets="@../themes/default.css" text="Cancel Event" />
+         <Button fx:id="rejectButton" mnemonicParsing="false" style="-fx-font-size: 16; -fx-font-weight: bold;" styleClass="button-red" stylesheets="@../themes/default.css" text="Reject" />
+      </children></HBox>
 </VBox>
