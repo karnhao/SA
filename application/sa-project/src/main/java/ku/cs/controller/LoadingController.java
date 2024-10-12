@@ -102,7 +102,7 @@ public class LoadingController {
 
             RootService.getController().setData(data);
             LoadService.getLoader().close();
-            Platform.runLater(() -> RootService.open("login.fxml"));
+            Platform.runLater(() -> RootService.open("events-page.fxml"));
         }).start();
     }
 
