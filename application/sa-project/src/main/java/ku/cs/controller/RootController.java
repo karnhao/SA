@@ -2,12 +2,9 @@ package ku.cs.controller;
 
 import ku.cs.service.RootService;
 import ku.cs.service.Data;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -18,21 +15,17 @@ import java.net.URL;
 
 public class RootController {
 
+    @FXML
+    public VBox notifyVBox;
     private NavigationController navigationController;
     private Data data;
     @FXML
     public StackPane loadingPane;
-    TranslateTransition inAnimation;
-    TranslateTransition outAnimation;
-    @FXML
-    public Label notificationLabel;
 
     public enum Color {
         RED, GREEN
     }
 
-    @FXML
-    public HBox hBox;
     @FXML
     public VBox vBox;
 
@@ -48,9 +41,9 @@ public class RootController {
 
     @FXML
     public void initialize() {
+        notifyVBox.setPickOnBounds(false);
         RootService.setController(this);
         RootService.open("loading.fxml");
-        hBox.setTranslateX(550);
         loadingPane.setVisible(false);
     }
 
@@ -76,37 +69,24 @@ public class RootController {
 
     public void showBar(String text, Color color, Duration duration) {
 
+        // Load notify-box components
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(RESOURCE_PATH + "components/notify-box.fxml"));
 
-        if (outAnimation != null) {
-            notificationLabel.setText(text);
-            hBox.getStyleClass().clear();
-            if (color == Color.GREEN) hBox.getStyleClass().addAll("lighter-green-background");
-            else if (color == Color.RED) hBox.getStyleClass().addAll("light-red-background");
-            outAnimation.stop();
-            outAnimation = new TranslateTransition(Duration.seconds(0.1), hBox);
-            outAnimation.setDelay(duration);
-            outAnimation.setToX(550);
-            outAnimation.setOnFinished(actionEvent1 -> outAnimation = null);
-            outAnimation.play();
-            return;
+        Parent p;
+
+        try {
+            p = loader.load();
+            notifyVBox.getChildren().add(p);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-
-        notificationLabel.setText(text);
-        hBox.getStyleClass().clear();
-        if (color == Color.GREEN) hBox.getStyleClass().addAll("lighter-green-background");
-        else if (color == Color.RED) hBox.getStyleClass().addAll("light-red-background");
-
-        inAnimation = new TranslateTransition(Duration.seconds(0.1), hBox);
-        inAnimation.setToX(0);
-        inAnimation.setOnFinished(actionEvent -> {
-            outAnimation = new TranslateTransition(Duration.seconds(0.1), hBox);
-            outAnimation.setDelay(duration);
-            outAnimation.setToX(550);
-            outAnimation.setOnFinished(actionEvent1 -> outAnimation = null);
-            outAnimation.play();
-        });
-        inAnimation.play();
+        NotifyBoxController controller = loader.getController();
+        controller.setText(text);
+        controller.setBackgroundColor(color);
+        controller.addOnCloseListener(() -> notifyVBox.getChildren().remove(p));
+        controller.show(duration);
     }
 
     public void assignNavigationController (NavigationController controller) {

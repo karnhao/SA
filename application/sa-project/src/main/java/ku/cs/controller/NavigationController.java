@@ -12,7 +12,9 @@ import javafx.scene.Parent;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,8 +85,8 @@ public class NavigationController {
         bodyOutAnimation.setSpeed(BODY_ANIMATION_SPEED);
         vBox.setDisable(true);
 
+        FXMLLoader loader = new FXMLLoader();
         try {
-            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(path);
             fxml = loader.load();
             VBox.setVgrow(fxml, Priority.ALWAYS);
@@ -96,13 +98,26 @@ public class NavigationController {
             bodyOutAnimation.setOnFinished(actionEvent -> vBox.getChildren().clear());
             bodyOutAnimation.play();
             RootService.showErrorBar(e.getMessage());
-            throw new RuntimeException(e);
+
+            // Load Error Page
+            loader.setLocation(getClass().getResource(RESOURCE_PATH + "load-error.fxml"));
+            try {
+                fxml = loader.load();
+                VBox.setVgrow(fxml, Priority.ALWAYS);
+                LoadErrorController loadErrorController = loader.getController();
+                loadErrorController.setText("An error has occurred while loading page\n"
+                        + e.getClass().getSimpleName() + " : " + e.getMessage() + "\n"
+                        + Arrays.toString(e.getStackTrace()));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
+        Parent finalFxml = fxml;
         bodyOutAnimation.setOnFinished(actionEvent -> {
             vBox.getChildren().clear();
             vBox.setDisable(false);
-            if (fxml != null) vBox.getChildren().setAll(fxml);
+            if (finalFxml != null) vBox.getChildren().setAll(finalFxml);
             bodyInAnimation = inAnimation;
             bodyInAnimation.setNode(vBox);
             bodyInAnimation.setSpeed(BODY_ANIMATION_SPEED);

@@ -61,25 +61,20 @@ public class LoadingController {
         descriptionLabel.setText("");
         LoadService.init(this, new ProgressSetter(0));
         new Thread(() -> {
+
+            // loading beautiful Kasetsart University fonts
             Font.loadFont(getClass().getResourceAsStream("/ku/cs/fonts/DB Ozone X v3.2.ttf"), 20);
             Font.loadFont(getClass().getResourceAsStream("/ku/cs/fonts/DB Ozone X Bd v3.2.ttf"), 20);
             Data data = Data.getInstance();
 
-            // Make loading look smoother
+            // Show loading bar progress
             ProgressSetter progressSetter = new ProgressSetter(100);
             LoadService.getLoader().addProgressSetter(progressSetter);
 
-            int n = 100;
-            for (int i = 0; i < n / 2; i++) {
-                progressSetter.setPercentage((double) i / n);
-                LoadService.getLoader().updateBar();
-                try {
-                    Thread.sleep(4);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            progressSetter.setPercentage(0.5); // 50% of the loading bar
+
             try {
+                // check server online, store server ip address & port from text field input in visual memory
                 Client.init(ipTextField.getText(), Short.parseShort(portTextField.getText()));
             } catch (Exception e) {
                 Platform.runLater(() -> {
@@ -91,15 +86,7 @@ public class LoadingController {
                 throw new RuntimeException(e);
             }
 
-            for (int i = 50; i < n; i++) {
-                progressSetter.setPercentage((double) i / n);
-                LoadService.getLoader().updateBar();
-                try {
-                    Thread.sleep(4);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            progressSetter.setPercentage(1); // 100% of the loading bar
 
             RootService.getController().setData(data);
             LoadService.getLoader().close();

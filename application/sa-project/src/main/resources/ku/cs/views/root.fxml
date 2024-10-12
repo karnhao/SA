@@ -3,24 +3,16 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <StackPane alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.RootController">
    <children>
       <VBox fx:id="vBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="400.0" />
-      <HBox fx:id="hBox" alignment="CENTER" fillHeight="false" maxHeight="100.0" maxWidth="512.0" opacity="0.85" style="-fx-border-radius: 5; -fx-border-color: #000000; -fx-border-width: 5; -fx-background-radius: 5;">
-         <children>
-            <Label fx:id="notificationLabel" text="Label" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Label>
-         </children>
+      <VBox fx:id="notifyVBox" alignment="TOP_RIGHT" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" opacity="0.85" spacing="12.0">
          <StackPane.margin>
             <Insets right="20.0" top="64.0" />
          </StackPane.margin>
-      </HBox>
-      <StackPane fx:id="loadingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      </VBox>
+      <StackPane fx:id="loadingPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: rgb(0, 0, 0, 0.25);">
          <children>
             <ProgressIndicator />
          </children>
