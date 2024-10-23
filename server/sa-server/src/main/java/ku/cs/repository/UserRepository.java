@@ -121,9 +121,9 @@ public class UserRepository {
         try {
             this.statement = connection.createStatement();
 
-            this.statement.executeUpdate("INSERT INTO user " +
+            System.out.println("INSERT INTO user " +
                     "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, IMAGE_URL, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
-                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s','%s');",
+                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s','%s');\n",
                             user.getUuid(),
                             user.getUsername(),
                             user.getName(),
@@ -139,6 +139,22 @@ public class UserRepository {
                     String.format("VALUES ('%s','%s','%s');", user.getUuid(), bankNumber, bankName)
 
             );
+
+            this.statement.executeUpdate("INSERT INTO user " +
+                    "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, IMAGE_URL, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
+                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s','%s');\n",
+                            user.getUuid(),
+                            user.getUsername(),
+                            user.getName(),
+                            user.getPassword(),
+                            user.getImage_url(),
+                            user.getEmail(),
+                            user.getPhone_number(),
+                            user.getRole()));
+
+            this.statement.executeUpdate("INSERT INTO musician " +
+                    "(UUID, BANK_NUMBER, BANK_NAME) " +
+                    String.format("VALUES ('%s','%s','%s');", user.getUuid(), bankNumber, bankName));
         } finally {
             this.statement.close();
         }
@@ -157,18 +173,21 @@ public class UserRepository {
 
     public void updateMusicianAvailableRole(String UUID, List<String> role_ids) throws SQLException {
         try {
-            String insertQueryString = "";
-
-            if (role_ids != null && role_ids.size() > 0) {
-                role_ids.forEach(t -> insertQueryString.concat(
-                    String.format("INSERT INTO availablemusicianrole (UUID, ROLE_ID) VALUES ('%s', '%s');\n", UUID, t))
-                );
-            }
-
 
             this.statement = connection.createStatement();
             this.statement.executeUpdate(String.format(
-                    "DELETE FROM availablemusicianrole WHERE UUID = '%s';\n" + insertQueryString, UUID));
+                    "DELETE FROM availablemusicianrole WHERE UUID = '%s';", UUID));
+
+            if (role_ids != null && role_ids.size() > 0) {
+                role_ids.forEach(t -> {
+                    try {
+                        this.statement.executeUpdate(String.format(
+                                "INSERT INTO availablemusicianrole (UUID, ROLE_ID) VALUES ('%s', '%s');", UUID, t));
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
 
         } finally {
             this.statement.close();
