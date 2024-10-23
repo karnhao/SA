@@ -1,6 +1,7 @@
 package ku.cs.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.naming.AuthenticationException;
 
@@ -53,6 +54,22 @@ public class UserService {
         } else {
             throw new AuthenticationException("Invalid password");
         }
+    }
+
+    public String updateMusicianBankInfo(String token, String bankName, String bankNumber) throws SQLException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(token);
+        
+        repository.updateMusicianBankInfo(uuid, bankName, bankNumber);
+        return "OK";
+    }
+
+    public String updateMusicianAvailableRole(String token, List<String> role_ids) throws SQLException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(token);
+        
+        repository.updateMusicianAvailableRole(uuid, role_ids);
+        return "OK";
     }
 
 }
