@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="2.0" stylesheets="@../../themes/default.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.RequirementFormController">
+    <children>
+      <HBox alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <children>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#onDeleteButtonClick">
+               <children>
+                  <Pane maxHeight="5.0" maxWidth="40.0" minHeight="5.0" minWidth="40.0" prefHeight="5.0" prefWidth="40.0" style="-fx-background-color: -light-red-color;">
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </Pane>
+               </children>
+            </VBox>
+              <ComboBox fx:id="comboBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onAction" promptText="Prompt Text" styleClass="my-combo-box" stylesheets="@../../themes/default.css" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </HBox.margin></ComboBox>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text=":">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="5.0" right="5.0" />
+               </HBox.margin>
+            </Label>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <children>
+                  <Label text="Quantity">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Spinner fx:id="spinner" maxHeight="1.7976931348623157E308" maxWidth="100.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Spinner>
+                  <Pane maxHeight="4.0" maxWidth="100.0" minHeight="4.0" minWidth="100.0" prefHeight="4.0" prefWidth="100.0" style="-fx-background-color: -dark-green-color;">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Pane>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+    </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+</VBox>

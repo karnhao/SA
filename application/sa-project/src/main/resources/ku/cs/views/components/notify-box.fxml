@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox fx:id="hBox" alignment="CENTER" fillHeight="false" maxHeight="100.0" maxWidth="512.0" opacity="0.85" prefHeight="100.0" prefWidth="512.0" style="-fx-border-radius: 5; -fx-border-color: #000000; -fx-border-width: 5; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.NotifyBoxController">
+<HBox fx:id="hBox" maxHeight="100.0" maxWidth="512.0" prefHeight="100.0" prefWidth="512.0" style="-fx-border-radius: 5; -fx-border-color: -black-color; -fx-border-width: 2; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.NotifyBoxController">
    <children>
-      <Label fx:id="notificationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" textFill="WHITE" wrapText="true">
+      <Label fx:id="notificationLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel" textFill="WHITE" wrapText="true">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
+         <HBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </HBox.margin>
       </Label>
    </children>
 </HBox>

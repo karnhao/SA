@@ -20,6 +20,8 @@ public class RegisterController {
     private TextFormController emailFormController;
     private TextFormController phoneNumberFormController;
     private TextFormController nameFormController;
+    private TextFormController bankNameFormController;
+    private TextFormController bankNumberFormController;
 
     @FXML
     public void initialize() {
@@ -34,7 +36,16 @@ public class RegisterController {
         roleDropDownController.getComboBox().getItems().add("Customer");
         roleDropDownController.getComboBox().getItems().add("Musician");
 
-        roleDropDownController.addListener(() -> System.out.println(roleDropDownController.getComboBox().getValue()));
+        roleDropDownController.addListener(() -> {
+            System.out.println(roleDropDownController.getComboBox().getValue());
+            if (roleDropDownController.getComboBox().getValue().equalsIgnoreCase("customer")) {
+                bankNameFormController.setVisible(false);
+                bankNumberFormController.setVisible(false);
+            } else {
+                bankNumberFormController.setVisible(true);
+                bankNameFormController.setVisible(true);
+            }
+        });
 
         roleDropDownController.getComboBox().getSelectionModel().select(0);
 
@@ -69,6 +80,15 @@ public class RegisterController {
         phoneNumberFormController.setTitleText("Phone");
         phoneNumberFormController.getTextField().setPromptText("Enter your phone number");
 
+        bankNameFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
+        bankNameFormController.setTitleText("Bank Name");
+        bankNameFormController.getTextField().setPromptText("Enter bank name");
+        bankNameFormController.setVisible(false);
+
+        bankNumberFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
+        bankNumberFormController.setTitleText("Bank Number");
+        bankNumberFormController.getTextField().setPromptText("Enter bank number");
+        bankNumberFormController.setVisible(false);
     }
 
     public void onBackButton() {
@@ -86,14 +106,28 @@ public class RegisterController {
         ClientRegister client = new ClientRegister();
         String res;
         try {
-            res = client.register(
-                    usernameFormController.getTextField().getText(),
-                    nameFormController.getTextField().getText(),
-                    emailFormController.getTextField().getText(),
-                    passwordFormController.getText(),
-                    phoneNumberFormController.getTextField().getText(),
-                    roleDropDownController.getComboBox().getValue()
-                    );
+            if (roleDropDownController.getComboBox().getValue().equalsIgnoreCase("customer")) {
+                res = client.register(
+                        usernameFormController.getTextField().getText(),
+                        nameFormController.getTextField().getText(),
+                        emailFormController.getTextField().getText(),
+                        passwordFormController.getText(),
+                        phoneNumberFormController.getTextField().getText(),
+                        roleDropDownController.getComboBox().getValue()
+                );
+            } else {
+                res = client.registerMusician(
+                        usernameFormController.getTextField().getText(),
+                        nameFormController.getTextField().getText(),
+                        emailFormController.getTextField().getText(),
+                        passwordFormController.getText(),
+                        phoneNumberFormController.getTextField().getText(),
+                        roleDropDownController.getComboBox().getValue(),
+                        bankNameFormController.getText(),
+                        bankNumberFormController.getText()
+                );
+            }
+
             RootService.getController().showBar(res, RootController.Color.GREEN, Duration.seconds(5));
             RootService.getController().open("login.fxml");
         } catch (Exception e) {
