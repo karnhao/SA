@@ -72,4 +72,21 @@ public class UserService {
         return "OK";
     }
 
+    public JSONObject getAllUserJsonObjects(String token, String role) throws SQLException, AuthenticationException {
+
+        // TODO: SQL injection protection
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(token);
+
+        User user = repository.getUserByUUID(uuid);
+        if (!user.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access denied");
+        List<User> users = repository.getAllUsers(role);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("users", users);
+
+        return jsonObject;
+    }
+
 }

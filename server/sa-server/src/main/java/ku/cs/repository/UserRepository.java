@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.LinkedList;
 
 import ku.cs.entity.User;
 
@@ -23,13 +24,12 @@ public class UserRepository {
             this.statement = connection.createStatement();
 
             this.statement.executeUpdate("INSERT INTO user " +
-                    "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, IMAGE_URL, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
-                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s','%s');",
+                    "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
+                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s');",
                             user.getUuid(),
                             user.getUsername(),
                             user.getName(),
                             user.getPassword(),
-                            user.getImage_url(),
                             user.getEmail(),
                             user.getPhone_number(),
                             user.getRole()));
@@ -54,20 +54,19 @@ public class UserRepository {
 
             this.resultSet = this.statement.executeQuery(
                     String.format(
-                            "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, IMAGE_URL, NAME, PHONE_NUMBER, ROLE, UUID FROM user WHERE USERNAME = '%s';",
+                            "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, UUID FROM user WHERE USERNAME = '%s';",
                             username));
 
             this.resultSet.next();
             String resultUsername = resultSet.getString("USERNAME");
             String resultEmail = resultSet.getString("EMAIL_ADDRESS");
             String resultPassword = resultSet.getString("ENCRYPTED_PASSWORD");
-            String resultImageUrl = resultSet.getString("IMAGE_URL");
             String resultName = resultSet.getString("NAME");
             String resultPhoneNumber = resultSet.getString("PHONE_NUMBER");
             String resultRole = resultSet.getString("ROLE");
             String resultUUID = resultSet.getString("UUID");
 
-            return new User(resultName, resultUsername, resultUUID, resultPassword, resultImageUrl, resultEmail,
+            return new User(resultName, resultUsername, resultUUID, resultPassword, null, resultEmail,
                     resultPhoneNumber, resultRole);
 
         } catch (SQLException e) {
@@ -83,20 +82,19 @@ public class UserRepository {
 
             this.resultSet = this.statement.executeQuery(
                     String.format(
-                            "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, IMAGE_URL, NAME, PHONE_NUMBER, ROLE, UUID FROM user WHERE UUID = '%s';",
+                            "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, UUID FROM user WHERE UUID = '%s';",
                             uuid));
 
             this.resultSet.next();
             String resultUsername = resultSet.getString("USERNAME");
             String resultEmail = resultSet.getString("EMAIL_ADDRESS");
             String resultPassword = resultSet.getString("ENCRYPTED_PASSWORD");
-            String resultImageUrl = resultSet.getString("IMAGE_URL");
             String resultName = resultSet.getString("NAME");
             String resultPhoneNumber = resultSet.getString("PHONE_NUMBER");
             String resultRole = resultSet.getString("ROLE");
             String resultUUID = resultSet.getString("UUID");
 
-            return new User(resultName, resultUsername, resultUUID, resultPassword, resultImageUrl, resultEmail,
+            return new User(resultName, resultUsername, resultUUID, resultPassword, null, resultEmail,
                     resultPhoneNumber, resultRole);
 
         } catch (SQLException e) {
@@ -122,13 +120,12 @@ public class UserRepository {
             this.statement = connection.createStatement();
 
             System.out.println("INSERT INTO user " +
-                    "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, IMAGE_URL, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
-                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s','%s');\n",
+                    "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
+                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s');\n",
                             user.getUuid(),
                             user.getUsername(),
                             user.getName(),
                             user.getPassword(),
-                            user.getImage_url(),
                             user.getEmail(),
                             user.getPhone_number(),
                             user.getRole())
@@ -141,13 +138,12 @@ public class UserRepository {
             );
 
             this.statement.executeUpdate("INSERT INTO user " +
-                    "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, IMAGE_URL, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
-                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s','%s');\n",
+                    "(UUID, USERNAME, NAME, ENCRYPTED_PASSWORD, EMAIL_ADDRESS, PHONE_NUMBER, ROLE) " +
+                    String.format("VALUES ('%s','%s','%s','%s','%s','%s','%s');\n",
                             user.getUuid(),
                             user.getUsername(),
                             user.getName(),
                             user.getPassword(),
-                            user.getImage_url(),
                             user.getEmail(),
                             user.getPhone_number(),
                             user.getRole()));
@@ -189,6 +185,49 @@ public class UserRepository {
                 });
             }
 
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public List<User> getAllUsers() throws SQLException {
+        return this.getAllUsers(null);
+    }
+
+    public List<User> getAllUsers(String role) throws SQLException {
+        LinkedList<User> users = new LinkedList<User>();
+        try {
+            this.statement = connection.createStatement();
+
+            this.resultSet = this.statement.executeQuery(
+                    "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, UUID FROM user " +
+                            ((role != null && !role.isEmpty()) ? String.format("WHERE ROLE = %s", role) : "") + ";");
+
+            User user = new User();
+            while (this.resultSet.next()) {
+                String resultUsername = resultSet.getString("USERNAME");
+                String resultEmail = resultSet.getString("EMAIL_ADDRESS");
+                String resultPassword = resultSet.getString("ENCRYPTED_PASSWORD");
+                String resultName = resultSet.getString("NAME");
+                String resultPhoneNumber = resultSet.getString("PHONE_NUMBER");
+                String resultRole = resultSet.getString("ROLE");
+                String resultUUID = resultSet.getString("UUID");
+
+                user.setUsername(resultUsername);
+                user.setEmail(resultEmail);
+                user.setPassword(resultPassword);
+                user.setName(resultName);
+                user.setPhone_number(resultPhoneNumber);
+                user.setRole(resultRole);
+                user.setUuid(resultUUID);
+
+                users.add(user);
+            }
+
+            return users;
+
+        } catch (SQLException e) {
+            return null;
         } finally {
             this.statement.close();
         }
