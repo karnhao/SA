@@ -196,7 +196,7 @@ public class UserRepository extends Repository {
             // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
             this.resultSet = this.statement.executeQuery(
                     "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, UUID FROM user " +
-                            ((role != null && !role.isEmpty()) ? String.format("WHERE ROLE = %s", role) : "") + ";");
+                            ((role != null && !role.isEmpty()) ? String.format("WHERE ROLE = '%s'", role) : "") + ";");
             
             while (this.resultSet.next()) {
                 User user = new User();

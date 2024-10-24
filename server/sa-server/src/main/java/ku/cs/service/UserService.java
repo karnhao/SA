@@ -78,6 +78,8 @@ public class UserService {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(token);
 
+        if (uuid == null) throw new AuthenticationException("Access denied");
+
         User user = repository.getUserByUUID(uuid);
         if (!user.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access denied");
         List<User> users = repository.getAllUsers(role);
