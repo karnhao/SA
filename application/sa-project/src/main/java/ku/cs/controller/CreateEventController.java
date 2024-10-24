@@ -84,4 +84,7 @@ public class CreateEventController {
 
         stereoControllerList.add(controller);
     }
+
+    public void onDoneButton() {
+    }
 }
