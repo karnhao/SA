@@ -197,9 +197,9 @@ public class UserRepository extends Repository {
             this.resultSet = this.statement.executeQuery(
                     "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, UUID FROM user " +
                             ((role != null && !role.isEmpty()) ? String.format("WHERE ROLE = %s", role) : "") + ";");
-
-            User user = new User();
+            
             while (this.resultSet.next()) {
+                User user = new User();
                 String resultUsername = resultSet.getString("USERNAME");
                 String resultEmail = resultSet.getString("EMAIL_ADDRESS");
                 String resultPassword = resultSet.getString("ENCRYPTED_PASSWORD");

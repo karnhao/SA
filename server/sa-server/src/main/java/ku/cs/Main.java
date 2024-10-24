@@ -76,7 +76,7 @@ public class Main {
         server.createContext("/updateuserinfo", new UpdateUserInfoController(new UserService(userResponsitory)));
         server.createContext("/getallusers", new GetAllUserController(new UserService(userResponsitory)));
         server.createContext("/getmusicianroles", new GetRolesController(new MusicianRoleService(new MusicianRoleRepository(conn))));
-        server.createContext("/getstreotypes", new GetStereoTypeController(new StereoTypeService(new StereoTypeRepository(conn))));
+        server.createContext("/getstereotypes", new GetStereoTypeController(new StereoTypeService(new StereoTypeRepository(conn))));
 
         server.setExecutor(null);
         server.start();

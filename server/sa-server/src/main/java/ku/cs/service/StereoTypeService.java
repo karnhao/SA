@@ -29,6 +29,8 @@ public class StereoTypeService {
             return type;
         }).forEach(typeJSONArray::put);
 
+        result.put("types", typeJSONArray);
+
         return result;
     }
 }

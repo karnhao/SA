@@ -20,10 +20,10 @@ public class StereoTypeRepository extends Repository {
 
             // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
             this.resultSet = this.statement.executeQuery(
-                    "SELECT (TYPE_ID, STNAME) FROM stereotype;");
+                    "SELECT TYPE_ID, STNAME FROM stereotype;");
 
-                    StereoType role = new StereoType();
             while (this.resultSet.next()) {
+                StereoType role = new StereoType();
                 String resultID = resultSet.getString("TYPE_ID");
                 String resultName = resultSet.getString("STNAME");
 
