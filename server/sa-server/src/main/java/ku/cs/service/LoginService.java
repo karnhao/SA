@@ -29,7 +29,7 @@ public class LoginService {
 
         
         if (!isUsernameValid(username)) {
-            throw new LoginException();
+            throw new LoginException("Username not found");
         }
 
         User user = repository.getUserByUserName(username);

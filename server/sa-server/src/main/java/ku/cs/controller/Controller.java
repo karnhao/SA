@@ -12,8 +12,8 @@ public abstract class Controller implements HttpHandler {
 
     protected final void responseError(HttpExchange exchange, Exception e) {
         try {
-            e.printStackTrace();
-            String errorMessage = e.getClass().getSimpleName() + " " + e.getMessage();
+            e.printStackTrace(); // TODO: Remove this line
+            String errorMessage = e.getMessage();
             exchange.sendResponseHeaders(400, errorMessage.length());
             OutputStream os = exchange.getResponseBody();
             os.write(errorMessage.getBytes());

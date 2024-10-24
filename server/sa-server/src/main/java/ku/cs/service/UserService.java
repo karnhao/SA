@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.naming.AuthenticationException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ku.cs.entity.User;
@@ -74,8 +75,6 @@ public class UserService {
 
     public JSONObject getAllUserJsonObjects(String token, String role) throws SQLException, AuthenticationException {
 
-        // TODO: SQL injection protection
-
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(token);
 
@@ -84,7 +83,21 @@ public class UserService {
         List<User> users = repository.getAllUsers(role);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("users", users);
+
+        JSONArray jsonArray = new JSONArray();
+        users.stream().map((u) -> {
+            JSONObject o = new JSONObject();
+            o.put("username", user.getUsername());
+            o.put("email", user.getEmail());
+            o.put("name", user.getName());
+            o.put("phone_number", user.getPhone_number());
+            o.put("role", user.getRole());
+            o.put("uuid", user.getUuid());
+
+            return o;
+        }).forEach(jsonArray::put);
+
+        jsonObject.put("users", jsonArray);
 
         return jsonObject;
     }

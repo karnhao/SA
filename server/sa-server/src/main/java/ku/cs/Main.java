@@ -13,15 +13,22 @@ import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpServer;
 
+import ku.cs.controller.GetAllUserController;
+import ku.cs.controller.GetRolesController;
+import ku.cs.controller.GetStereoTypeController;
 import ku.cs.controller.HelloController;
 import ku.cs.controller.LoginController;
 import ku.cs.controller.SignUpController;
 import ku.cs.controller.UpdatePasswordController;
 import ku.cs.controller.UpdateUserInfoController;
 import ku.cs.controller.UserInfoController;
+import ku.cs.repository.MusicianRoleRepository;
+import ku.cs.repository.StereoTypeRepository;
 import ku.cs.repository.UserRepository;
 import ku.cs.service.LoginService;
+import ku.cs.service.MusicianRoleService;
 import ku.cs.service.SignUpService;
+import ku.cs.service.StereoTypeService;
 import ku.cs.service.UserService;
 
 public class Main {
@@ -67,6 +74,9 @@ public class Main {
         server.createContext("/userinfo", new UserInfoController(new UserService(userResponsitory)));
         server.createContext("/updatepassword", new UpdatePasswordController(new UserService(userResponsitory)));
         server.createContext("/updateuserinfo", new UpdateUserInfoController(new UserService(userResponsitory)));
+        server.createContext("/getallusers", new GetAllUserController(new UserService(userResponsitory)));
+        server.createContext("/getmusicianroles", new GetRolesController(new MusicianRoleService(new MusicianRoleRepository(conn))));
+        server.createContext("/getstreotypes", new GetStereoTypeController(new StereoTypeService(new StereoTypeRepository(conn))));
 
         server.setExecutor(null);
         server.start();

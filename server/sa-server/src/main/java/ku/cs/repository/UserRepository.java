@@ -1,22 +1,16 @@
 package ku.cs.repository;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.LinkedList;
 
 import ku.cs.entity.User;
 
-public class UserRepository {
-
-    private Connection connection;
-    private Statement statement;
-    private ResultSet resultSet;
+public class UserRepository extends Repository {
 
     public UserRepository(Connection connection) {
-        this.connection = connection;
+        super(connection);
     }
 
     public void createUser(User user) throws SQLException {
@@ -199,6 +193,7 @@ public class UserRepository {
         try {
             this.statement = connection.createStatement();
 
+            // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
             this.resultSet = this.statement.executeQuery(
                     "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, UUID FROM user " +
                             ((role != null && !role.isEmpty()) ? String.format("WHERE ROLE = %s", role) : "") + ";");
