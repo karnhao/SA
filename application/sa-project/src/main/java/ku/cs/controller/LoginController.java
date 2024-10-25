@@ -56,7 +56,7 @@ public class LoginController {
     }
 
     public void onForceLogin() {
-        RootService.getController().open("navigation.fxml");
+        RootService.getController().open("navigation.fxml");  //navigation
     }
 
     public void onForgotPassword() {
