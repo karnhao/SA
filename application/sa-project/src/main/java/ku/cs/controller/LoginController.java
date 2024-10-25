@@ -1,21 +1,31 @@
 package ku.cs.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import ku.cs.model.User;
 import ku.cs.net.ClientLogin;
 import ku.cs.net.ClientUserInfo;
 import ku.cs.service.RootService;
-import org.json.JSONObject;
+import ku.cs.util.ComponentLoader;
 
 
 public class LoginController {
 
-    public TextField passwordField;
-    public TextField usernameField;
+    public SecureTextFormController passwordField;
+    public TextFormController usernameField;
+    @FXML
+    private VBox vBoxField;
 
     @FXML
     public void initialize() {
+        // Create Login Field
+        this.usernameField = ComponentLoader.loadInto(vBoxField, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
+        this.usernameField.setTitleText("Username");
+        this.usernameField.getTextField().setPromptText("Enter your username...");
 
+        this.passwordField = ComponentLoader.loadInto(vBoxField, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        this.passwordField.setTitleText("Password");
+        this.passwordField.setPromptText("Enter your password...");
     }
 
     public void onSignUpButton() {
@@ -25,17 +35,24 @@ public class LoginController {
     public void onLogin() {
 
         try {
+
+            // Login
             ClientLogin clientLogin = new ClientLogin();
             clientLogin.login(usernameField.getText(), passwordField.getText());
 
-            ClientUserInfo clientUserInfo = new ClientUserInfo();
-            JSONObject userInfo = clientUserInfo.getUserInfo();
-            System.out.println(userInfo.toString(4));
+            // Get User Data
+            User user = getUser();
+            RootService.getData().setUser(user);
 
             RootService.getController().open("navigation.fxml");
         } catch (Exception e) {
             RootService.showErrorBar(e.getMessage());
         }
+    }
+
+    private static User getUser() {
+        ClientUserInfo clientUserInfo = new ClientUserInfo();
+        return clientUserInfo.getUserInfo();
     }
 
     public void onForceLogin() {

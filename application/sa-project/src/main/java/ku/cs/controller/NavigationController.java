@@ -97,11 +97,19 @@ public class NavigationController {
         } catch (Exception e) {
             bodyOutAnimation.setOnFinished(actionEvent -> vBox.getChildren().clear());
             bodyOutAnimation.play();
-            RootService.showErrorBar(e.getMessage());
+
+            String errorNotifyText = e.getClass().getSimpleName() + " " + e.getMessage();
+            if (e instanceof IOException) {
+                errorNotifyText = "Load Page Failed";
+            }
+
+            RootService.showErrorBar(errorNotifyText);
 
             // Load Error Page
+            loader = new FXMLLoader();
             loader.setLocation(getClass().getResource(RESOURCE_PATH + "load-error.fxml"));
             try {
+                e.printStackTrace();
                 fxml = loader.load();
                 VBox.setVgrow(fxml, Priority.ALWAYS);
                 LoadErrorController loadErrorController = loader.getController();

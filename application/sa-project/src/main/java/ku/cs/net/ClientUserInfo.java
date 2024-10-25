@@ -1,5 +1,6 @@
 package ku.cs.net;
 
+import ku.cs.model.User;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.net.URISyntaxException;
 
 public class ClientUserInfo {
 
-    public JSONObject getUserInfo() {
+    public User getUserInfo() {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("access_token", Client.getClient().getAccessToken());
@@ -17,7 +18,16 @@ public class ClientUserInfo {
             HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), "/userinfo");
 
             // Get Response JSON
-            return Client.getClient().getResponseJSON(httpURLConnection);
+            JSONObject userInfo = Client.getClient().getResponseJSON(httpURLConnection);
+
+            User user = new User();
+            user.setEmail(userInfo.getString("email"));
+            user.setName(userInfo.getString("name"));
+            user.setRole(userInfo.getString("role"));
+            user.setUuid(userInfo.getString("uuid"));
+            user.setUsername(userInfo.getString("username"));
+            user.setPhone_number(userInfo.getString("phone_number"));
+            return user;
 
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);

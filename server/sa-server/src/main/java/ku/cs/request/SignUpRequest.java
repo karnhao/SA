@@ -8,6 +8,8 @@ public class SignUpRequest {
     private String email;
     private String phone_number;
     private String role;
+    private String bank_name;
+    private String bank_number;
 
     public String getName() {
         return name;
@@ -55,6 +57,22 @@ public class SignUpRequest {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getBank_name() {
+        return bank_name;
+    }
+
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
+
+    public String getBank_number() {
+        return bank_number;
+    }
+
+    public void setBank_number(String bank_number) {
+        this.bank_number = bank_number;
     }
 
 }

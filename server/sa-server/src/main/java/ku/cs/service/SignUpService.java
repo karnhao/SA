@@ -72,7 +72,39 @@ public class SignUpService {
         repository.createUser(userEntity);
     }
 
-    public User getUserByUserName(String userName) throws SQLException {
-        return repository.getUserByUserName(userName);
+    public void createMusician(JSONObject jsonObject) throws InvalidNameException, SQLException {
+        SignUpRequest signUpRequest = new SignUpRequest();
+        signUpRequest.setEmail(jsonObject.getString("email"));
+        signUpRequest.setName(jsonObject.getString("name"));
+        signUpRequest.setPassword(jsonObject.getString("password"));
+        signUpRequest.setPhone_number(jsonObject.getString("phone_number"));
+        signUpRequest.setRole(jsonObject.getString("role"));
+        signUpRequest.setUsername(jsonObject.getString("username"));
+        signUpRequest.setBank_name(jsonObject.getString("bank_name"));
+        signUpRequest.setBank_number(jsonObject.getString("bank_number"));
+
+        this.createMusician(signUpRequest);
+    }
+
+
+    public void createMusician(SignUpRequest signUpRequest) throws InvalidNameException, SQLException {
+        // check null
+        validateNull(signUpRequest.getUsername(), "username");
+        validateNull(signUpRequest.getEmail(), "email");
+        validateNull(signUpRequest.getName(), "name");
+        validateNull(signUpRequest.getPhone_number(), "phone number");
+        validateNull(signUpRequest.getRole(), "role");
+        validateNull(signUpRequest.getPassword(), "password");
+        validateNull(signUpRequest.getBank_name(), "bank name");
+        validateNull(signUpRequest.getBank_number(), "bank number");
+
+        // check username available
+        if (!isUsernameAvailable(signUpRequest.getUsername())) throw new InvalidNameException("This username is already taken");
+
+        // create user entity
+        User userEntity = createUserEntity(signUpRequest);
+
+        
+        repository.createMusician(userEntity, signUpRequest.getBank_name(), signUpRequest.getBank_number());
     }
 }

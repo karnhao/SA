@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.SettingController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.SettingController">
     <children>
         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Your Account" underline="true">
             <font>
@@ -18,7 +15,7 @@
         </Label>
 
         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" VBox.vgrow="ALWAYS">
-            <VBox fx:id="vBox" alignment="CENTER_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15" HBox.hgrow="ALWAYS" />
+            <VBox fx:id="vBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="15" HBox.hgrow="ALWAYS" />
             <Pane maxHeight="1.7976931348623157E308" maxWidth="4.0" minWidth="4.0" prefWidth="4.0" style="-fx-background-color: -dark-gray-color;">
                 <HBox.margin>
                     <Insets bottom="10.0" top="10.0" />
@@ -27,7 +24,7 @@
 
             <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
                 <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                    <ImageView fx:id="profileImage" fitHeight="200.0" fitWidth="200.0" style="-fx-border-color: #008080;"/>
+                    <ImageView fx:id="profileImage" fitHeight="200.0" fitWidth="200.0" style="-fx-border-color: #008080;" />
                 </HBox>
                 <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#OnChangeProfileImage" styleClass="button-green" text="Change Profile Image">
                     <font>

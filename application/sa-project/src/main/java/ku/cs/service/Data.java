@@ -1,11 +1,11 @@
 package ku.cs.service;
 
-import ku.cs.model.Setting;
+import ku.cs.model.User;
 
 public class Data {
 
     private static Data data;
-    private DataApplication application;
+    private User user;
 
     public static Data getInstance() {
         if (data == null) data = new Data();
@@ -13,14 +13,13 @@ public class Data {
     }
 
     private Data() {
-        this.application = new DataApplication();
     }
 
-    public Setting getSetting() {
-        return application.getSetting();
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void saveSetting() {
-        application.saveSetting();
+    public User getUser() {
+        return user;
     }
 }

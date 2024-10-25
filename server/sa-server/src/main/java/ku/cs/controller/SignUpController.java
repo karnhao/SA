@@ -21,8 +21,11 @@ public class SignUpController extends Controller {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        String type = queryToMap(exchange.getRequestURI().getQuery()).get("type");
+        System.out.println(exchange.getRequestURI().getQuery());
+        System.out.println(type);
         if (exchange.getRequestMethod().equals("POST")) {
-            handleRequest(exchange);
+            handleRequest(exchange, (type != null && type.equalsIgnoreCase("musician")));
         } else {
             exchange.sendResponseHeaders(405, -1);
         }
@@ -30,7 +33,7 @@ public class SignUpController extends Controller {
         exchange.close();
     }
 
-    private void handleRequest(HttpExchange exchange) throws IOException {
+    private void handleRequest(HttpExchange exchange, boolean isMusician) throws IOException {
         try {
             InputStream is = exchange.getRequestBody();
             String jsonString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
@@ -39,8 +42,12 @@ public class SignUpController extends Controller {
 
             JSONObject jsonObject = new JSONObject(jsonString);
 
-            service.createUser(jsonObject);
-            String response = "Create User Successfully";
+            if (isMusician)
+                service.createMusician(jsonObject);
+            else
+                service.createUser(jsonObject);
+
+            String response = "Sign Up Successfully";
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
@@ -48,6 +55,5 @@ public class SignUpController extends Controller {
         } catch (Exception e) {
             responseError(exchange, e);
         }
-
     }
 }

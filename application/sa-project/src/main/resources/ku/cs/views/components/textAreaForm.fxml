@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.TextFormController">
+   <children>
+      <Label fx:id="title" text="Title">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="textArea" maxHeight="200.0" maxWidth="1.7976931348623157E308" minHeight="200.0" prefHeight="200.0" promptText="Prompt Text" styleClass="my-text-field">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="-10.0" />
+         </padding>
+      </TextArea>
+      <Pane fx:id="pane" minHeight="5.0" prefHeight="5.0" style="-fx-background-color: -dark-green-color;" stylesheets="@../../themes/default.css" />
+   </children>
+</VBox>

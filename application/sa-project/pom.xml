@@ -9,8 +9,6 @@
 
     <name>sa-project</name>
 
-
-
     <dependencies>
     <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
         <dependency>

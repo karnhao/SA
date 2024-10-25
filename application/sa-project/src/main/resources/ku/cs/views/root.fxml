@@ -7,7 +7,7 @@
 <StackPane alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.RootController">
    <children>
       <VBox fx:id="vBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="400.0" />
-      <VBox fx:id="notifyVBox" alignment="TOP_RIGHT" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" opacity="0.85" spacing="12.0">
+      <VBox fx:id="notifyVBox" alignment="TOP_RIGHT" fillWidth="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="12.0">
          <StackPane.margin>
             <Insets right="20.0" top="64.0" />
          </StackPane.margin>

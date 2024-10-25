@@ -52,6 +52,7 @@ public class Client {
     }
 
     public static Client getClient() {
+        if (client == null) throw new NullPointerException("Client is not initialize");
         return client;
     }
 
@@ -64,8 +65,8 @@ public class Client {
         return "http://" + this.serverIp + ":" + this.serverPort;
     }
 
-    public HttpURLConnection getHttpURLConnection(String bodyJson, String path) throws URISyntaxException, IOException {
-        URL url = new URI(Client.getClient().getHostUrlString() + path).toURL();
+    public HttpURLConnection getHttpURLConnection(String bodyJson, String path, String query) throws URISyntaxException, IOException {
+        URL url = new URI(client.getHostUrlString() + path + ((query == null) ? "" : "?" + query) ).toURL();
 
         System.out.println(url);
 
@@ -84,11 +85,33 @@ public class Client {
         return httpURLConnection;
     }
 
+    public HttpURLConnection getHttpURLConnectionWithoutBody(String path, String query) throws URISyntaxException, IOException {
+        URL url = new URI(client.getHostUrlString() + path + ((query == null) ? "" : "?" + query) ).toURL();
+
+        System.out.println(url);
+
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setRequestProperty("Accept", "application/json");
+
+        httpURLConnection.setDoOutput(true);
+
+        return httpURLConnection;
+    }
+
+    public HttpURLConnection getHttpURLConnectionWithoutBody(String path) throws URISyntaxException, IOException {
+        return getHttpURLConnectionWithoutBody(path, null);
+    }
+
+    public HttpURLConnection getHttpURLConnection(String bodyJson, String path) throws URISyntaxException, IOException {
+        return getHttpURLConnection(bodyJson, path, null);
+    }
+
     public JSONObject getResponseJSON(HttpURLConnection httpURLConnection, Predicate<Integer> acceptStatus) throws IOException {
 
         // Get Response Status Code
         int responseCode = httpURLConnection.getResponseCode();
-        System.out.println("POST Response Code :: " + responseCode);
+        System.out.println("Response Code :: " + responseCode);
 
         if (!acceptStatus.test(responseCode)) {
             String error = getResponseString(httpURLConnection.getErrorStream());
