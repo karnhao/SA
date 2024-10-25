@@ -10,7 +10,7 @@ public class ClientRegister {
 
         JSONObject jsonObject = toJSONObject(username, name, email, password, phone_number, role);
 
-        HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), "/reg");
+        HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), "/reg", "type=customer");
 
         JSONObject response;
         response = Client.getClient().getResponseJSON(httpURLConnection);
