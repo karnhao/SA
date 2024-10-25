@@ -52,7 +52,7 @@ public class NavigationController {
             eventButton.selection(true);
         });
         userButton.setOnClickRunnable(() -> {
-            this.open("users.fxml");
+            this.open("agent_custom_list.fxml");
             userButton.selection(true);
         });
         stereoButton.setOnClickRunnable(() -> {
