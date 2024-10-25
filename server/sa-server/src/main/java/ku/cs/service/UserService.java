@@ -8,6 +8,7 @@ import javax.naming.AuthenticationException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import ku.cs.entity.Musician;
 import ku.cs.entity.User;
 import ku.cs.repository.UserRepository;
 
@@ -82,22 +83,46 @@ public class UserService {
 
         User user = repository.getUserByUUID(uuid);
         if (!user.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access denied");
-        List<User> users = repository.getAllUsers(role);
+
+        List<Musician> musicians = null;
+        List<User> users = null;
+        if (role.equalsIgnoreCase("musician")) {
+            musicians = repository.getAllMusicians();
+        } else {
+            users = repository.getAllUsers();
+        }
 
         JSONObject jsonObject = new JSONObject();
 
         JSONArray jsonArray = new JSONArray();
-        users.stream().map((u) -> {
-            JSONObject o = new JSONObject();
-            o.put("username", u.getUsername());
-            o.put("email", u.getEmail());
-            o.put("name", u.getName());
-            o.put("phone_number", u.getPhone_number());
-            o.put("role", u.getRole());
-            o.put("uuid", u.getUuid());
 
-            return o;
-        }).forEach(jsonArray::put);
+        if (users != null) {
+            users.stream().map((u) -> {
+                JSONObject o = new JSONObject();
+                o.put("username", u.getUsername());
+                o.put("email", u.getEmail());
+                o.put("name", u.getName());
+                o.put("phone_number", u.getPhone_number());
+                o.put("role", u.getRole());
+                o.put("uuid", u.getUuid());
+    
+                return o;
+            }).forEach(jsonArray::put);
+        } else if (musicians != null) {
+            musicians.stream().map((u) -> {
+                JSONObject o = new JSONObject();
+                o.put("username", u.getUsername());
+                o.put("email", u.getEmail());
+                o.put("name", u.getName());
+                o.put("phone_number", u.getPhone_number());
+                o.put("role", u.getRole());
+                o.put("uuid", u.getUuid());
+                o.put("bank_name", u.getBankName());
+                o.put("bank_number", u.getBankNumber());
+                return o;
+            }).forEach(jsonArray::put);
+        }
+        
 
         jsonObject.put("users", jsonArray);
 

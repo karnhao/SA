@@ -8,7 +8,15 @@ public class Musician extends User {
         return bankName;
     }
 
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
     public String getBankNumber() {
         return bankNumber;
+    }
+
+    public void setBankNumber(String bankNumber) {
+        this.bankNumber = bankNumber;
     }
 }

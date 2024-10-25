@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.LinkedList;
 
+import ku.cs.entity.Musician;
 import ku.cs.entity.User;
 
 public class UserRepository extends Repository {
@@ -217,6 +218,51 @@ public class UserRepository extends Repository {
                 user.setUuid(resultUUID);
 
                 users.add(user);
+            }
+
+            return users;
+
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public List<Musician> getAllMusicians() throws SQLException {
+        LinkedList<Musician> users = new LinkedList<Musician>();
+        try {
+            this.statement = connection.createStatement();
+
+            // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
+            this.resultSet = this.statement.executeQuery(
+                    "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, u.UUID, m.BANK_NAME, m.BANK_NUMBER FROM user u JOIN musician m ON u.`UUID` = m.`UUID` WHERE ROLE = 'Musician';;");
+            
+            while (this.resultSet.next()) {
+                User user = new User();
+                String resultUsername = resultSet.getString("USERNAME");
+                String resultEmail = resultSet.getString("EMAIL_ADDRESS");
+                String resultPassword = resultSet.getString("ENCRYPTED_PASSWORD");
+                String resultName = resultSet.getString("NAME");
+                String resultPhoneNumber = resultSet.getString("PHONE_NUMBER");
+                String resultRole = resultSet.getString("ROLE");
+                String resultUUID = resultSet.getString("UUID");
+                String resultBankName = resultSet.getString("BANK_NAME");
+                String resultBankNumber = resultSet.getString("BANK_NUMBER");
+
+                user.setUsername(resultUsername);
+                user.setEmail(resultEmail);
+                user.setPassword(resultPassword);
+                user.setName(resultName);
+                user.setPhone_number(resultPhoneNumber);
+                user.setRole(resultRole);
+                user.setUuid(resultUUID);
+
+                Musician musician = new Musician(user);
+                musician.setBankName(resultBankName);
+                musician.setBankNumber(resultBankNumber);
+
+                users.add(musician);
             }
 
             return users;

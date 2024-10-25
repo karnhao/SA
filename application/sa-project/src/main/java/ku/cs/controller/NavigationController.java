@@ -3,7 +3,6 @@ package ku.cs.controller;
 import animatefx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.LoadException;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -55,7 +54,7 @@ public class NavigationController {
             eventButton.selection(true);
         });
         userButton.setOnClickRunnable(() -> {
-            this.open("agent_custom_list.fxml");
+            this.open("agent-user-list.fxml");
             userButton.selection(true);
         });
         stereoButton.setOnClickRunnable(() -> {
