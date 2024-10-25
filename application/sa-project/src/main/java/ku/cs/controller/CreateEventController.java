@@ -2,6 +2,10 @@ package ku.cs.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
+import ku.cs.model.MusicianRole;
+import ku.cs.model.StereoType;
+import ku.cs.net.ClientGetRole;
+import ku.cs.net.ClientGetStereoType;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
@@ -26,9 +30,21 @@ public class CreateEventController {
     private TextFormController descriptionController;
     private DateFormController startDateTimeFormController;
     private DateFormController endDateTimeFormController;
+    private List<MusicianRole> roles;
+    private List<StereoType> types;
 
     @FXML
     private void initialize() {
+
+        try {
+
+            ClientGetRole clientRole = new ClientGetRole();
+            roles = clientRole.getMusicianRoles();
+
+            ClientGetStereoType clientStereoType = new ClientGetStereoType();
+            types = clientStereoType.getStereoTypes();
+
+        } catch (Exception ignored){}
 
         eventNameController = ComponentLoader.loadInto(vBox1, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
         eventNameController.setTitleText("Event Name");
@@ -58,8 +74,9 @@ public class CreateEventController {
         RequirementFormController controller = ComponentLoader.loadInto(musicianRequirementVBox,
                 getClass().getResource("/ku/cs/views/components/requirementForm.fxml"));
 
-        controller.getComboBox().getItems().add("Pianist");
-        controller.getComboBox().getItems().add("Guitar Player");
+        if (roles != null) {
+            roles.forEach(r -> controller.getComboBox().getItems().add(r.getName()));
+        }
 
         controller.addDeleteListener(() -> {
             controller.delete();
@@ -73,9 +90,9 @@ public class CreateEventController {
         RequirementFormController controller = ComponentLoader.loadInto(stereoRequirementVBox,
                 getClass().getResource("/ku/cs/views/components/requirementForm.fxml"));
 
-        controller.getComboBox().getItems().add("Piano");
-        controller.getComboBox().getItems().add("Loud Speaker");
-        controller.getComboBox().getItems().add("Subwoofer");
+        if (types != null) {
+            types.forEach(t -> controller.getComboBox().getItems().add(t.getName()));
+        }
 
         controller.addDeleteListener(() -> {
             controller.delete();
@@ -86,5 +103,12 @@ public class CreateEventController {
     }
 
     public void onDoneButton() {
+        System.out.println(eventNameController.getText());
+        System.out.println(descriptionController.getText());
+        System.out.println(startDateTimeFormController.getDateTime().toString());
+        System.out.println(endDateTimeFormController.getDateTime().toString());
+
+        musicianControllerList.forEach(t -> System.out.println(t.getComboBox().getValue() + " " + t.getQuantity()));
+        stereoControllerList.forEach(t -> System.out.println(t.getComboBox().getValue() + " " + t.getQuantity()));
     }
 }

@@ -85,6 +85,24 @@ public class Client {
         return httpURLConnection;
     }
 
+    public HttpURLConnection getHttpURLConnectionWithoutBody(String path, String query) throws URISyntaxException, IOException {
+        URL url = new URI(client.getHostUrlString() + path + ((query == null) ? "" : "?" + query) ).toURL();
+
+        System.out.println(url);
+
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setRequestMethod("GET");
+        httpURLConnection.setRequestProperty("Accept", "application/json");
+
+        httpURLConnection.setDoOutput(true);
+
+        return httpURLConnection;
+    }
+
+    public HttpURLConnection getHttpURLConnectionWithoutBody(String path) throws URISyntaxException, IOException {
+        return getHttpURLConnectionWithoutBody(path, null);
+    }
+
     public HttpURLConnection getHttpURLConnection(String bodyJson, String path) throws URISyntaxException, IOException {
         return getHttpURLConnection(bodyJson, path, null);
     }
@@ -93,7 +111,7 @@ public class Client {
 
         // Get Response Status Code
         int responseCode = httpURLConnection.getResponseCode();
-        System.out.println("POST Response Code :: " + responseCode);
+        System.out.println("Response Code :: " + responseCode);
 
         if (!acceptStatus.test(responseCode)) {
             String error = getResponseString(httpURLConnection.getErrorStream());

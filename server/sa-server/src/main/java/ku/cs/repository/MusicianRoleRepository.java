@@ -20,10 +20,10 @@ public class MusicianRoleRepository extends Repository {
 
             // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
             this.resultSet = this.statement.executeQuery(
-                    "SELECT (ROLE_ID, ROLE_NAME) FROM musicianrole;");
+                    "SELECT ROLE_ID, ROLE_NAME FROM musicianrole;");
 
-            MusicianRole role = new MusicianRole();
             while (this.resultSet.next()) {
+                MusicianRole role = new MusicianRole();
                 String resultID = resultSet.getString("ROLE_ID");
                 String resultName = resultSet.getString("ROLE_NAME");
 

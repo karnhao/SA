@@ -21,13 +21,14 @@ public class MusicianRoleService {
 
         JSONObject result = new JSONObject();
         JSONArray rolesJsonArray = new JSONArray();
-
         roles.stream().map((r) -> {
             JSONObject role = new JSONObject();
             role.put("id", r.getId());
             role.put("name", r.getName());
             return role;
         }).forEach(rolesJsonArray::put);
+
+        result.put("roles", rolesJsonArray);
 
         return result;
     }
