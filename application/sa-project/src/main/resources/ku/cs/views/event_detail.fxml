@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventDetailController">
+<VBox alignment="TOP_CENTER" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventDetailController">
     <HBox alignment="CENTER" VBox.vgrow="NEVER">
         <Label style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #008080;" text="Event" HBox.hgrow="ALWAYS">
          <font>
@@ -58,6 +61,7 @@
             <HBox spacing="10">
                 <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Requirement:" />
                 <Label fx:id="RequirementLabel" style="-fx-font-size: 14px;" text="requirement" />
+            <Button mnemonicParsing="false" onAction="#OnToEventRequirement" style="-fx-font-weight: Bold;" styleClass="button-green" stylesheets="@../themes/default.css" text="More Detail" />
             </HBox>
         </VBox>
       <padding>

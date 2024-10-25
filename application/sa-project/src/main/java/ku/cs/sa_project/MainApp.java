@@ -25,7 +25,7 @@ public class MainApp extends Application {
         configRoute();
 
         FXRouter.bind(this, stage);
-        FXRouter.goTo("root");
+        FXRouter.goTo("root"); //root
         setTheme("default.css");
     }
 
