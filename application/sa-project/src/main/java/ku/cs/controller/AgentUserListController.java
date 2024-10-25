@@ -3,7 +3,6 @@ package ku.cs.controller;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -12,7 +11,7 @@ import javafx.scene.control.TextField;
 import ku.cs.model.User;
 import ku.cs.net.ClientGetUsers;
 
-public class AgantCustomListController {
+public class AgentUserListController {
     public Label listTitle;
     public TextField searchField;
     public TableColumn<User,String> NameColumn;

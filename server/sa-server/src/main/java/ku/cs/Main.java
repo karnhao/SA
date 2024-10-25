@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import com.sun.net.httpserver.HttpServer;
 
 import ku.cs.controller.CreateEventController;
+import ku.cs.controller.EventListController;
 import ku.cs.controller.GetAllUserController;
 import ku.cs.controller.GetRolesController;
 import ku.cs.controller.GetStereoTypeController;
@@ -86,6 +87,7 @@ public class Main {
         server.createContext("/getmusicianroles", new GetRolesController(new MusicianRoleService(roleResponsitory)));
         server.createContext("/getstereotypes", new GetStereoTypeController(new StereoTypeService(stereoTypeResponsitory)));
         server.createContext("/create_event", new CreateEventController(new EventService(eventRepository, requirementRepository)));
+        server.createContext("/event_list", new EventListController(new EventService(eventRepository, requirementRepository)));
 
         server.setExecutor(null);
         server.start();
