@@ -12,7 +12,7 @@ import ku.cs.entity.Event;
 
 public class EventRepository extends Repository {
 
-    EventRepository(Connection connection) {
+    public EventRepository(Connection connection) {
         super(connection);
     }
 

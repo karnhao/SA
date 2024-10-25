@@ -21,7 +21,8 @@ public class SignUpController extends Controller {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String type = queryToMap(exchange.getRequestURI().getQuery()).get("type");
+        String query = exchange.getRequestURI().getQuery();
+        String type = (query == null) ? null : queryToMap(query).get("type");
         System.out.println(exchange.getRequestURI().getQuery());
         System.out.println(type);
         if (exchange.getRequestMethod().equals("POST")) {

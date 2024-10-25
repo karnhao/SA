@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpServer;
 
+import ku.cs.controller.CreateEventController;
 import ku.cs.controller.GetAllUserController;
 import ku.cs.controller.GetRolesController;
 import ku.cs.controller.GetStereoTypeController;
@@ -22,9 +23,12 @@ import ku.cs.controller.SignUpController;
 import ku.cs.controller.UpdatePasswordController;
 import ku.cs.controller.UpdateUserInfoController;
 import ku.cs.controller.UserInfoController;
+import ku.cs.repository.EventRepository;
 import ku.cs.repository.MusicianRoleRepository;
+import ku.cs.repository.RequirementRepository;
 import ku.cs.repository.StereoTypeRepository;
 import ku.cs.repository.UserRepository;
+import ku.cs.service.EventService;
 import ku.cs.service.LoginService;
 import ku.cs.service.MusicianRoleService;
 import ku.cs.service.SignUpService;
@@ -66,6 +70,10 @@ public class Main {
 
         // create repository
         UserRepository userResponsitory = new UserRepository(conn);
+        MusicianRoleRepository roleResponsitory = new MusicianRoleRepository(conn);
+        StereoTypeRepository stereoTypeResponsitory = new StereoTypeRepository(conn);
+        EventRepository eventRepository = new EventRepository(conn);
+        RequirementRepository requirementRepository = new RequirementRepository(conn);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new HelloController());
@@ -75,8 +83,9 @@ public class Main {
         server.createContext("/updatepassword", new UpdatePasswordController(new UserService(userResponsitory)));
         server.createContext("/updateuserinfo", new UpdateUserInfoController(new UserService(userResponsitory)));
         server.createContext("/getallusers", new GetAllUserController(new UserService(userResponsitory)));
-        server.createContext("/getmusicianroles", new GetRolesController(new MusicianRoleService(new MusicianRoleRepository(conn))));
-        server.createContext("/getstereotypes", new GetStereoTypeController(new StereoTypeService(new StereoTypeRepository(conn))));
+        server.createContext("/getmusicianroles", new GetRolesController(new MusicianRoleService(roleResponsitory)));
+        server.createContext("/getstereotypes", new GetStereoTypeController(new StereoTypeService(stereoTypeResponsitory)));
+        server.createContext("/create_event", new CreateEventController(new EventService(eventRepository, requirementRepository)));
 
         server.setExecutor(null);
         server.start();

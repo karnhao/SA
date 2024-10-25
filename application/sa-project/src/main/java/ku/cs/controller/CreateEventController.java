@@ -2,8 +2,11 @@ package ku.cs.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
+import ku.cs.model.MusicianRequirement;
 import ku.cs.model.MusicianRole;
+import ku.cs.model.StereoRequirement;
 import ku.cs.model.StereoType;
+import ku.cs.net.ClientCreateEvent;
 import ku.cs.net.ClientGetRole;
 import ku.cs.net.ClientGetStereoType;
 import ku.cs.service.RootService;
@@ -24,8 +27,8 @@ public class CreateEventController {
     @FXML
     private VBox vBox1;
 
-    private List<RequirementFormController> musicianControllerList;
-    private List<RequirementFormController> stereoControllerList;
+    private List<RequirementFormController<MusicianRole>> musicianControllerList;
+    private List<RequirementFormController<StereoType>> stereoControllerList;
     private TextFormController eventNameController;
     private TextFormController descriptionController;
     private DateFormController startDateTimeFormController;
@@ -71,11 +74,11 @@ public class CreateEventController {
     }
 
     public void onMusicianRequirementAddButtonClick() {
-        RequirementFormController controller = ComponentLoader.loadInto(musicianRequirementVBox,
+        RequirementFormController<MusicianRole> controller = ComponentLoader.loadInto(musicianRequirementVBox,
                 getClass().getResource("/ku/cs/views/components/requirementForm.fxml"));
 
         if (roles != null) {
-            roles.forEach(r -> controller.getComboBox().getItems().add(r.getName()));
+            roles.forEach(r -> controller.getComboBox().getItems().add(r));
         }
 
         controller.addDeleteListener(() -> {
@@ -87,11 +90,11 @@ public class CreateEventController {
     }
 
     public void onStereoRequirementAddButtonClick() {
-        RequirementFormController controller = ComponentLoader.loadInto(stereoRequirementVBox,
+        RequirementFormController<StereoType> controller = ComponentLoader.loadInto(stereoRequirementVBox,
                 getClass().getResource("/ku/cs/views/components/requirementForm.fxml"));
 
         if (types != null) {
-            types.forEach(t -> controller.getComboBox().getItems().add(t.getName()));
+            types.forEach(t -> controller.getComboBox().getItems().add(t));
         }
 
         controller.addDeleteListener(() -> {
@@ -103,12 +106,37 @@ public class CreateEventController {
     }
 
     public void onDoneButton() {
-        System.out.println(eventNameController.getText());
-        System.out.println(descriptionController.getText());
-        System.out.println(startDateTimeFormController.getDateTime().toString());
-        System.out.println(endDateTimeFormController.getDateTime().toString());
 
-        musicianControllerList.forEach(t -> System.out.println(t.getComboBox().getValue() + " " + t.getQuantity()));
-        stereoControllerList.forEach(t -> System.out.println(t.getComboBox().getValue() + " " + t.getQuantity()));
+        ClientCreateEvent clientCreateEvent = new ClientCreateEvent();
+
+        List<MusicianRequirement> musicianRequirements = musicianControllerList.stream().map(c->{
+            MusicianRequirement m = new MusicianRequirement();
+            m.setQuantity(c.getQuantity());
+            m.setMusicianRole(c.getComboBox().getValue());
+            return m;
+        }).toList();
+
+        List<StereoRequirement> stereoRequirements = stereoControllerList.stream().map(s->{
+            StereoRequirement o = new StereoRequirement();
+            o.setQuantity(s.getQuantity());
+            o.setType(s.getComboBox().getValue());
+            return o;
+        }).toList();
+
+        try {
+            String res = clientCreateEvent.createEvent(
+                    eventNameController.getText(),
+                    startDateTimeFormController.getDateTime(),
+                    endDateTimeFormController.getDateTime(),
+                    descriptionController.getText(),
+                    musicianRequirements,
+                    stereoRequirements
+            );
+            RootService.showBar(res);
+            RootService.getController().getNavigationController().open("events-page.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+            RootService.showErrorBar(e.getMessage());
+        }
     }
 }

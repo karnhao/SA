@@ -9,9 +9,9 @@ import javafx.scene.layout.VBox;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RequirementFormController {
+public class RequirementFormController<T> {
     @FXML
-    private ComboBox<String> comboBox;
+    private ComboBox<T> comboBox;
     @FXML
     private Spinner<Integer> spinner;
     @FXML
@@ -38,7 +38,7 @@ public class RequirementFormController {
         this.onDeleteListener.forEach(Runnable::run);
     }
 
-    public ComboBox<String> getComboBox() {
+    public ComboBox<T> getComboBox() {
         return this.comboBox;
     }
 

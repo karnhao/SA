@@ -10,7 +10,7 @@ import ku.cs.entity.StereoRequirement;
 
 public class RequirementRepository extends Repository {
 
-    RequirementRepository(Connection connection) {
+    public RequirementRepository(Connection connection) {
         super(connection);
     }
 
