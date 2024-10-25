@@ -12,7 +12,7 @@ import ku.cs.entity.Event;
 
 public class EventRepository extends Repository {
 
-    EventRepository(Connection connection) {
+    public EventRepository(Connection connection) {
         super(connection);
     }
 
@@ -22,7 +22,7 @@ public class EventRepository extends Repository {
 
             this.resultSet = this.statement.executeQuery(
                     String.format(
-                            "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID WHERE EID = '%s';",
+                            "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event WHERE EID = '%s';",
                             eid));
 
             this.resultSet.next();
@@ -58,7 +58,7 @@ public class EventRepository extends Repository {
 
             this.resultSet = this.statement.executeQuery(
                     String.format(
-                            "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID WHERE UUID = '%s';",
+                            "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event WHERE UUID = '%s';",
                             uuid));
 
             List<Event> result = new LinkedList<Event>();
@@ -87,6 +87,7 @@ public class EventRepository extends Repository {
             return result;
 
         } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         } finally {
             this.statement.close();

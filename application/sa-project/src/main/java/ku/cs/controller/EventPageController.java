@@ -1,8 +1,9 @@
 package ku.cs.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
+import ku.cs.model.Event;
+import ku.cs.net.ClientGetEventList;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
@@ -11,14 +12,15 @@ public class EventPageController {
 
     @FXML
     public void initialize() {
-        addEventItem();
-        addEventItem();
-        addEventItem();
+        RootService.getController().getNavigationController().setTitleText("EVENT");
+
+        ClientGetEventList clientGetEventList = new ClientGetEventList();
+        clientGetEventList.getEventList().forEach(this::addItem);
     }
 
-    public void addEventItem(){
+    public void addItem(Event event){
         EventItemController controller = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/event-item.fxml"));
-
+        controller.setEvent(event);
     }
 
     public void onCreateEvent() {

@@ -89,12 +89,12 @@ public class UserService {
         JSONArray jsonArray = new JSONArray();
         users.stream().map((u) -> {
             JSONObject o = new JSONObject();
-            o.put("username", user.getUsername());
-            o.put("email", user.getEmail());
-            o.put("name", user.getName());
-            o.put("phone_number", user.getPhone_number());
-            o.put("role", user.getRole());
-            o.put("uuid", user.getUuid());
+            o.put("username", u.getUsername());
+            o.put("email", u.getEmail());
+            o.put("name", u.getName());
+            o.put("phone_number", u.getPhone_number());
+            o.put("role", u.getRole());
+            o.put("uuid", u.getUuid());
 
             return o;
         }).forEach(jsonArray::put);

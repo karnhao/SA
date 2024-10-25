@@ -39,7 +39,7 @@ public class CreateEventController extends Controller {
 
             service.createEvent(jsonObject.getString("access_token"), jsonObject.getJSONObject("data"));
 
-            String response = "Sign Up Successfully";
+            String response = "Create Event Successful";
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());

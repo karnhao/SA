@@ -9,24 +9,20 @@ import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
 
-import ku.cs.service.SignUpService;
+import ku.cs.service.EventService;
 
-public class SignUpController extends Controller {
+public class EventListController extends Controller {
 
-    SignUpService service;
+    private EventService eventService;
 
-    public SignUpController(SignUpService service) {
-        this.service = service;
+    public EventListController(EventService eventService) {
+        this.eventService = eventService;
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String query = exchange.getRequestURI().getQuery();
-        String type = (query == null) ? null : queryToMap(query).get("type");
-        System.out.println(exchange.getRequestURI().getQuery());
-        System.out.println(type);
         if (exchange.getRequestMethod().equals("POST")) {
-            handleRequest(exchange, (type != null && type.equalsIgnoreCase("musician")));
+            handleRequestAll(exchange);
         } else {
             exchange.sendResponseHeaders(405, -1);
         }
@@ -34,7 +30,7 @@ public class SignUpController extends Controller {
         exchange.close();
     }
 
-    private void handleRequest(HttpExchange exchange, boolean isMusician) throws IOException {
+    private void handleRequestAll(HttpExchange exchange) {
         try {
             InputStream is = exchange.getRequestBody();
             String jsonString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
@@ -43,16 +39,15 @@ public class SignUpController extends Controller {
 
             JSONObject jsonObject = new JSONObject(jsonString);
 
-            if (isMusician)
-                service.createMusician(jsonObject);
-            else
-                service.createUser(jsonObject);
+            String accessToken = jsonObject.getString("access_token");
 
-            String response = "Sign Up Successfully";
+            JSONObject responseJSON = eventService.getAllEvent(accessToken);
+            String response = responseJSON.toString();
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();
+
         } catch (Exception e) {
             responseError(exchange, e);
         }

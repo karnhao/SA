@@ -3,12 +3,14 @@ package ku.cs.controller;
 import animatefx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.LoadException;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
+import ku.cs.service.Navigation;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
@@ -33,6 +35,7 @@ public class NavigationController {
     @FXML
     public void initialize() {
         RootService.getController().assignNavigationController(this);
+        Navigation.setController(this);
         buttonControllerList = new LinkedList<>();
 
         // Create Navigation Menu Button
@@ -52,7 +55,7 @@ public class NavigationController {
             eventButton.selection(true);
         });
         userButton.setOnClickRunnable(() -> {
-            this.open("users.fxml");
+            this.open("agent_custom_list.fxml");
             userButton.selection(true);
         });
         stereoButton.setOnClickRunnable(() -> {
@@ -75,7 +78,7 @@ public class NavigationController {
         return controller;
     }
 
-    private void loadFxml(URL path, AnimationFX inAnimation, AnimationFX outAnimation) {
+    private void loadFxml (URL path, AnimationFX inAnimation, AnimationFX outAnimation) {
         Parent fxml;
         if (bodyOutAnimation != null) bodyOutAnimation.stop();
         if (bodyInAnimation != null) bodyInAnimation.stop();
