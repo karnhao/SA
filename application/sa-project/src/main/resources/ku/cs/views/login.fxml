@@ -12,7 +12,7 @@
          <children>
             <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="530.0" prefWidth="400.0" style="-fx-background-color: #006664;">
                <children>
-                  <Label text="Application Name" textFill="WHITE">
+                  <Label text="HarmonyHub" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="30.0" />
                      </font>
@@ -32,7 +32,7 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="33.0" prefWidth="284.0">
                      <children>
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSignUpButton" prefWidth="112.0" styleClass="button-green" text="Sign Up" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSignUpButton" prefWidth="112.0" style="-fx-font-size: 16; -fx-font-weight: bold;" styleClass="button-green" text="Sign Up" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -44,7 +44,7 @@
                         <Insets left="20.0" right="20.0" />
                      </VBox.margin>
                   </VBox>
-                  <Button mnemonicParsing="false" onAction="#onLogin" prefHeight="39.0" prefWidth="200.0" styleClass="button-green" text="Login">
+                  <Button mnemonicParsing="false" onAction="#onLogin" prefHeight="39.0" prefWidth="200.0" style="-fx-font-size: 16; -fx-font-weight: bold;" styleClass="button-green" text="Login">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -52,7 +52,7 @@
                         <Insets top="40.0" />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onForceLogin" prefHeight="39.0" prefWidth="200.0" styleClass="button-green" text="Force Login">
+                  <Button fx:id="forceLoginButton" mnemonicParsing="false" onAction="#onForceLogin" prefHeight="39.0" prefWidth="200.0" styleClass="button-green" text="Force Login">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

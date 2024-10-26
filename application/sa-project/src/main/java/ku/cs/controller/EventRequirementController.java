@@ -39,6 +39,14 @@ public class EventRequirementController {
     }
 
     public void onBackToEventDetail() {
-        RootService.getController().getNavigationController().open("event_detail.fxml");
+        RootService.getController().open("event_detail.fxml");
+    }
+
+    public void OntoAddMusician() {
+        RootService.getController().open("addMusician.fxml");
+    }
+
+    public void OntoAddStereo() {
+        RootService.getController().open("addStereo.fxml");
     }
 }
