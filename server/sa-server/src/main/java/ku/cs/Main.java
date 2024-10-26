@@ -14,25 +14,31 @@ import org.json.JSONObject;
 import com.sun.net.httpserver.HttpServer;
 
 import ku.cs.controller.CreateEventController;
+import ku.cs.controller.CreateStereoController;
 import ku.cs.controller.EventListController;
 import ku.cs.controller.GetAllUserController;
+import ku.cs.controller.GetEventController;
 import ku.cs.controller.GetRolesController;
+import ku.cs.controller.GetStereoController;
 import ku.cs.controller.GetStereoTypeController;
 import ku.cs.controller.HelloController;
 import ku.cs.controller.LoginController;
 import ku.cs.controller.SignUpController;
+import ku.cs.controller.StereoListController;
 import ku.cs.controller.UpdatePasswordController;
 import ku.cs.controller.UpdateUserInfoController;
 import ku.cs.controller.UserInfoController;
 import ku.cs.repository.EventRepository;
 import ku.cs.repository.MusicianRoleRepository;
 import ku.cs.repository.RequirementRepository;
+import ku.cs.repository.StereoRepository;
 import ku.cs.repository.StereoTypeRepository;
 import ku.cs.repository.UserRepository;
 import ku.cs.service.EventService;
 import ku.cs.service.LoginService;
 import ku.cs.service.MusicianRoleService;
 import ku.cs.service.SignUpService;
+import ku.cs.service.StereoService;
 import ku.cs.service.StereoTypeService;
 import ku.cs.service.UserService;
 
@@ -75,6 +81,7 @@ public class Main {
         StereoTypeRepository stereoTypeResponsitory = new StereoTypeRepository(conn);
         EventRepository eventRepository = new EventRepository(conn);
         RequirementRepository requirementRepository = new RequirementRepository(conn);
+        StereoRepository stereoRepository = new StereoRepository(conn);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new HelloController());
@@ -88,6 +95,10 @@ public class Main {
         server.createContext("/getstereotypes", new GetStereoTypeController(new StereoTypeService(stereoTypeResponsitory)));
         server.createContext("/create_event", new CreateEventController(new EventService(eventRepository, requirementRepository)));
         server.createContext("/event_list", new EventListController(new EventService(eventRepository, requirementRepository)));
+        server.createContext("/create_stereo", new CreateStereoController(new StereoService(stereoRepository, userResponsitory)));
+        server.createContext("/event", new GetEventController(new EventService(eventRepository, requirementRepository)));
+        server.createContext("/stereo", new GetStereoController(new StereoService(stereoRepository, userResponsitory)));
+        server.createContext("/stereo_list", new StereoListController(new StereoService(stereoRepository, userResponsitory)));
 
         server.setExecutor(null);
         server.start();
