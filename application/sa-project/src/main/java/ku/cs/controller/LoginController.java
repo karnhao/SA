@@ -1,6 +1,7 @@
 package ku.cs.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import ku.cs.model.User;
 import ku.cs.net.ClientLogin;
@@ -14,6 +15,8 @@ public class LoginController {
     public SecureTextFormController passwordField;
     public TextFormController usernameField;
     @FXML
+    public Button forceLoginButton;
+    @FXML
     private VBox vBoxField;
 
     @FXML
@@ -26,6 +29,8 @@ public class LoginController {
         this.passwordField = ComponentLoader.loadInto(vBoxField, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
         this.passwordField.setTitleText("Password");
         this.passwordField.setPromptText("Enter your password...");
+
+        //forceLoginButton.setVisible(false);
     }
 
     public void onSignUpButton() {
