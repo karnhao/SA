@@ -8,12 +8,12 @@ import javafx.scene.layout.VBox;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DropDownController {
+public class DropDownController<T> {
 
     private List<Runnable> onActionListeners;
     public VBox vBox;
     public Label titleLabel;
-    public ComboBox<String> comboBox;
+    public ComboBox<T> comboBox;
 
     @FXML
     public void initialize() {
@@ -28,7 +28,7 @@ public class DropDownController {
         this.titleLabel.setText(text);
     }
 
-    public ComboBox<String> getComboBox() {
+    public ComboBox<T> getComboBox() {
         return comboBox;
     }
 

@@ -1,6 +1,5 @@
 package ku.cs.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -39,14 +38,14 @@ public class EventRequirementController {
     }
 
     public void onBackToEventDetail() {
-        RootService.getController().open("event_detail.fxml");
+        RootService.getController().getNavigationController().open("event_detail.fxml");
     }
 
     public void OntoAddMusician() {
-        RootService.getController().open("addMusician.fxml");
+        RootService.getController().getNavigationController().open("addMusician.fxml");
     }
 
     public void OntoAddStereo() {
-        RootService.getController().open("addStereo.fxml");
+        RootService.getController().getNavigationController().open("addStereo.fxml");
     }
 }

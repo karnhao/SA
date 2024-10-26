@@ -37,7 +37,7 @@ public class StereoRepository extends Repository {
 
             this.resultSet = this.statement.executeQuery(
                     String.format(
-                            "SELECT s.STID, s.NAME, s.TYPE_ID, u.NAME OWNERNAME, st.STNAME FROM stereo s JOIN user u ON u.UUID = s.UUID JOIN stereotype st ON st.TYPE_ID = s.TYPE_ID WHERE UUID = '%s';",
+                            "SELECT s.STID, s.NAME, s.TYPE_ID, u.NAME OWNERNAME, st.STNAME FROM stereo s JOIN user u ON u.UUID = s.UUID JOIN stereotype st ON st.TYPE_ID = s.TYPE_ID WHERE s.UUID = '%s';",
                             uuid));
 
             List<Stereo> result = new LinkedList<Stereo>();

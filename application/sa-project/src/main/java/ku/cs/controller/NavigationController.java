@@ -58,7 +58,7 @@ public class NavigationController {
             userButton.selection(true);
         });
         stereoButton.setOnClickRunnable(() -> {
-            this.open("stereos.fxml");
+            this.open("stereo-list.fxml");
             stereoButton.selection(true);
         });
         musicianButton.setOnClickRunnable(() -> {

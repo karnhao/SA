@@ -1,8 +1,20 @@
 package ku.cs.model;
 
 public class Stereo {
+    private String id;
     private String name;
-    private StereoType type;
+    private String owner_id;
+    private String type_id;
+    private String owner_name;
+    private String type_name;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -12,11 +24,35 @@ public class Stereo {
         this.name = name;
     }
 
-    public StereoType getType() {
-        return type;
+    public void setOwner_id(String owner_id) {
+        this.owner_id = owner_id;
     }
 
-    public void setType(StereoType type) {
-        this.type = type;
+    public String getOwner_id() {
+        return owner_id;
+    }
+
+    public void setType_id(String type_id) {
+        this.type_id = type_id;
+    }
+
+    public String getType_id() {
+        return type_id;
+    }
+
+    public String getOwner_name() {
+        return owner_name;
+    }
+
+    public void setOwner_name(String owner_name) {
+        this.owner_name = owner_name;
+    }
+
+    public String getType_name() {
+        return type_name;
+    }
+
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 }

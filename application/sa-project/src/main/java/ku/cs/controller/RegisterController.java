@@ -13,7 +13,7 @@ public class RegisterController {
 
     public VBox vBox;
 
-    private DropDownController roleDropDownController;
+    private DropDownController<String> roleDropDownController;
     private TextFormController usernameFormController;
     private SecureTextFormController passwordFormController;
     private SecureTextFormController passwordConfirmFormController;
