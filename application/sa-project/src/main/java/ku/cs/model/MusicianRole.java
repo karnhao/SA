@@ -24,4 +24,10 @@ public class MusicianRole {
     public String toString() {
         return this.name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MusicianRole musicianRole)) return false;
+        return this.id.equals(musicianRole.id);
+    }
 }

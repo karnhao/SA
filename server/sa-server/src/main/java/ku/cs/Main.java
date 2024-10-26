@@ -17,12 +17,14 @@ import ku.cs.controller.CreateEventController;
 import ku.cs.controller.CreateStereoController;
 import ku.cs.controller.EventListController;
 import ku.cs.controller.GetAllUserController;
+import ku.cs.controller.GetAvailableRoleController;
 import ku.cs.controller.GetEventController;
 import ku.cs.controller.GetRolesController;
 import ku.cs.controller.GetStereoController;
 import ku.cs.controller.GetStereoTypeController;
 import ku.cs.controller.HelloController;
 import ku.cs.controller.LoginController;
+import ku.cs.controller.SetAvailableRoleController;
 import ku.cs.controller.SignUpController;
 import ku.cs.controller.StereoListController;
 import ku.cs.controller.UpdatePasswordController;
@@ -99,6 +101,8 @@ public class Main {
         server.createContext("/event", new GetEventController(new EventService(eventRepository, requirementRepository)));
         server.createContext("/stereo", new GetStereoController(new StereoService(stereoRepository, userResponsitory)));
         server.createContext("/stereo_list", new StereoListController(new StereoService(stereoRepository, userResponsitory)));
+        server.createContext("/set_available_roles", new SetAvailableRoleController(new UserService(userResponsitory)));
+        server.createContext("/get_available_roles", new GetAvailableRoleController(new UserService(userResponsitory)));
 
         server.setExecutor(null);
         server.start();

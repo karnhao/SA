@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 import ku.cs.entity.Musician;
+import ku.cs.entity.MusicianRole;
 import ku.cs.entity.User;
 
 public class UserRepository extends Repository {
@@ -198,7 +199,7 @@ public class UserRepository extends Repository {
             this.resultSet = this.statement.executeQuery(
                     "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, UUID FROM user " +
                             ((role != null && !role.isEmpty()) ? String.format("WHERE ROLE = '%s'", role) : "") + ";");
-            
+
             while (this.resultSet.next()) {
                 User user = new User();
                 String resultUsername = resultSet.getString("USERNAME");
@@ -237,7 +238,7 @@ public class UserRepository extends Repository {
             // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
             this.resultSet = this.statement.executeQuery(
                     "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, u.UUID, m.BANK_NAME, m.BANK_NUMBER FROM user u JOIN musician m ON u.`UUID` = m.`UUID` WHERE ROLE = 'Musician';;");
-            
+
             while (this.resultSet.next()) {
                 User user = new User();
                 String resultUsername = resultSet.getString("USERNAME");
@@ -266,6 +267,54 @@ public class UserRepository extends Repository {
             }
 
             return users;
+
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public void setAvailableRoles(String uuid, List<MusicianRole> roles) throws SQLException {
+        try {
+            this.statement = connection.createStatement();
+
+            // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
+            this.statement.executeUpdate(String.format(
+                    "DELETE FROM availablemusicianrole WHERE UUID = '%s';", uuid));
+
+            for (MusicianRole role : roles) {
+                this.statement.executeUpdate(String.format(
+                        "INSERT INTO availablemusicianrole (UUID, ROLE_ID) VALUES ('%s', '%s');", uuid, role.getId()));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public List<MusicianRole> getAvailableMusicianRoles(String uuid) throws SQLException {
+        LinkedList<MusicianRole> roles = new LinkedList<MusicianRole>();
+        try {
+            this.statement = connection.createStatement();
+
+            this.resultSet = this.statement.executeQuery(String.format(
+                    "SELECT a.ROLE_ID, m.ROLE_NAME FROM availablemusicianrole a JOIN musicianrole m ON a.ROLE_ID = m.ROLE_ID WHERE a.UUID = '%s';", uuid));
+
+            while (this.resultSet.next()) {
+                MusicianRole role = new MusicianRole();
+                String resultID = resultSet.getString("ROLE_ID");
+                String resultName = resultSet.getString("ROLE_NAME");
+
+                role.setId(resultID);
+                role.setName(resultName);
+
+                roles.add(role);
+            }
+
+            return roles;
 
         } catch (SQLException e) {
             return null;

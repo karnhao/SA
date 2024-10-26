@@ -1,6 +1,7 @@
 package ku.cs.service;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.naming.AuthenticationException;
@@ -9,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ku.cs.entity.Musician;
+import ku.cs.entity.MusicianRole;
 import ku.cs.entity.User;
 import ku.cs.repository.UserRepository;
 
@@ -129,4 +131,46 @@ public class UserService {
         return jsonObject;
     }
 
+    public String setAvailableRole(String accessToken, JSONArray rolesJSONArray) throws SQLException, AuthenticationException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        if (uuid == null) throw new AuthenticationException("No Authentication");
+
+        LinkedList<MusicianRole> roles = new LinkedList<MusicianRole>();
+
+        for (int i = 0; i < rolesJSONArray.length(); i++) {
+            JSONObject o = rolesJSONArray.getJSONObject(i);
+            MusicianRole role = new MusicianRole();
+
+            role.setId(o.getString("role_id"));
+            roles.add(role);
+        }
+
+        repository.setAvailableRoles(uuid, roles);
+
+        return "success";
+    }
+
+    public JSONObject getAvailableRoles(String accessToken) throws SQLException, AuthenticationException {
+        JSONObject jsonObject = new JSONObject();
+        JSONArray rolesJSONArray = new JSONArray();
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        if (uuid == null) throw new AuthenticationException("Access denied");
+
+        List<MusicianRole> roles = repository.getAvailableMusicianRoles(uuid);
+        for (MusicianRole role : roles) {
+            JSONObject o = new JSONObject();
+            o.put("role_id", role.getId());
+            o.put("name", role.getName());
+
+            rolesJSONArray.put(o);
+        }
+
+        jsonObject.put("roles", rolesJSONArray);
+        return jsonObject;
+    }
 }

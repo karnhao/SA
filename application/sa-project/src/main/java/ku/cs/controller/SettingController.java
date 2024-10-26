@@ -3,24 +3,42 @@ package ku.cs.controller;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import ku.cs.model.MusicianRole;
 import ku.cs.model.User;
-import ku.cs.net.ClientUpdateUserInfo;
-import ku.cs.net.ClientUserInfo;
+import ku.cs.net.*;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class SettingController {
     @FXML
     public ImageView profileImage;
     @FXML
     public VBox vBox;
+    public VBox musicianAvailableRoleVBox;
+    public VBox rolesVBox;
     private TextFormController nameFormController;
     private TextFormController phoneFormController;
     private TextFormController emailFormController;
 
+    private List<MusicianRole> roles;
+    private List<AvailableRoleFormController<MusicianRole>> roleFormControllerList;
+
     public void initialize() {
 
         User userData = RootService.getData().getUser();
+        if (!userData.getRole().equalsIgnoreCase("musician")) musicianAvailableRoleVBox.setVisible(false);
+
+        roleFormControllerList = new LinkedList<>();
+        try {
+            ClientGetRole clientRole = new ClientGetRole();
+            roles = clientRole.getMusicianRoles();
+        } catch (Exception ignored){}
+
+        ClientGetAvailableRoles clientGetAvailableRoles = new ClientGetAvailableRoles();
+        addAvailableRole(clientGetAvailableRoles.getAvailableRoles());
 
         // Setting name Form
         nameFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
@@ -67,5 +85,53 @@ public class SettingController {
         } catch (Exception e) {
             RootService.showErrorBar(e.getMessage());
         }
+    }
+
+    public void onRoleAddButton() {
+        AvailableRoleFormController<MusicianRole> controller = ComponentLoader.loadInto(rolesVBox,
+                getClass().getResource("/ku/cs/views/components/roleForm.fxml"));
+
+        if (roles != null) {
+            roles.forEach(r -> controller.getComboBox().getItems().add(r));
+        }
+
+        controller.addDeleteListener(() -> {
+            controller.delete();
+            roleFormControllerList.remove(controller);
+        });
+
+        roleFormControllerList.add(controller);
+    }
+
+    public void addAvailableRole(List<MusicianRole> roleList) {
+        for (MusicianRole role : roleList) {
+            AvailableRoleFormController<MusicianRole> controller = ComponentLoader.loadInto(rolesVBox,
+                    getClass().getResource("/ku/cs/views/components/roleForm.fxml"));
+
+            if (roles != null) {
+                roles.forEach(r -> controller.getComboBox().getItems().add(r));
+            }
+
+            controller.getComboBox().getSelectionModel().select(role);
+
+            controller.addDeleteListener(() -> {
+                controller.delete();
+                roleFormControllerList.remove(controller);
+            });
+
+            roleFormControllerList.add(controller);
+        }
+
+    }
+
+
+
+    public void onRoleSaveButton() {
+        ClientSetAvailableRoles clientSetAvailableRoles = new ClientSetAvailableRoles();
+        String response =
+                clientSetAvailableRoles.
+                        setAvailableRoles(roleFormControllerList.stream().map(c->c.getComboBox().getValue()).toList());
+
+        RootService.showBar(response);
     }
 }
