@@ -1,10 +1,15 @@
 package ku.cs.controller;
 
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import ku.cs.model.EventDetail;
+import ku.cs.model.User;
+import ku.cs.net.ClientGetEvent;
+import ku.cs.net.ClientUserInfo;
+import ku.cs.service.Navigation;
 import ku.cs.service.RootService;
 
 public class EventDetailController {
@@ -24,6 +29,23 @@ public class EventDetailController {
     public Button cancelEventButton;
     public Button rejectButton;
 
+    private EventDetail eventDetail;
+    @FXML
+    private void initialize() {
+        ClientGetEvent clientGetEvent = new ClientGetEvent();
+        ClientUserInfo clientUserInfo = new ClientUserInfo();
+        String eid = (String) Navigation.getData();
+        Platform.runLater(RootService::showLoadingIndicator);
+
+        eventDetail = clientGetEvent.getEvent(eid);
+        User owner = clientUserInfo.getUserInfo(eventDetail.getOwner().getUuid());
+
+        updateEventDetails(owner.getName() + " " + owner.getPhone_number(), eventDetail.getStartDate().toString(), eventDetail.getDescription(), eventDetail.getDescription(), "Hello World");
+
+        Platform.runLater(RootService::hideLoadingIndicator);
+
+    }
+
     public void updateEventDetails(String owner, String date, String location, String detail, String requirement) {
         eventOwnerLabel.setText(owner);
         eventDateLabel.setText(date);
@@ -31,31 +53,6 @@ public class EventDetailController {
         eventDetailLabel.setText(detail);
         RequirementLabel.setText(requirement);
     }
-
-
-    //private void configureButtonsVisibility() {
-    //    switch (currentUserRole) {
-    //        case "Owner":
-                // Show only the cancel button
-    //            cancelEventButton.setVisible(true);
-    //            acceptButton.setVisible(false);
-    //            rejectButton.setVisible(false);
-    //            break;
-    //        case "Musician":
-                // Show accept and reject buttons
-    //            cancelEventButton.setVisible(false);
-    //            acceptButton.setVisible(true);
-    //            rejectButton.setVisible(true);
-    //            break;
-    //        default:
-                // Hide all buttons for normal users
-    //            cancelEventButton.setVisible(false);
-    //            acceptButton.setVisible(false);
-    //            rejectButton.setVisible(false);
-    //            break;
-    //    }
-    //}
-
 
     public void OnBackToHome() {
         RootService.getController().getNavigationController().open("home-page.fxml");

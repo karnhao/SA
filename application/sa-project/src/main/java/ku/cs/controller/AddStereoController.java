@@ -78,6 +78,6 @@ public class AddStereoController {
     }
 
     public void backToEventRequirement(ActionEvent actionEvent) {
-        RootService.getController().open("eventRequirement.fxml");
+        RootService.getController().getNavigationController().open("eventRequirement.fxml");
     }
 }

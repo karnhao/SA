@@ -14,7 +14,7 @@ public class EventItemController {
     private Event event;
 
     public void onClick() {
-        Navigation.open("event_detail.fxml", event);
+        Navigation.open("event_detail.fxml", event.getEventID());
     }
 
     public void setTitleText(String text) {

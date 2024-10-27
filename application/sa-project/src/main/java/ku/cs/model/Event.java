@@ -1,7 +1,6 @@
 package ku.cs.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Event {
     private LocalDateTime startDate;
@@ -10,7 +9,7 @@ public class Event {
     private String description;
     private String status;
     private User owner;
-    private List<User> musicians;
+    private String eventID;
 
     public Event() {}
 
@@ -62,11 +61,11 @@ public class Event {
         this.owner = owner;
     }
 
-    public List<User> getMusicians() {
-        return musicians;
+    public String getEventID() {
+        return eventID;
     }
 
-    public void setMusicians(List<User> musicians) {
-        this.musicians = musicians;
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
     }
 }

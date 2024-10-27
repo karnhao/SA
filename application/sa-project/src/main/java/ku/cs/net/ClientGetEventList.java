@@ -36,6 +36,7 @@ public class ClientGetEventList {
                 e.setStartDate(LocalDateTime.parse(o.getString("start_datetime")));
                 e.setEndDate(LocalDateTime.parse(o.getString("end_datetime")));
                 e.setStatus(o.getString("status"));
+                e.setEventID(o.getString("id"));
 
                 result.add(e);
             }

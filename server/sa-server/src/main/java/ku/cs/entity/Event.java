@@ -9,6 +9,7 @@ public class Event {
     private LocalDateTime endDateTime;
     private String status;
     private String id;
+    private String ownerID;
 
     public String getTitle() {
         return title;
@@ -56,5 +57,13 @@ public class Event {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
     }
 }

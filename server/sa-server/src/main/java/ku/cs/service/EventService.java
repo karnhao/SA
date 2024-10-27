@@ -14,16 +14,20 @@ import org.json.JSONObject;
 import ku.cs.entity.Event;
 import ku.cs.entity.MusicianRequirement;
 import ku.cs.entity.StereoRequirement;
+import ku.cs.entity.User;
 import ku.cs.repository.EventRepository;
 import ku.cs.repository.RequirementRepository;
+import ku.cs.repository.UserRepository;
 
 public class EventService {
     private EventRepository eventRepository;
     private RequirementRepository requirementsRepository;
+    private UserRepository userRepository;
 
-    public EventService(EventRepository eventRepository, RequirementRepository requirementsRepository) {
+    public EventService(EventRepository eventRepository, RequirementRepository requirementsRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.requirementsRepository = requirementsRepository;
+        this.userRepository = userRepository;
     }
 
     public String createEvent(String accessToken, JSONObject JSONObject) throws SQLException {
@@ -67,11 +71,13 @@ public class EventService {
         if (uuid == null)
             throw new AuthenticationException("Authentication Failed");
 
+        User user = userRepository.getUserByUUID(uuid);
+
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();
 
-        List<Event> events = eventRepository.getAllEventByUUID(uuid);
-        events.stream().map(e -> this.toJSONObject(e, null, null)).forEach(array::put);
+        List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent() : eventRepository.getAllEventByUUID(uuid);
+        events.stream().map(e -> this.toJSONObject(e, null, null, uuid)).forEach(array::put);
 
         jsonObject.put("events", array);
 
@@ -88,11 +94,11 @@ public class EventService {
         List<MusicianRequirement> mRequirements = requirementsRepository.getMusicianRequirementList(event_id);
         List<StereoRequirement> stereoRequirements = requirementsRepository.getStereoRequirementList(event_id);
 
-        return toJSONObject(event, mRequirements, stereoRequirements);
+        return toJSONObject(event, mRequirements, stereoRequirements, uuid);
     }
 
     private JSONObject toJSONObject(Event event, List<MusicianRequirement> musicianRequirements,
-            List<StereoRequirement> stereoRequirements) {
+            List<StereoRequirement> stereoRequirements, String ownerId) {
         JSONObject o = new JSONObject();
         o.put("title", event.getTitle());
         o.put("description", event.getDescription());
@@ -100,6 +106,7 @@ public class EventService {
         o.put("id", event.getId());
         o.put("start_datetime", event.getStartDateTime().toString());
         o.put("end_datetime", event.getEndDateTime());
+        o.put("owner_id", event.getOwnerID());
 
         JSONArray mArray = new JSONArray();
 
@@ -108,6 +115,7 @@ public class EventService {
                 JSONObject n = new JSONObject();
                 n.put("id", m.getMusician_id());
                 n.put("quantity", m.getQuantity());
+                n.put("name", m.getRoleName());
                 mArray.put(n);
             });
 
@@ -120,6 +128,7 @@ public class EventService {
                 JSONObject n = new JSONObject();
                 n.put("id", s.getType_id());
                 n.put("quantity", s.getQuantity());
+                n.put("name", s.getTypeName());
                 sArray.put(n);
             });
 

@@ -95,10 +95,10 @@ public class Main {
         server.createContext("/getallusers", new GetAllUserController(new UserService(userResponsitory)));
         server.createContext("/getmusicianroles", new GetRolesController(new MusicianRoleService(roleResponsitory)));
         server.createContext("/getstereotypes", new GetStereoTypeController(new StereoTypeService(stereoTypeResponsitory)));
-        server.createContext("/create_event", new CreateEventController(new EventService(eventRepository, requirementRepository)));
-        server.createContext("/event_list", new EventListController(new EventService(eventRepository, requirementRepository)));
+        server.createContext("/create_event", new CreateEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/event_list", new EventListController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/create_stereo", new CreateStereoController(new StereoService(stereoRepository, userResponsitory)));
-        server.createContext("/event", new GetEventController(new EventService(eventRepository, requirementRepository)));
+        server.createContext("/event", new GetEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/stereo", new GetStereoController(new StereoService(stereoRepository, userResponsitory)));
         server.createContext("/stereo_list", new StereoListController(new StereoService(stereoRepository, userResponsitory)));
         server.createContext("/set_available_roles", new SetAvailableRoleController(new UserService(userResponsitory)));

@@ -1,8 +1,13 @@
 package ku.cs.model;
 
-public class MusicianRequirement {
+public class MusicianRequirement implements Requirement {
     private int quantity;
     private MusicianRole musicianRole;
+
+    @Override
+    public String getID() {
+        return this.musicianRole.getId();
+    }
 
     public int getQuantity() {
         return quantity;

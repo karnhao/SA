@@ -22,6 +22,33 @@ public class UserService {
         this.repository = repository;
     }
 
+    public JSONObject getUser(String token, String uuid) throws AuthenticationException, SQLException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String source_uuid = authenticationService.getUserID(token);
+
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        User targetUser = repository.getUserByUUID(uuid);
+        User sourceUser = repository.getUserByUUID(source_uuid);
+        User resultUser;
+
+        if (sourceUser.getUuid().equals(uuid) || sourceUser.getRole().equalsIgnoreCase("agent")) resultUser = targetUser;
+        else {
+            resultUser = new User();
+            resultUser.setName(targetUser.getName());
+            resultUser.setPhone_number(targetUser.getPhone_number());
+        }
+
+        JSONObject response = new JSONObject();
+        response.put("username", resultUser.getUsername());
+        response.put("email", resultUser.getEmail());
+        response.put("name", resultUser.getName());
+        response.put("phone_number", resultUser.getPhone_number());
+        response.put("role", resultUser.getRole());
+        response.put("uuid", resultUser.getUuid());
+
+        return response;
+    }
+
     public JSONObject getUser(String token) throws SQLException {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(token);

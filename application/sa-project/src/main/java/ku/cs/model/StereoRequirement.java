@@ -1,8 +1,13 @@
 package ku.cs.model;
 
-public class StereoRequirement {
+public class StereoRequirement implements Requirement {
     private int quantity;
     private StereoType type;
+
+    @Override
+    public String getID() {
+        return this.type.getId();
+    }
 
     public int getQuantity() {
         return quantity;

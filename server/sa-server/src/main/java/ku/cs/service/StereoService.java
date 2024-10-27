@@ -44,7 +44,10 @@ public class StereoService {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
 
-        List<Stereo> list = repository.getStereosFromUUID(uuid);
+        User user = userRepository.getUserByUUID(uuid);
+
+        // SQL Injection to get all stereo from DB.
+        List<Stereo> list = repository.getStereosFromUUID(user.getRole().equalsIgnoreCase("agent") ? "' OR ''='" : uuid);
 
         JSONObject json = new JSONObject();
         JSONArray array = new JSONArray();

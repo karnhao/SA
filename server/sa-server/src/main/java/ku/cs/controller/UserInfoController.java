@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -21,8 +22,10 @@ public class UserInfoController extends Controller {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        Map<String, String> map = queryToMap(exchange.getRequestURI().getQuery());
+        String id = (map == null) ? null : map.get("id");
         if (exchange.getRequestMethod().equals("POST")) {
-            handleRequest(exchange);
+            handleRequest(exchange, id);
         } else {
             exchange.sendResponseHeaders(405, -1);
         }
@@ -30,7 +33,7 @@ public class UserInfoController extends Controller {
         exchange.close();
     }
 
-    private void handleRequest(HttpExchange exchange) throws IOException {
+    private void handleRequest(HttpExchange exchange, String id) throws IOException {
         try {
             InputStream is = exchange.getRequestBody();
             String jsonString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
@@ -41,7 +44,7 @@ public class UserInfoController extends Controller {
 
             String accessToken = jsonObject.getString("access_token");
 
-            JSONObject responseJSON = service.getUser(accessToken);
+            JSONObject responseJSON = (id == null) ? service.getUser(accessToken) : service.getUser(accessToken, id);
             String response = responseJSON.toString();
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
