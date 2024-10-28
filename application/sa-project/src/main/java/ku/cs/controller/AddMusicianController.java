@@ -1,87 +1,73 @@
 package ku.cs.controller;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+import ku.cs.model.Event;
+import ku.cs.model.EventDetail;
 import ku.cs.model.Musician;
+import ku.cs.model.MusicianRole;
+import ku.cs.net.ClientGetUsers;
+import ku.cs.net.ClientRequestMusician;
+import ku.cs.service.Navigation;
 import ku.cs.service.RootService;
+
+import java.util.List;
 
 public class AddMusicianController {
     @FXML
     public TextField searchMusicianField;
     @FXML
-    public TableView<MusicianData> MusicianListTable;
+    public TableColumn<Musician, String> nameColumn;
     @FXML
-    public TableColumn<MusicianData, String> roleCollumn;
+    public TableColumn<Musician, String> emailColumn;
     @FXML
-    public TableColumn<MusicianData, String> nameColumn;
+    public TableColumn<Musician, String> phoneNumberColumn;
     @FXML
-    public TableColumn<MusicianData, String> emailColumn;
+    public Label titleLabel;
     @FXML
-    public TableColumn<MusicianData, String> phoneNumberColumn;
+    public TableView<Musician> musicianListTable;
+    @FXML
+    public TableColumn<Musician, String> workAmountColumn;
+    @FXML
+    public TableColumn<Musician, String> conflictColumn;
+
+    private Event event;
+    private MusicianRole musicianRole;
 
     public void initialize() {
-        roleCollumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRole()));
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
-        phoneNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhoneNumber()));
+        phoneNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhone_number()));
+        workAmountColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getWorkCount())));
+        conflictColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getConflict()));
 
-        MusicianListTable.setItems(MusicianData.getSampleMusicianData());
+        event = (EventDetail) ((Object[])Navigation.getData())[0];
+        musicianRole = (MusicianRole) ((Object[])Navigation.getData())[1];
+
+        ClientGetUsers clientGetUsers = new ClientGetUsers();
+        List<Musician> musicians = clientGetUsers.getAllMusicianByAvailableRole(musicianRole.getId());
+        musicianListTable.getItems().addAll(musicians);
     }
-
-    public static class MusicianData{
-        private final String role;
-        private final String name;
-        private final String email;
-        private final String phoneNumber;
-
-        public MusicianData(String role, String name, String email, String phoneNumber) {
-            this.role = role;
-            this.name = name;
-            this.email = email;
-            this.phoneNumber = phoneNumber;
-        }
-
-        public String getRole() {
-            return role;
-        }
-        public String getName() {
-            return name;
-        }
-        public String getEmail() {
-            return email;
-        }
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-        public static ObservableList<MusicianData> getSampleMusicianData() {
-            return FXCollections.observableArrayList(
-                    new MusicianData("Guitarist", "John Doe", "john.doe@example.com", "0812345678"),
-                    new MusicianData("Drummer", "Jane Smith", "jane.smith@example.com", "0898765432"),
-                    new MusicianData("Bassist", "Mike Brown", "mike.brown@example.com", "0811223344"),
-                    new MusicianData("Keyboardist", "Sarah Lee", "sarah.lee@example.com", "0822334455"),
-                    new MusicianData("Jazz", "Hwai gkun", "Hwai.gkun@example.com", "0626785564")
-            );
-        }
-    }
-
-
-
 
     public void onSearchMusician() {
     }
 
     public void addMusicianToRequirement() {
+        ClientRequestMusician clientRequestMusician = new ClientRequestMusician();
+        try {
+            String res = clientRequestMusician.requestMusician(event.getEventID(), musicianRole.getId(), musicianListTable.getSelectionModel().getSelectedItem().getUuid());
+            RootService.showBar(res);
+            this.backToEventRequirement();
+        } catch (Exception e) {
+            RootService.showErrorBar(e.getClass() + " " + e.getMessage());
+        }
     }
 
-    public void backToEventRequirement(ActionEvent actionEvent) {
-        RootService.getController().getNavigationController().open("eventRequirement.fxml");
+    public void backToEventRequirement() {
+        Navigation.open("event-detail.fxml", event.getEventID());
     }
 }

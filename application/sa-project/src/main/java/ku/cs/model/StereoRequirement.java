@@ -1,8 +1,11 @@
 package ku.cs.model;
 
+import java.util.List;
+
 public class StereoRequirement implements Requirement {
     private int quantity;
     private StereoType type;
+    private List<Stereo> stereos;
 
     @Override
     public String getID() {
@@ -28,5 +31,13 @@ public class StereoRequirement implements Requirement {
     @Override
     public String toString() {
         return type.getName();
+    }
+
+    public List<Stereo> getStereos() {
+        return stereos;
+    }
+
+    public void setStereos(List<Stereo> stereos) {
+        this.stereos = stereos;
     }
 }

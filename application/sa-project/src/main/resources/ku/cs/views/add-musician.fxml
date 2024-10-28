@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.AddMusicianController">
+   <children>
+      <HBox>
+         <children>
+            <Label fx:id="titleLabel" style="-fx-font-size: 36; -fx-font-weight: bold;" text="TITLE" textFill="#006664" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchMusicianField" promptText="Search by name." style="-fx-background-radius: 20;" visible="false">
+               <HBox.margin>
+                  <Insets left="10.0" right="10.0" top="17.0" />
+               </HBox.margin></TextField>
+            <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onSearchMusician" styleClass="button-green" stylesheets="@../themes/default.css" text="Search" visible="false" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets right="10.0" top="17.0" />
+               </HBox.margin></Button>
+         </children>
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <children>
+            <TableView fx:id="musicianListTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="nameColumn" maxWidth="1.7976931348623157E308" prefWidth="0.0" text="Name" />
+                  <TableColumn fx:id="emailColumn" maxWidth="1.7976931348623157E308" prefWidth="0.0" text="Email" />
+                  <TableColumn fx:id="phoneNumberColumn" maxWidth="1.7976931348623157E308" prefWidth="0.0" text="Phone Number" />
+                  <TableColumn fx:id="workAmountColumn" maxWidth="1.7976931348623157E308" prefWidth="0.0" text="Work Amount" />
+                  <TableColumn fx:id="conflictColumn" maxWidth="1.7976931348623157E308" prefWidth="0.0" text="Conflict" />
+               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TableView>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" spacing="20.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#backToEventRequirement" prefWidth="100.0" styleClass="button-green" stylesheets="@../themes/default.css" text="Back" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onAction="#addMusicianToRequirement" prefWidth="100.0" styleClass="button-green" stylesheets="@../themes/default.css" text="Add" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Button>
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>

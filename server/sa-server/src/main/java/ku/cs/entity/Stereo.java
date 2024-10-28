@@ -7,6 +7,9 @@ public class Stereo {
     private String type_id;
     private String owner_name;
     private String type_name;
+    private String status;
+    private String owner_email;
+    private String owner_phone_number;
 
     public String getId() {
         return id;
@@ -54,6 +57,30 @@ public class Stereo {
 
     public void setType_name(String type_name) {
         this.type_name = type_name;
+    }
+
+    public String getOwner_email() {
+        return owner_email;
+    }
+
+    public void setOwner_email(String owner_email) {
+        this.owner_email = owner_email;
+    }
+
+    public String getOwner_phone_number() {
+        return owner_phone_number;
+    }
+
+    public void setOwner_phone_number(String owner_phone_number) {
+        this.owner_phone_number = owner_phone_number;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 }

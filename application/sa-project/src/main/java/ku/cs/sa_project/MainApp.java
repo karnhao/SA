@@ -31,7 +31,7 @@ public class MainApp extends Application {
 
     private static void configRoute() {
         String resourcesPath = "ku/cs/views/";
-        FXRouter.when("root", resourcesPath + "root.fxml", "Network - Application", MIN_WIGHT, 760);
+        FXRouter.when("root", resourcesPath + "root.fxml", "Good Application 100% No Scam 😋😋😋", MIN_WIGHT, 760);
     }
 
     /**

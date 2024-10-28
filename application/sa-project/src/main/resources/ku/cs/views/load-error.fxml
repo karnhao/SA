@@ -7,6 +7,14 @@
 
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #0077ff;" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.LoadErrorController">
    <children>
+      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBackToLogin" text="BACK TO LOGIN">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Button>
       <ScrollPane fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="my-scroll-pane" VBox.vgrow="ALWAYS">
          <content>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">

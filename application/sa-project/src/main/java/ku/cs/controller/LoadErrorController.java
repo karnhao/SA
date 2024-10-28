@@ -2,6 +2,7 @@ package ku.cs.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import ku.cs.service.RootService;
 
 public class LoadErrorController {
 
@@ -10,5 +11,9 @@ public class LoadErrorController {
 
     public void setText(String text) {
         this.label.setText(text);
+    }
+
+    public void onBackToLogin() {
+        RootService.open("login.fxml");
     }
 }

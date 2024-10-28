@@ -26,7 +26,7 @@ public class LoginController {
         this.usernameField.setTitleText("Username");
         this.usernameField.getTextField().setPromptText("Enter your username...");
 
-        this.passwordField = ComponentLoader.loadInto(vBoxField, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        this.passwordField = ComponentLoader.loadInto(vBoxField, getClass().getResource("/ku/cs/views/components/secure-text-form.fxml"));
         this.passwordField.setTitleText("Password");
         this.passwordField.setPromptText("Enter your password...");
 
@@ -61,11 +61,11 @@ public class LoginController {
     }
 
     public void onForceLogin() {
-        RootService.getController().open("eventRequirement.fxml");  //navigation
+        RootService.getController().open("event-requirement.fxml");  //navigation
     }
 
     public void onForgotPassword() {
-        RootService.getController().open("forgotPassword.fxml");
+        RootService.getController().open("forgot-password.fxml");
     }
 
 }

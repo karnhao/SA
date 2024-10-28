@@ -53,13 +53,13 @@ public class CreateEventController {
         eventNameController.setTitleText("Event Name");
         eventNameController.getTextField().setPromptText("Enter event name here");
 
-        descriptionController = ComponentLoader.loadInto(vBox1, getClass().getResource("/ku/cs/views/components/textAreaForm.fxml"));
+        descriptionController = ComponentLoader.loadInto(vBox1, getClass().getResource("/ku/cs/views/components/text-area-form.fxml"));
         descriptionController.setTitleText("Event Description");
         descriptionController.getTextArea().setPromptText("Enter event description here");
 
 
-        startDateTimeFormController = ComponentLoader.loadInto(startDateTimeVBox, getClass().getResource("/ku/cs/views/components/dateForm.fxml"));
-        endDateTimeFormController = ComponentLoader.loadInto(endDateTimeVBox, getClass().getResource("/ku/cs/views/components/dateForm.fxml"));
+        startDateTimeFormController = ComponentLoader.loadInto(startDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
+        endDateTimeFormController = ComponentLoader.loadInto(endDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
 
         musicianControllerList = new LinkedList<>();
         stereoControllerList = new LinkedList<>();
@@ -75,7 +75,7 @@ public class CreateEventController {
 
     public void onMusicianRequirementAddButtonClick() {
         RequirementFormController<MusicianRole> controller = ComponentLoader.loadInto(musicianRequirementVBox,
-                getClass().getResource("/ku/cs/views/components/requirementForm.fxml"));
+                getClass().getResource("/ku/cs/views/components/requirement-form.fxml"));
 
         if (roles != null) {
             roles.forEach(r -> controller.getComboBox().getItems().add(r));
@@ -91,7 +91,7 @@ public class CreateEventController {
 
     public void onStereoRequirementAddButtonClick() {
         RequirementFormController<StereoType> controller = ComponentLoader.loadInto(stereoRequirementVBox,
-                getClass().getResource("/ku/cs/views/components/requirementForm.fxml"));
+                getClass().getResource("/ku/cs/views/components/requirement-form.fxml"));
 
         if (types != null) {
             types.forEach(t -> controller.getComboBox().getItems().add(t));

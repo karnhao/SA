@@ -24,6 +24,6 @@ public class EventPageController {
     }
 
     public void onCreateEvent() {
-        RootService.getController().getNavigationController().open("createEvent.fxml");
+        RootService.getController().getNavigationController().open("create-event.fxml");
     }
 }

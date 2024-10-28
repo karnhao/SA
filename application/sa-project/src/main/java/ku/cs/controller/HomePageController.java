@@ -29,6 +29,6 @@ public class HomePageController {
     }
 
     public void onCreateEvent() {
-        Navigation.open("createEvent.fxml");
+        Navigation.open("create-event.fxml");
     }
 }

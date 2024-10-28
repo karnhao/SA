@@ -1,6 +1,8 @@
 package ku.cs.repository;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.LinkedList;
@@ -290,6 +292,7 @@ public class UserRepository extends Repository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw e;
         } finally {
             this.statement.close();
         }
@@ -321,6 +324,37 @@ public class UserRepository extends Repository {
         } finally {
             this.statement.close();
         }
+    }
+
+    public List<User> getMusiciansByRoleId(String roleId) {
+        List<User> musicians = new LinkedList<>();
+        String query = "SELECT m.UUID, m.BANK_NUMBER, m.BANK_NAME, u.NAME, u.USERNAME, u.EMAIL_ADDRESS, u.PHONE_NUMBER, u.ROLE, mr.ROLE_ID, mr.ROLE_NAME " +
+                       "FROM musician m " +
+                       "JOIN availablemusicianrole amr ON m.UUID = amr.UUID " +
+                       "JOIN user u ON m.UUID = u.UUID " +
+                       "JOIN musicianrole mr ON amr.ROLE_ID = mr.ROLE_ID " +
+                       "WHERE amr.ROLE_ID = ?";
+
+        try {
+            PreparedStatement ps = this.connection.prepareStatement(query);
+            ps.setString(1, roleId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                User musician = new User();
+                musician.setUuid(rs.getString("UUID"));
+                musician.setName(rs.getString("NAME"));
+                musician.setUsername(rs.getString("USERNAME"));
+                musician.setEmail(rs.getString("EMAIL_ADDRESS"));
+                musician.setPhone_number(rs.getString("PHONE_NUMBER"));
+                musician.setRole(rs.getString("ROLE"));
+
+                musicians.add(musician);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return musicians;
     }
 
 }

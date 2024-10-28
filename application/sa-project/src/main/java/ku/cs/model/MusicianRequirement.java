@@ -1,8 +1,11 @@
 package ku.cs.model;
 
+import java.util.List;
+
 public class MusicianRequirement implements Requirement {
     private int quantity;
     private MusicianRole musicianRole;
+    private List<Musician> musicians;
 
     @Override
     public String getID() {
@@ -23,6 +26,14 @@ public class MusicianRequirement implements Requirement {
 
     public void setMusicianRole(MusicianRole musicianRole) {
         this.musicianRole = musicianRole;
+    }
+
+    public void setMusicians(List<Musician> musicians) {
+        this.musicians = musicians;
+    }
+
+    public List<Musician> getMusicians() {
+        return musicians;
     }
 
     @Override

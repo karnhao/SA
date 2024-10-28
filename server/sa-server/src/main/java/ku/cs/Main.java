@@ -24,6 +24,8 @@ import ku.cs.controller.GetStereoController;
 import ku.cs.controller.GetStereoTypeController;
 import ku.cs.controller.HelloController;
 import ku.cs.controller.LoginController;
+import ku.cs.controller.RequestMusicianController;
+import ku.cs.controller.RequestStereoController;
 import ku.cs.controller.SetAvailableRoleController;
 import ku.cs.controller.SignUpController;
 import ku.cs.controller.StereoListController;
@@ -103,6 +105,9 @@ public class Main {
         server.createContext("/stereo_list", new StereoListController(new StereoService(stereoRepository, userResponsitory)));
         server.createContext("/set_available_roles", new SetAvailableRoleController(new UserService(userResponsitory)));
         server.createContext("/get_available_roles", new GetAvailableRoleController(new UserService(userResponsitory)));
+        server.createContext("/request_musician", new RequestMusicianController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/request_stereo", new RequestStereoController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        
 
         server.setExecutor(null);
         server.start();

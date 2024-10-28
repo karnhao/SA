@@ -59,6 +59,21 @@ public class ClientGetEvent {
             MusicianRequirement r = new MusicianRequirement();
             r.setQuantity(o.getInt("quantity"));
             r.setMusicianRole(role);
+
+            JSONArray array = o.getJSONArray("musicians");
+            List<Musician> musicians = new LinkedList<>();
+            for (int j = 0; j < array.length(); j++) {
+                JSONObject p = array.getJSONObject(j);
+                Musician musician = new Musician();
+                musician.setName(p.getString("name"));
+                musician.setEmail(p.getString("email"));
+                musician.setPhone_number(p.getString("phone_number"));
+                musician.setUuid(p.getString("id"));
+                musician.setStatus(p.getString("status"));
+                musicians.add(musician);
+            }
+            r.setMusicians(musicians);
+
             list.add(r);
         }
 
@@ -77,6 +92,23 @@ public class ClientGetEvent {
             StereoRequirement r = new StereoRequirement();
             r.setQuantity(o.getInt("quantity"));
             r.setType(type);
+
+            JSONArray array = o.getJSONArray("stereos");
+            List<Stereo> stereos = new LinkedList<>();
+            for (int j = 0; j < array.length(); j++) {
+                JSONObject p = array.getJSONObject(i);
+                Stereo stereo = new Stereo();
+                stereo.setName(p.getString("name"));
+                stereo.setOwner_email(p.getString("email"));
+                stereo.setOwner_phone_number(p.getString("phone_number"));
+                stereo.setId(p.getString("id"));
+                stereo.setStatus(p.getString("status"));
+                stereo.setOwner_id(p.getString("owner_id"));
+                stereos.add(stereo);
+            }
+
+            r.setStereos(stereos);
+
             list.add(r);
         }
 

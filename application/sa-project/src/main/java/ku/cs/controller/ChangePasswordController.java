@@ -5,7 +5,6 @@ import javafx.scene.layout.VBox;
 import ku.cs.net.ClientUpdatePassword;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
-import org.json.JSONObject;
 
 public class ChangePasswordController {
     @FXML
@@ -22,12 +21,12 @@ public class ChangePasswordController {
         oldPasswordFormController.getTextField().setPromptText("Input Old Password");
 
         // Setting phone Form
-        newPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        newPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secure-text-form.fxml"));
         newPasswordFormController.setTitleText("New Password");
         newPasswordFormController.setPromptText("Input New Password");
 
         // Setting email Form
-        againNewPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        againNewPasswordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secure-text-form.fxml"));
         againNewPasswordFormController.setTitleText("New Password Again");
         againNewPasswordFormController.setPromptText("Input New Password Again");
     }

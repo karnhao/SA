@@ -61,12 +61,12 @@ public class RegisterController {
         nameFormController.getTextField().setPromptText("Enter your name");
 
         // Setting Password Form
-        passwordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        passwordFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secure-text-form.fxml"));
         passwordFormController.setTitleText("Password");
         passwordFormController.setPromptText("Set your password");
 
         // Setting Password Form
-        passwordConfirmFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secureTextForm.fxml"));
+        passwordConfirmFormController = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/secure-text-form.fxml"));
         passwordConfirmFormController.setTitleText("Password Again");
         passwordConfirmFormController.setPromptText("Enter your password again");
 

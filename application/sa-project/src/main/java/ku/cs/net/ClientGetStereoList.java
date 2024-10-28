@@ -20,29 +20,48 @@ public class ClientGetStereoList {
             HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), "/stereo_list");
 
             // Get Response JSON
-            JSONObject responseJSON = Client.getClient().getResponseJSON(httpURLConnection);
-
-            LinkedList<Stereo> result = new LinkedList<>();
-
-            System.out.println(responseJSON.toString(4));
-
-            JSONArray array = responseJSON.getJSONArray("stereos");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject o = array.getJSONObject(i);
-                Stereo s = new Stereo();
-
-                s.setName(o.getString("name"));
-                s.setOwner_id(o.getString("owner_id"));
-                s.setOwner_name(o.getString("owner_name"));
-                s.setType_id(o.getString("type_id"));
-                s.setType_name(o.getString("type_name"));
-                s.setId(o.getString("id"));
-
-                result.add(s);
-            }
-            return result;
+            return getStereos(httpURLConnection);
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Stereo> getStereoListByType(String type_id) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("access_token", Client.getClient().getAccessToken());
+
+            // HTTP Connection with json body
+            HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), "/stereo_list", "type-id=" + type_id);
+
+            // Get Response JSON
+            return getStereos(httpURLConnection);
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<Stereo> getStereos(HttpURLConnection httpURLConnection) throws IOException {
+        JSONObject responseJSON = Client.getClient().getResponseJSON(httpURLConnection);
+
+        LinkedList<Stereo> result = new LinkedList<>();
+
+        System.out.println(responseJSON.toString(4));
+
+        JSONArray array = responseJSON.getJSONArray("stereos");
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject o = array.getJSONObject(i);
+            Stereo s = new Stereo();
+
+            s.setName(o.getString("name"));
+            s.setOwner_id(o.getString("owner_id"));
+            s.setOwner_name(o.getString("owner_name"));
+            s.setType_id(o.getString("type_id"));
+            s.setType_name(o.getString("type_name"));
+            s.setId(o.getString("id"));
+
+            result.add(s);
+        }
+        return result;
     }
 }

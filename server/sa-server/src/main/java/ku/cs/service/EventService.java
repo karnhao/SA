@@ -12,7 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import ku.cs.entity.Event;
+import ku.cs.entity.Musician;
 import ku.cs.entity.MusicianRequirement;
+import ku.cs.entity.Stereo;
 import ku.cs.entity.StereoRequirement;
 import ku.cs.entity.User;
 import ku.cs.repository.EventRepository;
@@ -77,7 +79,7 @@ public class EventService {
         JSONArray array = new JSONArray();
 
         List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent() : eventRepository.getAllEventByUUID(uuid);
-        events.stream().map(e -> this.toJSONObject(e, null, null, uuid)).forEach(array::put);
+        events.stream().map(e -> this.toJSONObject(e, null, null, null, null, uuid)).forEach(array::put);
 
         jsonObject.put("events", array);
 
@@ -93,12 +95,49 @@ public class EventService {
         Event event = eventRepository.getEventByEID(event_id);
         List<MusicianRequirement> mRequirements = requirementsRepository.getMusicianRequirementList(event_id);
         List<StereoRequirement> stereoRequirements = requirementsRepository.getStereoRequirementList(event_id);
+        List<Musician> musicians = eventRepository.getMusicianFromEventID(event_id);
+        List<Stereo> stereos = eventRepository.getStereoFromEventID(event_id);
 
-        return toJSONObject(event, mRequirements, stereoRequirements, uuid);
+        return toJSONObject(event, mRequirements, stereoRequirements, musicians, stereos, uuid);
+    }
+
+    public String requestMusician(JSONObject jsonObject) throws AuthenticationException, SQLException {
+
+        String accessToken = jsonObject.getString("access_token");
+        String eventID = jsonObject.getString("event_id");
+        String target_uuid = jsonObject.getString("uuid");
+        String roleID = jsonObject.getString("role_id");
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        User sourceUser = userRepository.getUserByUUID(uuid);
+        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access Denied");
+
+        eventRepository.addMusicianRequest(target_uuid, eventID, roleID);
+
+        return "OK";
+    }
+
+    public String requestStereo(JSONObject jsonObject) throws AuthenticationException, SQLException {
+
+        String accessToken = jsonObject.getString("access_token");
+        String eventID = jsonObject.getString("event_id");
+        String stereoID = jsonObject.getString("stereo_id");
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        User sourceUser = userRepository.getUserByUUID(uuid);
+        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access Denied");
+
+        eventRepository.addStereoRequest(eventID, stereoID);
+
+        return "OK";
     }
 
     private JSONObject toJSONObject(Event event, List<MusicianRequirement> musicianRequirements,
-            List<StereoRequirement> stereoRequirements, String ownerId) {
+            List<StereoRequirement> stereoRequirements, List<Musician> musicians, List<Stereo> stereos, String ownerId) {
         JSONObject o = new JSONObject();
         o.put("title", event.getTitle());
         o.put("description", event.getDescription());
@@ -116,6 +155,22 @@ public class EventService {
                 n.put("id", m.getMusician_id());
                 n.put("quantity", m.getQuantity());
                 n.put("name", m.getRoleName());
+                
+                JSONArray nArray = new JSONArray();
+                if (musicians != null) {
+                    musicians.stream().filter(t -> t.getMusicianRoleID().equals(m.getMusician_id())).forEach(t -> {
+                        JSONObject p = new JSONObject();
+                        p.put("name", t.getName());
+                        p.put("status", t.getStatus());
+                        p.put("email", t.getEmail());
+                        p.put("phone_number", t.getPhone_number());
+                        p.put("id", t.getUuid());
+                        nArray.put(p);
+                    });
+                }
+
+                n.put("musicians", nArray);
+                
                 mArray.put(n);
             });
 
@@ -129,6 +184,23 @@ public class EventService {
                 n.put("id", s.getType_id());
                 n.put("quantity", s.getQuantity());
                 n.put("name", s.getTypeName());
+
+                JSONArray nArray = new JSONArray();
+                if (stereos != null) {
+                    stereos.stream().filter(t -> t.getType_id().equals(s.getType_id())).forEach(t -> {
+                        JSONObject p = new JSONObject();
+                        p.put("name", t.getName());
+                        p.put("status", t.getStatus());
+                        p.put("email", t.getOwner_email());
+                        p.put("phone_number", t.getOwner_phone_number());
+                        p.put("id", t.getId());
+                        p.put("owner_id", t.getOwner_id());
+                        nArray.put(p);
+                    });
+                }
+
+                n.put("stereos", nArray);
+
                 sArray.put(n);
             });
 

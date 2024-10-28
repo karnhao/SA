@@ -89,7 +89,7 @@ public class SettingController {
 
     public void onRoleAddButton() {
         AvailableRoleFormController<MusicianRole> controller = ComponentLoader.loadInto(rolesVBox,
-                getClass().getResource("/ku/cs/views/components/roleForm.fxml"));
+                getClass().getResource("/ku/cs/views/components/role-form.fxml"));
 
         if (roles != null) {
             roles.forEach(r -> controller.getComboBox().getItems().add(r));
@@ -106,7 +106,7 @@ public class SettingController {
     public void addAvailableRole(List<MusicianRole> roleList) {
         for (MusicianRole role : roleList) {
             AvailableRoleFormController<MusicianRole> controller = ComponentLoader.loadInto(rolesVBox,
-                    getClass().getResource("/ku/cs/views/components/roleForm.fxml"));
+                    getClass().getResource("/ku/cs/views/components/role-form.fxml"));
 
             if (roles != null) {
                 roles.forEach(r -> controller.getComboBox().getItems().add(r));

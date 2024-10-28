@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventRequirementController">
+   <children>
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <children>
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <children>
+                        <Label fx:id="titleLabel" style="-fx-font-size: 22px; -fx-font-weight: Bold;" text="TITLE">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                        <Label fx:id="numberLabel" style="-fx-font-size: 22px; -fx-font-weight: Bold;" text="(Number)">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Label text="/">
+                           <font>
+                              <Font name="System Bold" size="22.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="maxNumberLabel" style="-fx-font-size: 22px; -fx-font-weight: Bold;" text="(Number)">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" onAction="#onAddButton" style="-fx-border-radius: 100;" styleClass="button-green" text="+">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="200.0" maxWidth="1.7976931348623157E308" minHeight="200.0" prefHeight="200.0" styleClass="my-scroll-pane">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <content>
+                        <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                     </content>
+                  </ScrollPane>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -46,8 +46,7 @@ public class StereoService {
 
         User user = userRepository.getUserByUUID(uuid);
 
-        // SQL Injection to get all stereo from DB.
-        List<Stereo> list = repository.getStereosFromUUID(user.getRole().equalsIgnoreCase("agent") ? "' OR ''='" : uuid);
+        List<Stereo> list = user.getRole().equalsIgnoreCase("agent") ? repository.getStereos() : repository.getStereosFromUUID(uuid);
 
         JSONObject json = new JSONObject();
         JSONArray array = new JSONArray();
@@ -62,6 +61,38 @@ public class StereoService {
                 o.put("type_id", s.getType_id());
                 o.put("type_name", s.getType_name());
 
+                return o;
+            }).forEach(array::put);
+        }
+
+        json.put("stereos", array);
+
+        return json;
+    }
+
+    public JSONObject getStereoListByTypeID(String accessToken, String type_id) throws SQLException, AuthenticationException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        User user = userRepository.getUserByUUID(uuid);
+        if (!user.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access Denied");
+
+        List<Stereo> list = repository.getStereosByTypeId(type_id);
+
+        JSONObject json = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        if (list != null) {
+            list.stream().map(s -> {
+                JSONObject o = new JSONObject();
+                o.put("id", s.getId());
+                o.put("name", s.getName());
+                o.put("owner_id", s.getOwner_id());
+                o.put("owner_name", s.getOwner_name());
+                o.put("type_id", s.getType_id());
+                o.put("type_name", s.getType_name());
+                o.put("owner_email", s.getOwner_email());
+                o.put("owner_phone_number", s.getOwner_phone_number());
                 return o;
             }).forEach(array::put);
         }

@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.sql.PreparedStatement;
 
 import ku.cs.entity.Event;
+import ku.cs.entity.Musician;
+import ku.cs.entity.Stereo;
+import ku.cs.entity.User;
 
 public class EventRepository extends Repository {
 
@@ -56,11 +59,131 @@ public class EventRepository extends Repository {
         }
     }
 
+    public void addMusicianRequest(String uuid, String eid, String role_id) throws SQLException {
+        try {
+            this.statement = connection.prepareStatement(
+                    "INSERT INTO musicianeventmap (UUID, EID, ROLE_ID, STATUS) VALUES (?, ?, ?, 'await');");
+            ((PreparedStatement) this.statement).setString(1, uuid);
+            ((PreparedStatement) this.statement).setString(2, eid);
+            ((PreparedStatement) this.statement).setString(3, role_id);
+
+            ((PreparedStatement) this.statement).executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public void addStereoRequest(String eid, String stid) throws SQLException {
+        try {
+            this.statement = connection.prepareStatement(
+                    "INSERT INTO stereoeventmap (EID, STID, STATUS) VALUES (?, ?, 'await')");
+            ((PreparedStatement) this.statement).setString(1, eid);
+            ((PreparedStatement) this.statement).setString(2, stid);
+
+            ((PreparedStatement) this.statement).executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public List<Musician> getMusicianFromEventID(String eid) throws SQLException {
+        try {
+            this.statement = connection.prepareStatement(
+                    "SELECT mm.STATUS, mm.ROLE_ID, mm.UUID, mr.ROLE_NAME, u.NAME, u.PHONE_NUMBER, u.EMAIL_ADDRESS FROM musicianeventmap mm INNER JOIN musicianrole mr ON mm.ROLE_ID = mr.ROLE_ID INNER JOIN user u ON mm.UUID = u.UUID WHERE mm.EID = ?;");
+
+            ((PreparedStatement) this.statement).setString(1, eid);
+
+            this.resultSet = ((PreparedStatement) this.statement).executeQuery();
+
+            LinkedList<Musician> result = new LinkedList<>();
+            while (this.resultSet.next()) {
+                String resultStatus = this.resultSet.getString("STATUS");
+                String resultName = this.resultSet.getString("NAME");
+                String resultPhoneNumber = this.resultSet.getString("PHONE_NUMBER");
+                String resultEmailAddress = this.resultSet.getString("EMAIL_ADDRESS");
+                String resultRoleID = this.resultSet.getString("ROLE_ID");
+                String resultRoleName = this.resultSet.getString("ROLE_NAME");
+                String resultUUID = this.resultSet.getString("UUID");
+
+                Musician m = new Musician(new User());
+                m.setStatus(resultStatus);
+                m.setName(resultName);
+                m.setPhone_number(resultPhoneNumber);
+                m.setEmail(resultEmailAddress);
+                m.setMusicianRoleID(resultRoleID);
+                m.setMusicianRoleName(resultRoleName);
+                m.setUuid(resultUUID);
+
+                result.add(m);
+            }
+
+            return result;
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public List<Stereo> getStereoFromEventID(String eid) throws SQLException {
+        try {
+            this.statement = connection.prepareStatement(
+                    "SELECT sm.STATUS, sm.STID, st.STNAME, st.TYPE_ID, s.NAME STEREO_NAME, u.NAME OWNER_NAME, u.PHONE_NUMBER OWNER_PHONE_NUMBER, u.EMAIL_ADDRESS OWNER_EMAIL_ADDRESS, u.UUID\r\n" +
+                            "FROM stereoeventmap sm\r\n" +
+                            "INNER JOIN stereo s ON sm.STID = s.STID\r\n" +
+                            "INNER JOIN stereotype st ON s.TYPE_ID = st.TYPE_ID\r\n" +
+                            "INNER JOIN user u ON s.UUID = u.UUID WHERE sm.EID = ?;");
+
+            ((PreparedStatement) this.statement).setString(1, eid);
+
+            this.resultSet = ((PreparedStatement) this.statement).executeQuery();
+
+            LinkedList<Stereo> result = new LinkedList<>();
+            while (this.resultSet.next()) {
+                String resultStatus = this.resultSet.getString("STATUS");
+                String resultStereoID = this.resultSet.getString("STID");
+                String resultTypeName = this.resultSet.getString("STNAME");
+                String resultTypeID = this.resultSet.getString("TYPE_ID");
+                String reusltStereoName = this.resultSet.getString("STEREO_NAME");
+                String resultOwnerName = this.resultSet.getString("OWNER_NAME");
+                String resultPhoneNumber = this.resultSet.getString("OWNER_PHONE_NUMBER");
+                String resultEmailAddress = this.resultSet.getString("OWNER_EMAIL_ADDRESS");
+                String resultOwnerID = this.resultSet.getString("UUID");
+
+                Stereo stereo = new Stereo();
+                stereo.setId(resultStereoID);
+                stereo.setName(reusltStereoName);
+                stereo.setOwner_id(resultOwnerID);
+                stereo.setOwner_name(resultOwnerName);
+                stereo.setType_id(resultTypeID);
+                stereo.setType_name(resultTypeName);
+                stereo.setStatus(resultStatus);
+                stereo.setOwner_phone_number(resultPhoneNumber);
+                stereo.setOwner_email(resultEmailAddress);
+
+                result.add(stereo);
+            }
+
+            return result;
+        } catch (SQLException e) {
+            return null;
+        } finally {
+            this.statement.close();
+        }
+    }
+
     public List<Event> getAllEventByUUID(String uuid) throws SQLException {
         try {
-            this.statement = connection.prepareStatement("SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event WHERE UUID = ?;");
-            ((PreparedStatement)this.statement).setString(1, uuid);
-            this.resultSet = ((PreparedStatement)this.statement).executeQuery();
+            this.statement = connection.prepareStatement(
+                    "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event WHERE UUID = ?;");
+            ((PreparedStatement) this.statement).setString(1, uuid);
+            this.resultSet = ((PreparedStatement) this.statement).executeQuery();
 
             List<Event> result = new LinkedList<Event>();
 

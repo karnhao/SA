@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #f0f0f0;" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventDetailController">
+    <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+        <Label style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #008080;" text="Event" HBox.hgrow="ALWAYS">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <Pane HBox.hgrow="ALWAYS" />
+      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#OnBackToHome" styleClass="button-green" stylesheets="@../themes/default.css" text="Back" HBox.hgrow="ALWAYS">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <VBox.margin>
+         <Insets />
+      </VBox.margin>
+    </HBox>
+   <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="my-scroll-pane">
+      <content>
+         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <children>
+            
+                <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+            
+                    <!-- Event Information -->
+                    <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10" HBox.hgrow="ALWAYS">
+                     <Label text="Event Infomation">
+                        <font>
+                           <Font name="System Bold" size="28.0" />
+                        </font>
+                     </Label>
+                     <Pane maxHeight="2.0" minHeight="2.0" prefHeight="2.0" style="-fx-background-color: -dark-green-color;" />
+                        <!-- Event owner -->
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Event owner :" />
+                            <Label fx:id="eventOwnerLabel" style="-fx-font-size: 14px;" text="name" />
+                        </HBox>
+            
+                        <!-- Date of Event -->
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Date of Event :" />
+                            <Label fx:id="eventDateLabel" style="-fx-font-size: 14px;" text="00/00/00 - 00/00/00" />
+                        </HBox>
+            
+                        <!-- Event Detail -->
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Event detail :" />
+                            <Label fx:id="eventDetailLabel" style="-fx-font-size: 14px;" text="detail" />
+                        </HBox>
+                     <Pane maxHeight="2.0" minHeight="2.0" prefHeight="2.0" style="-fx-background-color: -dark-green-color;" />
+            
+                        <!-- Requirement List -->
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Requirement">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        </HBox>
+                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                        <children>
+                           <Label text="Musicians">
+                              <font>
+                                 <Font name="System Bold" size="18.0" />
+                              </font>
+                           </Label>
+                           <VBox fx:id="musicianRequirementVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                        </children>
+                     </VBox>
+                     <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                        <children>
+                           <Label text="Stereos">
+                              <font>
+                                 <Font name="System Bold" size="18.0" />
+                              </font>
+                           </Label>
+                           <VBox fx:id="stereoRequirementVBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                        </children>
+                     </VBox>
+                     <Pane maxHeight="2.0" minHeight="2.0" prefHeight="2.0" style="-fx-background-color: -dark-green-color;" />
+                    </VBox>
+                </HBox>
+               <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                  <children>
+                     <Button fx:id="acceptButton" mnemonicParsing="false" styleClass="button-green" stylesheets="@../themes/default.css" text="Accept">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Button>
+                     <Button fx:id="cancelEventButton" mnemonicParsing="false" styleClass="button-green" stylesheets="@../themes/default.css" text="Cancel Event">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Button>
+                     <Button fx:id="rejectButton" mnemonicParsing="false" styleClass="button-red" stylesheets="@../themes/default.css" text="Reject">
+                        <font>
+                           <Font size="18.0" />
+                        </font>
+                     </Button>
+                  </children>
+                  <VBox.margin>
+                     <Insets bottom="10.0" top="10.0" />
+                  </VBox.margin>
+               </HBox>
+            </children>
+         </VBox>
+      </content>
+   </ScrollPane>
+</VBox>
