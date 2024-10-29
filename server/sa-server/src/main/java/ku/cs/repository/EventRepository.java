@@ -281,4 +281,186 @@ public class EventRepository extends Repository {
         }
     }
 
+    public List<Event> getEventsByMusicianUUID(String musicianUUID) {
+        List<Event> events = new LinkedList<>();
+        String query = "SELECT e.EID, e.START_DATE, e.END_DATE, e.START_TIME, e.END_TIME, e.STATUS, e.TITLE, e.DESCRIPTION, e.UUID " +
+                       "FROM event e " +
+                       "JOIN musicianeventmap mem ON e.EID = mem.EID " +
+                       "WHERE mem.UUID = ?";
+
+        try (PreparedStatement ps = this.connection.prepareStatement(query)) {
+
+            ps.setString(1, musicianUUID);
+            this.resultSet = ps.executeQuery();
+
+            while (this.resultSet.next()) {
+                String resultEID = this.resultSet.getString("EID");
+                Date resultStartDate = this.resultSet.getDate("START_DATE");
+                Date resultEndDate = this.resultSet.getDate("END_DATE");
+                Time resultStartTime = this.resultSet.getTime("START_TIME");
+                Time resultEndTime = this.resultSet.getTime("END_TIME");
+                String resultStatus = this.resultSet.getString("STATUS");
+                String resultTitle = this.resultSet.getString("TITLE");
+                String resultDescription = this.resultSet.getString("DESCRIPTION");
+                String resultOwnerUUID = this.resultSet.getString("UUID");
+
+                Event event = new Event();
+                event.setId(resultEID);
+                event.setTitle(resultTitle);
+                event.setDescription(resultDescription);
+                event.setStartDateTime(LocalDateTime.of(resultStartDate.toLocalDate(), resultStartTime.toLocalTime()));
+                event.setEndDateTime(LocalDateTime.of(resultEndDate.toLocalDate(), resultEndTime.toLocalTime()));
+                event.setStatus(resultStatus);
+                event.setOwnerID(resultOwnerUUID);
+
+                events.add(event);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+    public List<Event> getEventsByStereoOwnerUUID(String musicianUUID) {
+        List<Event> events = new LinkedList<>();
+        String query = "SELECT e.EID, e.START_DATE, e.END_DATE, e.START_TIME, e.END_TIME, e.STATUS, e.TITLE, e.DESCRIPTION, e.UUID " +
+                       "FROM event e " +
+                       "JOIN stereoeventmap sem ON e.EID = sem.EID " +
+                       "JOIN stereo s ON sem.STID = s.STID " +
+                       "WHERE s.UUID = ?";
+
+        try (PreparedStatement ps = this.connection.prepareStatement(query)) {
+
+            ps.setString(1, musicianUUID);
+            this.resultSet = ps.executeQuery();
+
+            while (this.resultSet.next()) {
+                String resultEID = this.resultSet.getString("EID");
+                Date resultStartDate = this.resultSet.getDate("START_DATE");
+                Date resultEndDate = this.resultSet.getDate("END_DATE");
+                Time resultStartTime = this.resultSet.getTime("START_TIME");
+                Time resultEndTime = this.resultSet.getTime("END_TIME");
+                String resultStatus = this.resultSet.getString("STATUS");
+                String resultTitle = this.resultSet.getString("TITLE");
+                String resultDescription = this.resultSet.getString("DESCRIPTION");
+                String resultOwnerUUID = this.resultSet.getString("UUID");
+
+                Event event = new Event();
+                event.setId(resultEID);
+                event.setTitle(resultTitle);
+                event.setDescription(resultDescription);
+                event.setStartDateTime(LocalDateTime.of(resultStartDate.toLocalDate(), resultStartTime.toLocalTime()));
+                event.setEndDateTime(LocalDateTime.of(resultEndDate.toLocalDate(), resultEndTime.toLocalTime()));
+                event.setStatus(resultStatus);
+                event.setOwnerID(resultOwnerUUID);
+
+                events.add(event);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+    public boolean acceptMusicianEvent(String uuid, String eid, String role_id) {
+        String updateQuery = "UPDATE musicianeventmap SET STATUS = 'promise' WHERE UUID = ? AND EID = ? AND ROLE_ID = ?";
+        
+        try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            ps.setString(1, uuid);
+            ps.setString(2, eid);
+            ps.setString(3, role_id);
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean rejectMusicianEvent(String uuid, String eid, String role_id) {
+        String updateQuery = "UPDATE musicianeventmap SET STATUS = 'reject' WHERE UUID = ? AND EID = ? AND ROLE_ID = ?";
+        
+        try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            ps.setString(1, uuid);
+            ps.setString(2, eid);
+            ps.setString(3, role_id);
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean acceptStereoEvent(String stid, String eid) {
+        String updateQuery = "UPDATE stereoeventmap SET STATUS = 'promise' WHERE STID = ? AND EID = ?";
+        try (
+             PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            ps.setString(1, stid);
+            ps.setString(2, eid);
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean rejectStereoEvent(String stid, String eid) {
+        String updateQuery = "UPDATE stereoeventmap SET STATUS = 'reject' WHERE STID = ? AND EID = ?";
+        try (
+             PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            ps.setString(1, stid);
+            ps.setString(2, eid);
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean approveEvent(String eid) {
+        String updateQuery = "UPDATE event SET STATUS = 'done' WHERE EID = ?";
+        
+        try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            ps.setString(1, eid);
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean cancelEvent(String eid) {
+        String updateQuery = "UPDATE event SET STATUS = 'cancel' WHERE EID = ?";
+        
+        try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            ps.setString(1, eid);
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

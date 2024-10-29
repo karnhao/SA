@@ -45,12 +45,12 @@ public class ClientUserInfo {
         JSONObject userInfo = Client.getClient().getResponseJSON(httpURLConnection);
 
         User user = new User();
-        user.setEmail(userInfo.getString("email"));
-        user.setName(userInfo.getString("name"));
-        user.setRole(userInfo.getString("role"));
-        user.setUuid(userInfo.getString("uuid"));
-        user.setUsername(userInfo.getString("username"));
-        user.setPhone_number(userInfo.getString("phone_number"));
+        if (userInfo.has("email")) user.setEmail(userInfo.getString("email"));
+        if (userInfo.has("name")) user.setName(userInfo.getString("name"));
+        if (userInfo.has("role")) user.setRole(userInfo.getString("role"));
+        if (userInfo.has("uuid")) user.setUuid(userInfo.getString("uuid"));
+        if (userInfo.has("username")) user.setUsername(userInfo.getString("username"));
+        if (userInfo.has("phone_number")) user.setPhone_number(userInfo.getString("phone_number"));
         return user;
     }
 }

@@ -36,8 +36,9 @@ public class ClientGetEvent {
             eventDetail.setMusicianRequirements(toMusicianRequirementList(eventJSON.getJSONArray("musician_requirement")));
             eventDetail.setStereoRequirements(toStereoRequirementList(eventJSON.getJSONArray("stereo_requirement")));
 
-            User owner = new User();
-            owner.setUuid(eventJSON.getString("owner_id"));
+            String owner_id = eventJSON.getString("owner_id");
+            ClientUserInfo clientUserInfo = new ClientUserInfo();
+            User owner = clientUserInfo.getUserInfo(owner_id);
             eventDetail.setOwner(owner);
 
             return eventDetail;
@@ -96,7 +97,7 @@ public class ClientGetEvent {
             JSONArray array = o.getJSONArray("stereos");
             List<Stereo> stereos = new LinkedList<>();
             for (int j = 0; j < array.length(); j++) {
-                JSONObject p = array.getJSONObject(i);
+                JSONObject p = array.getJSONObject(j);
                 Stereo stereo = new Stereo();
                 stereo.setName(p.getString("name"));
                 stereo.setOwner_email(p.getString("email"));
@@ -104,6 +105,7 @@ public class ClientGetEvent {
                 stereo.setId(p.getString("id"));
                 stereo.setStatus(p.getString("status"));
                 stereo.setOwner_id(p.getString("owner_id"));
+                stereo.setOwner_name(p.getString("owner_name"));
                 stereos.add(stereo);
             }
 

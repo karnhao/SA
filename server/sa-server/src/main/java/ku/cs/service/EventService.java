@@ -79,7 +79,7 @@ public class EventService {
         JSONArray array = new JSONArray();
 
         List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent() : eventRepository.getAllEventByUUID(uuid);
-        events.stream().map(e -> this.toJSONObject(e, null, null, null, null, uuid)).forEach(array::put);
+        events.stream().map(e -> this.toJSONObject(e, null, null, null, null)).forEach(array::put);
 
         jsonObject.put("events", array);
 
@@ -98,7 +98,7 @@ public class EventService {
         List<Musician> musicians = eventRepository.getMusicianFromEventID(event_id);
         List<Stereo> stereos = eventRepository.getStereoFromEventID(event_id);
 
-        return toJSONObject(event, mRequirements, stereoRequirements, musicians, stereos, uuid);
+        return toJSONObject(event, mRequirements, stereoRequirements, musicians, stereos);
     }
 
     public String requestMusician(JSONObject jsonObject) throws AuthenticationException, SQLException {
@@ -136,8 +136,138 @@ public class EventService {
         return "OK";
     }
 
+    public JSONObject getRequestedEventsMusician(String accessToken) {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        JSONObject jsonObject = new JSONObject();
+        List<Event> events = eventRepository.getEventsByMusicianUUID(uuid);
+
+        JSONArray jsonArray = new JSONArray();
+        for (Event event : events) {
+            JSONObject jsonObj = toJSONObject(event, null, null, null, null);
+            jsonArray.put(jsonObj);
+        }
+        jsonObject.put("events", jsonArray);
+
+        return jsonObject;
+    }
+
+    public JSONObject getRequestedEventsStereo(String accessToken) {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        JSONObject jsonObject = new JSONObject();
+        List<Event> events = eventRepository.getEventsByStereoOwnerUUID(uuid);
+
+        JSONArray jsonArray = new JSONArray();
+        for (Event event : events) {
+            JSONObject jsonObj = toJSONObject(event, null, null, null, null);
+            jsonArray.put(jsonObj);
+        }
+        jsonObject.put("events", jsonArray);
+
+        return jsonObject;
+    }
+
+    public String acceptMusicianEvent(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        String eid = jsonObject.getString("event_id");
+        String role_id = jsonObject.getString("role_id");
+
+        if(!eventRepository.acceptMusicianEvent(uuid, eid, role_id)) {
+            throw new Exception("ERROR: Failed to accept");
+        }
+
+        return "OK";
+    }
+
+    public String rejectMusicianEvent(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        String eid = jsonObject.getString("event_id");
+        String role_id = jsonObject.getString("role_id");
+
+        if(!eventRepository.rejectMusicianEvent(uuid, eid, role_id)) {
+            throw new Exception("ERROR: Failed to accept");
+        }
+
+        return "OK";
+    }
+
+    public String acceptStereoEvent(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        String eid = jsonObject.getString("event_id");
+        String stid = jsonObject.getString("stereo_id");
+
+        if(!eventRepository.acceptStereoEvent(stid, eid)) {
+            throw new Exception("ERROR: Failed to accept");
+        }
+
+        return "OK";
+    }
+
+    public String rejectStereoEvent(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        String eid = jsonObject.getString("event_id");
+        String stid = jsonObject.getString("stereo_id");
+
+        if(!eventRepository.rejectStereoEvent(stid, eid)) {
+            throw new Exception("ERROR: Failed to reject");
+        }
+
+        return "OK";
+    }
+
+    public String approveEvent(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        User sourceUser = userRepository.getUserByUUID(uuid);
+        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new Exception("Access Denied");
+
+        if(!eventRepository.approveEvent(jsonObject.getString("event_id"))) throw new Exception("Failed");
+
+        return "OK";
+    }
+
+    public String cancelEvent(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        User sourceUser = userRepository.getUserByUUID(uuid);
+        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new Exception("Access Denied");
+
+        if(!eventRepository.cancelEvent(jsonObject.getString("event_id"))) throw new Exception("Failed");
+
+        return "OK";
+    }
+
     private JSONObject toJSONObject(Event event, List<MusicianRequirement> musicianRequirements,
-            List<StereoRequirement> stereoRequirements, List<Musician> musicians, List<Stereo> stereos, String ownerId) {
+            List<StereoRequirement> stereoRequirements, List<Musician> musicians, List<Stereo> stereos) {
         JSONObject o = new JSONObject();
         o.put("title", event.getTitle());
         o.put("description", event.getDescription());
@@ -195,6 +325,7 @@ public class EventService {
                         p.put("phone_number", t.getOwner_phone_number());
                         p.put("id", t.getId());
                         p.put("owner_id", t.getOwner_id());
+                        p.put("owner_name", t.getOwner_name());
                         nArray.put(p);
                     });
                 }

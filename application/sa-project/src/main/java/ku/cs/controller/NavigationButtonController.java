@@ -27,4 +27,8 @@ public class NavigationButtonController {
         this.label.setText(text);
     }
 
+    public void setVisible(boolean b) {
+        this.box.setVisible(b);
+    }
+
 }

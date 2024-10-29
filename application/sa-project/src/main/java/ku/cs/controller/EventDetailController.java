@@ -6,8 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ku.cs.model.*;
-import ku.cs.net.ClientGetEvent;
-import ku.cs.net.ClientUserInfo;
+import ku.cs.net.*;
 import ku.cs.service.Navigation;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
@@ -19,22 +18,24 @@ public class EventDetailController {
     public Label eventDateLabel;
     @FXML
     public Label eventDetailLabel;
-    public Button acceptButton;
+    @FXML
     public Button cancelEventButton;
-    public Button rejectButton;
+    @FXML
     public VBox musicianRequirementVBox;
+    @FXML
     public VBox stereoRequirementVBox;
+    @FXML
+    public Button approveButton;
 
     private EventDetail eventDetail;
     @FXML
     private void initialize() {
         ClientGetEvent clientGetEvent = new ClientGetEvent();
-        ClientUserInfo clientUserInfo = new ClientUserInfo();
         String eid = (String) Navigation.getData();
         Platform.runLater(RootService::showLoadingIndicator);
 
         eventDetail = clientGetEvent.getEvent(eid);
-        User owner = clientUserInfo.getUserInfo(eventDetail.getOwner().getUuid());
+        User owner = eventDetail.getOwner();
 
         updateEventDetails(
                 owner.getName() + " " + owner.getPhone_number(),
@@ -50,9 +51,10 @@ public class EventDetailController {
             musicianRequirementController.setTitleLabelText(musicianRequirement.getMusicianRole().getName());
             musicianRequirementController.setNumber(musicianRequirement.getMusicians().stream().filter(m->m.getStatus().equalsIgnoreCase("promise")).toList().size());
             musicianRequirementController.setMaxNumber(musicianRequirement.getQuantity());
+            musicianRequirementController.getAddButton().setVisible(RootService.getData().getUser().getRole().equalsIgnoreCase("agent"));
             musicianRequirementController.setOnAddButtonRunnable(() -> Navigation.open("add-musician.fxml", new Object[]{eventDetail, musicianRequirement.getMusicianRole()}));
             for (Musician musician : musicianRequirement.getMusicians()) {
-                musicianRequirementController.addItem(vBox -> this.addMusicianItem(vBox, musician));
+                musicianRequirementController.addItem(vBox -> this.addMusicianItem(vBox, musician, musicianRequirement.getMusicianRole().getId()));
             }
         }
 
@@ -65,6 +67,7 @@ public class EventDetailController {
             stereoRequirementController.setTitleLabelText(stereoRequirement.getType().getName());
             stereoRequirementController.setNumber(stereoRequirement.getStereos().stream().filter(s->s.getStatus().equalsIgnoreCase("promise")).toList().size());
             stereoRequirementController.setMaxNumber(stereoRequirement.getQuantity());
+            stereoRequirementController.getAddButton().setVisible(RootService.getData().getUser().getRole().equalsIgnoreCase("agent"));
             stereoRequirementController.setOnAddButtonRunnable(() -> Navigation.open("add-stereo.fxml", new Object[]{eventDetail, stereoRequirement.getType()}));
             for (Stereo stereo : stereoRequirement.getStereos()) {
                 stereoRequirementController.addItem(vBox -> addStereoItem(vBox, stereo));
@@ -87,13 +90,96 @@ public class EventDetailController {
         RootService.getController().getNavigationController().open("home-page.fxml");
     }
 
-    private void addMusicianItem(VBox vBox, Musician musician) {
+    private void addMusicianItem(VBox vBox, Musician musician, String role_id) {
         ListItemController controller = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/list-item.fxml"));
         controller.addLabels(musician.getName(), musician.getEmail(), musician.getPhone_number(), musician.getStatus());
+
+        Button acceptButton = controller.addButton("Accept", actionEvent -> {
+            ClientAcceptMusicianEvent client = new ClientAcceptMusicianEvent();
+            try {
+                String r = client.accept(eventDetail.getEventID(), role_id);
+                RootService.showBar(r);
+                reloadPage();
+            } catch (Exception e) {
+                RootService.showErrorBar(e.getMessage());
+            }
+        });
+        Button rejectButton = controller.addButton("Reject", actionEvent -> {
+            ClientRejectMusicianEvent client = new ClientRejectMusicianEvent();
+            try {
+                String r = client.reject(eventDetail.getEventID(), role_id);
+                RootService.showBar(r);
+                reloadPage();
+            } catch (Exception e) {
+                RootService.showErrorBar(e.getMessage());
+            }
+        });
+
+        acceptButton.setVisible(false);
+        rejectButton.setVisible(false);
+
+        if (musician.getUuid().equals(RootService.getData().getUser().getUuid()) && musician.getStatus().equalsIgnoreCase("await")) {
+            acceptButton.setVisible(true);
+            rejectButton.setVisible(true);
+        }
     }
 
     private void addStereoItem(VBox vBox, Stereo stereo) {
         ListItemController controller = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/list-item.fxml"));
         controller.addLabels(stereo.getName(), stereo.getOwner_name(), stereo.getOwner_phone_number(), stereo.getStatus());
+
+        Button acceptButton = controller.addButton("Accept", actionEvent -> {
+            ClientAcceptStereoEvent client = new ClientAcceptStereoEvent();
+            try {
+                String r = client.accept(eventDetail.getEventID());
+                RootService.showBar(r);
+                reloadPage();
+            } catch (Exception e) {
+                RootService.showErrorBar(e.getMessage());
+            }
+        });
+        Button rejectButton = controller.addButton("Reject", actionEvent -> {
+            ClientRejectStereoEvent client = new ClientRejectStereoEvent();
+            try {
+                String r = client.reject(eventDetail.getEventID());
+                RootService.showBar(r);
+                reloadPage();
+            } catch (Exception e) {
+                RootService.showErrorBar(e.getMessage());
+            }
+        });
+
+        acceptButton.setVisible(false);
+        rejectButton.setVisible(false);
+
+        if (stereo.getOwner_id().equals(RootService.getData().getUser().getUuid()) && stereo.getStatus().equalsIgnoreCase("await")) {
+            acceptButton.setVisible(true);
+            rejectButton.setVisible(true);
+        }
+    }
+
+    public void onApproveButtonClick() {
+        ClientApproveEvent c = new ClientApproveEvent();
+        try {
+            String r = c.approve(eventDetail.getEventID());
+            RootService.showBar(r);
+            reloadPage();
+        } catch (Exception e) {
+            RootService.showErrorBar(e.getMessage());
+        }
+    }
+
+    public void onCancelEventButtonClick() {
+        ClientCancelEvent c = new ClientCancelEvent();
+        try {
+            String r = c.cancel(eventDetail.getEventID());
+            RootService.showBar(r);
+            reloadPage();
+        } catch (Exception e) {
+            RootService.showErrorBar(e.getMessage());
+        }
+    }
+    private void reloadPage() {
+        Navigation.open("event-detail.fxml", eventDetail.getEventID());
     }
 }

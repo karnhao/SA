@@ -1,6 +1,7 @@
 package ku.cs.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -9,6 +10,7 @@ public class EventRequirementController {
     public Label numberLabel;
     public Label maxNumberLabel;
     public VBox vBox;
+    public Button addButton;
     private Runnable onAddButtonRunnable;
 
     @FXML
@@ -41,5 +43,9 @@ public class EventRequirementController {
 
     public interface RequirementItem {
         void add(VBox vBox);
+    }
+
+    public Button getAddButton() {
+        return addButton;
     }
 }

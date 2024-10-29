@@ -36,6 +36,7 @@ public class UserService {
             resultUser = new User();
             resultUser.setName(targetUser.getName());
             resultUser.setPhone_number(targetUser.getPhone_number());
+            resultUser.setUuid(targetUser.getUuid());
         }
 
         JSONObject response = new JSONObject();

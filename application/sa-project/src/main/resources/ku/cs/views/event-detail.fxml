@@ -87,17 +87,12 @@
                 </HBox>
                <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
                   <children>
-                     <Button fx:id="acceptButton" mnemonicParsing="false" styleClass="button-green" stylesheets="@../themes/default.css" text="Accept">
+                     <Button fx:id="cancelEventButton" mnemonicParsing="false" onAction="#onCancelEventButtonClick" prefWidth="150.0" styleClass="button-red" stylesheets="@../themes/default.css" text="Cancel Event">
                         <font>
                            <Font size="18.0" />
                         </font>
                      </Button>
-                     <Button fx:id="cancelEventButton" mnemonicParsing="false" styleClass="button-green" stylesheets="@../themes/default.css" text="Cancel Event">
-                        <font>
-                           <Font size="18.0" />
-                        </font>
-                     </Button>
-                     <Button fx:id="rejectButton" mnemonicParsing="false" styleClass="button-red" stylesheets="@../themes/default.css" text="Reject">
+                     <Button fx:id="approveButton" mnemonicParsing="false" onAction="#onApproveButtonClick" prefWidth="150.0" styleClass="button-green" stylesheets="@../themes/default.css" text="Approve">
                         <font>
                            <Font size="18.0" />
                         </font>

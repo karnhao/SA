@@ -42,7 +42,7 @@ public class NavigationController {
         NavigationButtonController eventButton = addButton("Events");
         NavigationButtonController userButton = addButton("Users");
         NavigationButtonController stereoButton = addButton("Stereo");
-        NavigationButtonController musicianButton = addButton("Musicians");
+        NavigationButtonController requestedEventButton = addButton("Requested Events");
 
         // Register Runnable to Navigation Menu Button
         homeButton.setOnClickRunnable(() -> {
@@ -61,10 +61,21 @@ public class NavigationController {
             this.open("stereo-list.fxml");
             stereoButton.selection(true);
         });
-        musicianButton.setOnClickRunnable(() -> {
-            this.open("musicians.fxml");
-            musicianButton.selection(true);
+        requestedEventButton.setOnClickRunnable(() -> {
+            this.open("requested-events-page.fxml");
+            requestedEventButton.selection(true);
         });
+
+        String userRole = RootService.getData().getUser().getRole();
+        if (userRole.equalsIgnoreCase("customer")) {
+            userButton.setVisible(false);
+            stereoButton.setVisible(false);
+            requestedEventButton.setVisible(false);
+        } else if (userRole.equalsIgnoreCase("musician")) {
+            userButton.setVisible(false);
+        } else if (userRole.equalsIgnoreCase("agent")) {
+            requestedEventButton.setVisible(false);
+        }
 
         // Open home menu
         homeButton.onClick();

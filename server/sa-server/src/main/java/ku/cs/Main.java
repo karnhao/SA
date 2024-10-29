@@ -1,29 +1,31 @@
 package ku.cs;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Scanner;
-
-import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpServer;
 
+import ku.cs.controller.AcceptMusicianEventController;
+import ku.cs.controller.AcceptStereoEventController;
+import ku.cs.controller.ApproveEventController;
+import ku.cs.controller.CancelEventController;
 import ku.cs.controller.CreateEventController;
 import ku.cs.controller.CreateStereoController;
 import ku.cs.controller.EventListController;
 import ku.cs.controller.GetAllUserController;
 import ku.cs.controller.GetAvailableRoleController;
 import ku.cs.controller.GetEventController;
+import ku.cs.controller.GetRequestedEventsController;
 import ku.cs.controller.GetRolesController;
 import ku.cs.controller.GetStereoController;
 import ku.cs.controller.GetStereoTypeController;
 import ku.cs.controller.HelloController;
 import ku.cs.controller.LoginController;
+import ku.cs.controller.RejectMusicianEventController;
+import ku.cs.controller.RejectStereoEventController;
 import ku.cs.controller.RequestMusicianController;
 import ku.cs.controller.RequestStereoController;
 import ku.cs.controller.SetAvailableRoleController;
@@ -53,16 +55,8 @@ public class Main {
         String password;
         String dataSourceUrl = "jdbc:mysql://localhost/sa";
         
-        try (InputStream inputStream = Main.class.getResourceAsStream("./database-access.json")) {
-            Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name()).useDelimiter("\\A");
-            String content = scanner.hasNext() ? scanner.next() : "{}";
-            
-            JSONObject json = new JSONObject(content);
-            user = json.getString("DB_USERNAME");
-            password = json.getString("DB_PASSWORD");
-
-            scanner.close();
-        }
+        user = System.getenv("SPRING_DATASOURCE_USERNAME");
+        password = System.getenv("SPRING_DATASOURCE_PASSWORD");
         
         // Connect to Database
         System.out.println("Connecting to " + dataSourceUrl);
@@ -107,8 +101,13 @@ public class Main {
         server.createContext("/get_available_roles", new GetAvailableRoleController(new UserService(userResponsitory)));
         server.createContext("/request_musician", new RequestMusicianController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/request_stereo", new RequestStereoController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        
-
+        server.createContext("/get_requested_events", new GetRequestedEventsController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/accept_musician_event", new AcceptMusicianEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/reject_musician_event", new RejectMusicianEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/accept_stereo_event", new AcceptStereoEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/reject_stereo_event", new RejectStereoEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/approve", new ApproveEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/cancel", new CancelEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.setExecutor(null);
         server.start();
 
