@@ -59,6 +59,8 @@ public class ClientGetStereoList {
             s.setType_id(o.getString("type_id"));
             s.setType_name(o.getString("type_name"));
             s.setId(o.getString("id"));
+            s.setOwner_phone_number(o.has("owner_phone_number") ? o.getString("owner_phone_number") : null);
+            s.setOwner_email(o.has("owner_email") ? o.getString("owner_email") : null);
 
             result.add(s);
         }

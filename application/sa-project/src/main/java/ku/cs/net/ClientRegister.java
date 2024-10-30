@@ -1,5 +1,6 @@
 package ku.cs.net;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
@@ -37,7 +38,7 @@ public class ClientRegister {
         jsonObject.put("username", username);
         jsonObject.put("name", name);
         jsonObject.put("email", email);
-        jsonObject.put("password", password);
+        jsonObject.put("password", BCrypt.withDefaults().hashToString(12, password.toCharArray()));
         jsonObject.put("phone_number", phone_number);
         jsonObject.put("role", role);
         return jsonObject;

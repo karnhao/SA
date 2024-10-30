@@ -7,12 +7,13 @@ import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 
 public class ClientAcceptStereoEvent {
-    public String accept(String event_id) throws URISyntaxException, IOException {
+    public String accept(String event_id, String stereo_id) throws URISyntaxException, IOException {
 
         // Create Request Payload
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("access_token", Client.getClient().getAccessToken());
         jsonObject.put("event_id", event_id);
+        jsonObject.put("stereo_id", stereo_id);
 
         System.out.println(jsonObject.toString(4));
 

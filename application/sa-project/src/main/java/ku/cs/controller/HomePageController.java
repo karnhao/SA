@@ -17,7 +17,7 @@ public class HomePageController {
     @FXML
     public void initialize() {
         titleLabel.setText(String.format("Welcome %s", RootService.getData().getUser().getName()));
-        RootService.getController().getNavigationController().setTitleText("HOME");
+        RootService.getController().getNavigationController().setTitleText("");
 
         ClientGetEventList clientGetEventList = new ClientGetEventList();
         clientGetEventList.getEventList().forEach(this::addItem);

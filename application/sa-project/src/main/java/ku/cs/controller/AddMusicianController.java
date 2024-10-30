@@ -32,8 +32,6 @@ public class AddMusicianController {
     public TableView<Musician> musicianListTable;
     @FXML
     public TableColumn<Musician, String> workAmountColumn;
-    @FXML
-    public TableColumn<Musician, String> conflictColumn;
 
     private Event event;
     private MusicianRole musicianRole;
@@ -43,7 +41,6 @@ public class AddMusicianController {
         emailColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmail()));
         phoneNumberColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPhone_number()));
         workAmountColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getWorkCount())));
-        conflictColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getConflict()));
 
         event = (EventDetail) ((Object[])Navigation.getData())[0];
         musicianRole = (MusicianRole) ((Object[])Navigation.getData())[1];

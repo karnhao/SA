@@ -248,6 +248,7 @@ public class EventService {
         if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new Exception("Access Denied");
 
         if(!eventRepository.approveEvent(jsonObject.getString("event_id"))) throw new Exception("Failed");
+        eventRepository.createHistoryForPromisedEvent(jsonObject.getString("event_id"));
 
         return "OK";
     }
@@ -295,6 +296,7 @@ public class EventService {
                         p.put("email", t.getEmail());
                         p.put("phone_number", t.getPhone_number());
                         p.put("id", t.getUuid());
+                        p.put("work_count", t.getWorkCount());
                         nArray.put(p);
                     });
                 }

@@ -141,6 +141,9 @@ public class UserService {
                 o.put("phone_number", u.getPhone_number());
                 o.put("role", u.getRole());
                 o.put("uuid", u.getUuid());
+                if (u instanceof Musician) {
+                    o.put("work_count", ((Musician) u).getWorkCount());
+                }
     
                 return o;
             }).forEach(jsonArray::put);

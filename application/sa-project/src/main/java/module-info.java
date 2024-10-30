@@ -3,6 +3,7 @@ module ku.cs {
     requires javafx.fxml;
     requires animatefx;
     requires org.json;
+    requires bcrypt;
 
     opens ku.cs.sa_project to javafx.fxml;
     exports ku.cs.sa_project;

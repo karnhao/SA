@@ -26,6 +26,8 @@ public class EventDetailController {
     public VBox stereoRequirementVBox;
     @FXML
     public Button approveButton;
+    @FXML
+    public Label statusLabel;
 
     private EventDetail eventDetail;
     @FXML
@@ -40,7 +42,7 @@ public class EventDetailController {
         updateEventDetails(
                 owner.getName() + " " + owner.getPhone_number(),
                 eventDetail.getStartDate().toString() + " - " + eventDetail.getEndDate().toString(),
-                eventDetail.getDescription());
+                eventDetail.getDescription(), eventDetail.getStatus());
 
         for (MusicianRequirement musicianRequirement : eventDetail.getMusicianRequirements()) {
             EventRequirementController musicianRequirementController = ComponentLoader.loadInto(
@@ -80,10 +82,11 @@ public class EventDetailController {
 
     }
 
-    public void updateEventDetails(String owner, String date, String detail) {
+    public void updateEventDetails(String owner, String date, String detail, String status) {
         eventOwnerLabel.setText(owner);
         eventDateLabel.setText(date);
         eventDetailLabel.setText(detail);
+        statusLabel.setText(status);
     }
 
     public void OnBackToHome() {
@@ -131,7 +134,7 @@ public class EventDetailController {
         Button acceptButton = controller.addButton("Accept", actionEvent -> {
             ClientAcceptStereoEvent client = new ClientAcceptStereoEvent();
             try {
-                String r = client.accept(eventDetail.getEventID());
+                String r = client.accept(eventDetail.getEventID(), stereo.getId());
                 RootService.showBar(r);
                 reloadPage();
             } catch (Exception e) {

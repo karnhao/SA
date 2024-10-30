@@ -6,6 +6,7 @@ public class Musician extends User {
     private String status;
     private String musicianRoleID;
     private String musicianRoleName;
+    private int workCount;
 
     public Musician(User user) {
         super(user.getName(), user.getUsername(), user.getUuid(), user.getPassword(), user.getImage_url(), user.getEmail(), user.getPhone_number(), user.getRole());
@@ -49,5 +50,13 @@ public class Musician extends User {
 
     public String getMusicianRoleName() {
         return musicianRoleName;
+    }
+
+    public int getWorkCount() {
+        return workCount;
+    }
+
+    public void setWorkCount(int workCount) {
+        this.workCount = workCount;
     }
 }

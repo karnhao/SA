@@ -326,7 +326,8 @@ public class UserRepository extends Repository {
         }
     }
 
-    public List<User> getMusiciansByRoleId(String roleId) {
+    @Deprecated
+    public List<User> getMusiciansByRoleIdOld(String roleId) {
         List<User> musicians = new LinkedList<>();
         String query = "SELECT m.UUID, m.BANK_NUMBER, m.BANK_NAME, u.NAME, u.USERNAME, u.EMAIL_ADDRESS, u.PHONE_NUMBER, u.ROLE, mr.ROLE_ID, mr.ROLE_NAME " +
                        "FROM musician m " +
@@ -357,4 +358,47 @@ public class UserRepository extends Repository {
         return musicians;
     }
 
+    public List<User> getMusiciansByRoleId(String roleId) {
+        List<User> musicians = new LinkedList<>();
+        String query = "SELECT m.UUID, m.BANK_NUMBER, m.BANK_NAME, u.NAME, u.USERNAME, u.EMAIL_ADDRESS, u.PHONE_NUMBER, u.ROLE, mr.ROLE_ID, mr.ROLE_NAME " +
+                       "FROM musician m " +
+                       "JOIN availablemusicianrole amr ON m.UUID = amr.UUID " +
+                       "JOIN user u ON m.UUID = u.UUID " +
+                       "JOIN musicianrole mr ON amr.ROLE_ID = mr.ROLE_ID " +
+                       "WHERE amr.ROLE_ID = ?";
+        try {
+            PreparedStatement ps = this.connection.prepareStatement(query);
+            ps.setString(1, roleId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Musician musician = new Musician(new User());
+                musician.setUuid(rs.getString("UUID"));
+                musician.setName(rs.getString("NAME"));
+                musician.setUsername(rs.getString("USERNAME"));
+                musician.setEmail(rs.getString("EMAIL_ADDRESS"));
+                musician.setPhone_number(rs.getString("PHONE_NUMBER"));
+                musician.setRole(rs.getString("ROLE"));
+
+                // Get the work count since 4 months ago
+                String countQuery = "SELECT COUNT(*) AS workCount FROM history WHERE UUID = ? AND DATE >= DATE_SUB(CURDATE(), INTERVAL 4 MONTH)";
+                PreparedStatement countStmt = connection.prepareStatement(countQuery);
+                countStmt.setString(1, musician.getUuid());
+                ResultSet countRs = countStmt.executeQuery();
+                int workCount = 0;
+                if (countRs.next()) {
+                    workCount = countRs.getInt("workCount");
+                }
+                countRs.close();
+                countStmt.close();
+
+                musician.setWorkCount(workCount);
+                musicians.add(musician);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return musicians;
+    }
 }

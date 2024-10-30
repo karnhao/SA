@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import ku.cs.entity.Event;
 import ku.cs.entity.Musician;
@@ -92,7 +93,8 @@ public class EventRepository extends Repository {
         }
     }
 
-    public List<Musician> getMusicianFromEventID(String eid) throws SQLException {
+    @Deprecated
+    public List<Musician> getMusicianFromEventIDOld(String eid) throws SQLException {
         try {
             this.statement = connection.prepareStatement(
                     "SELECT mm.STATUS, mm.ROLE_ID, mm.UUID, mr.ROLE_NAME, u.NAME, u.PHONE_NUMBER, u.EMAIL_ADDRESS FROM musicianeventmap mm INNER JOIN musicianrole mr ON mm.ROLE_ID = mr.ROLE_ID INNER JOIN user u ON mm.UUID = u.UUID WHERE mm.EID = ?;");
@@ -128,6 +130,63 @@ public class EventRepository extends Repository {
             return null;
         } finally {
             this.statement.close();
+        }
+    }
+
+    public List<Musician> getMusicianFromEventID(String eid) throws SQLException {
+        try {
+            this.statement = connection.prepareStatement(
+                    "SELECT mm.STATUS, mm.ROLE_ID, mm.UUID, mr.ROLE_NAME, u.NAME, u.PHONE_NUMBER, u.EMAIL_ADDRESS " +
+                    "FROM musicianeventmap mm " +
+                    "INNER JOIN musicianrole mr ON mm.ROLE_ID = mr.ROLE_ID " +
+                    "INNER JOIN user u ON mm.UUID = u.UUID " +
+                    "WHERE mm.EID = ?;"
+            );
+            ((PreparedStatement) this.statement).setString(1, eid);
+            this.resultSet = ((PreparedStatement) this.statement).executeQuery();
+            LinkedList<Musician> result = new LinkedList<>();
+            
+            while (this.resultSet.next()) {
+                String resultStatus = this.resultSet.getString("STATUS");
+                String resultName = this.resultSet.getString("NAME");
+                String resultPhoneNumber = this.resultSet.getString("PHONE_NUMBER");
+                String resultEmailAddress = this.resultSet.getString("EMAIL_ADDRESS");
+                String resultRoleID = this.resultSet.getString("ROLE_ID");
+                String resultRoleName = this.resultSet.getString("ROLE_NAME");
+                String resultUUID = this.resultSet.getString("UUID");
+
+                // Get the work count since 4 months ago
+                String countQuery = "SELECT COUNT(*) AS workCount FROM history WHERE UUID = ? AND DATE >= DATE_SUB(CURDATE(), INTERVAL 4 MONTH) AND STATUS = 'done'";
+                PreparedStatement countStmt = connection.prepareStatement(countQuery);
+                countStmt.setString(1, resultUUID);
+                ResultSet countRs = countStmt.executeQuery();
+                int workCount = 0;
+                if (countRs.next()) {
+                    workCount = countRs.getInt("workCount");
+                }
+                countRs.close();
+                countStmt.close();
+
+                Musician m = new Musician(new User());
+                m.setStatus(resultStatus);
+                m.setName(resultName);
+                m.setPhone_number(resultPhoneNumber);
+                m.setEmail(resultEmailAddress);
+                m.setMusicianRoleID(resultRoleID);
+                m.setMusicianRoleName(resultRoleName);
+                m.setUuid(resultUUID);
+                m.setWorkCount(workCount);
+                result.add(m);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            this.statement.close();
+            if (this.resultSet != null) {
+                this.resultSet.close();
+            }
         }
     }
 
@@ -461,6 +520,72 @@ public class EventRepository extends Repository {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public void createHistoryForPromisedEvent(String incomingEID) {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+
+            // Delete existing history records for the event ID
+            String deleteQuery = "DELETE FROM history WHERE EID = ?";
+            pstmt = this.connection.prepareStatement(deleteQuery);
+            pstmt.setString(1, incomingEID);
+            pstmt.executeUpdate();
+            pstmt.close();
+
+            // Select musician UUIDs with status 'promise' for the given event EID
+            String selectQuery = "SELECT UUID FROM musicianeventmap WHERE EID = ? AND STATUS = 'promise'";
+            pstmt = this.connection.prepareStatement(selectQuery);
+            pstmt.setString(1, incomingEID);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String uuid = rs.getString("UUID");
+
+                // Insert into history
+                String insertQuery = "INSERT INTO history (DATE, HID, STATUS, UUID, EID) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement insertPstmt = this.connection.prepareStatement(insertQuery);
+                insertPstmt.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+                insertPstmt.setString(2, java.util.UUID.randomUUID().toString());
+                insertPstmt.setString(3, "done");  // Or set the appropriate status
+                insertPstmt.setString(4, uuid);
+                insertPstmt.setString(5, incomingEID);
+                insertPstmt.executeUpdate();
+                insertPstmt.close();
+            }
+
+            selectQuery = "SELECT UUID FROM musicianeventmap WHERE EID = ? AND STATUS = 'reject'";
+            pstmt = this.connection.prepareStatement(selectQuery);
+            pstmt.setString(1, incomingEID);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                String uuid = rs.getString("UUID");
+
+                // Insert into history
+                String insertQuery = "INSERT INTO history (DATE, HID, STATUS, UUID, EID) VALUES (?, ?, ?, ?, ?)";
+                PreparedStatement insertPstmt = this.connection.prepareStatement(insertQuery);
+                insertPstmt.setDate(1, new java.sql.Date(System.currentTimeMillis()));
+                insertPstmt.setString(2, java.util.UUID.randomUUID().toString());
+                insertPstmt.setString(3, "reject");  // Or set the appropriate status
+                insertPstmt.setString(4, uuid);
+                insertPstmt.setString(5, incomingEID);
+                insertPstmt.executeUpdate();
+                insertPstmt.close();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

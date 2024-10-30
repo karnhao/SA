@@ -85,6 +85,7 @@ public class ClientGetUsers {
         List<Musician> userList = new LinkedList<>();
         for (int i = 0; i < array.length(); i++) {
             JSONObject o = array.getJSONObject(i);
+            System.out.println(o);
 
             Musician user = new Musician();
             user.setRole(o.getString("role"));
@@ -95,6 +96,7 @@ public class ClientGetUsers {
             user.setUsername(o.getString("username"));
             user.setBankName(o.has("bank_name") ? o.getString("bank_name") : null);
             user.setBankNumber(o.has("bank_number") ? o.getString("bank_number") : null);
+            user.setWorkCount(o.has("work_count") ? o.getInt("work_count") : 0);
 
             userList.add(user);
         }

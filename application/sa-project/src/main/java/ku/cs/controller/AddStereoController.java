@@ -27,8 +27,6 @@ public class AddStereoController {
     @FXML
     public TableColumn<Stereo, String> phoneNumberOwnerColumn;
     public Label titleLabel;
-    public TableColumn<Stereo, String> workAmountColumn;
-    public TableColumn<Stereo, String> conflictColumn;
 
     private Event event;
 
