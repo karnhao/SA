@@ -239,7 +239,7 @@ public class UserRepository extends Repository {
 
             // ทำ SQL Injection ไม่ได้เพราะระบบจะทำงานเพียง statement เดียว
             this.resultSet = this.statement.executeQuery(
-                    "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, u.UUID, m.BANK_NAME, m.BANK_NUMBER FROM user u JOIN musician m ON u.`UUID` = m.`UUID` WHERE ROLE = 'Musician';;");
+                    "SELECT USERNAME, EMAIL_ADDRESS, ENCRYPTED_PASSWORD, NAME, PHONE_NUMBER, ROLE, u.UUID, m.BANK_NAME, m.BANK_NUMBER FROM user u JOIN musician m ON u.`UUID` = m.`UUID` WHERE ROLE = 'Musician';");
 
             while (this.resultSet.next()) {
                 User user = new User();
