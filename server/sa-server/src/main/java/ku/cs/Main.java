@@ -50,6 +50,7 @@ import ku.cs.service.UserService;
 
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
         Connection conn = null;
         String user;
         String password;
