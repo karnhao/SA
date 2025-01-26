@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="event-item-box" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventRequirementStereoItemController">
+   <children>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0">
+         <children>
+            <Label style="-fx-font-weight: Bold;" text="Type">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="typeLabel" text="Type" />
+            <Label style="-fx-font-weight: Bold;" text="Name" />
+            <Label fx:id="nameStereoLabel" text="Name" />
+            <Label style="-fx-font-weight: Bold;" text="Status" />
+            <Label fx:id="statusStereoLabel" text="Status" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../themes/default.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.DateFormController">
+   <children>
+      <DatePicker fx:id="datePicker" maxWidth="1.7976931348623157E308" prefHeight="30.0" VBox.vgrow="ALWAYS" />
+      <HBox fx:id="timeHBox" alignment="BOTTOM_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+         <children>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="hourLabel" text="hour (24-hour clock)">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <TextField fx:id="hourTextField" maxWidth="1.7976931348623157E308" promptText="hour (24-hour clock)" />
+               </children>
+            </VBox>
+            <Label text=":">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font></Label>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="minuteLabel" text="minute">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <TextField fx:id="minuteTextField" maxWidth="1.7976931348623157E308" promptText="minute" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</VBox>
