@@ -9,6 +9,9 @@ import ku.cs.service.Navigation;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
+/**
+ * Home Page
+ */
 public class HomePageController {
     public VBox vBoxHomepage;
     public Label titleLabel;
