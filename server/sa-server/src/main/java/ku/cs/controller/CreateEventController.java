@@ -48,5 +48,4 @@ public class CreateEventController extends Controller {
             responseError(exchange, e);
         }
     }
-    
 }

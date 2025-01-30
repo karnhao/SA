@@ -1,7 +1,6 @@
 package ku.cs.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import ku.cs.model.MusicianRequirement;
 import ku.cs.model.MusicianRole;
@@ -16,17 +15,17 @@ import ku.cs.util.ComponentLoader;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CreateEventController {
+public class EventEditController {
     @FXML
-    public VBox startDateTimeVBox;
+    public VBox editStartDateTimeVBox;
     @FXML
-    public VBox endDateTimeVBox;
+    public VBox editEndDateTimeVBox;
     @FXML
-    public VBox musicianRequirementVBox;
+    public VBox editMusicianRequirementVBox;
     @FXML
-    public VBox stereoRequirementVBox;
+    public VBox editStereoRequirementVBox;
     @FXML
-    private VBox vBox1;
+    private VBox eventName1;
 
     private List<RequirementFormController<MusicianRole>> musicianControllerList;
     private List<RequirementFormController<StereoType>> stereoControllerList;
@@ -50,32 +49,32 @@ public class CreateEventController {
 
         } catch (Exception ignored){}
 
-        eventNameController = ComponentLoader.loadInto(vBox1, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
+        eventNameController = ComponentLoader.loadInto(eventName1, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
         eventNameController.setTitleText("Event Name");
         eventNameController.getTextField().setPromptText("Enter event name here");
 
-        descriptionController = ComponentLoader.loadInto(vBox1, getClass().getResource("/ku/cs/views/components/text-area-form.fxml"));
+        descriptionController = ComponentLoader.loadInto(eventName1, getClass().getResource("/ku/cs/views/components/text-area-form.fxml"));
         descriptionController.setTitleText("Event Description");
         descriptionController.getTextArea().setPromptText("Enter event description here");
 
 
-        startDateTimeFormController = ComponentLoader.loadInto(startDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
-        endDateTimeFormController = ComponentLoader.loadInto(endDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
+        startDateTimeFormController = ComponentLoader.loadInto(editStartDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
+        endDateTimeFormController = ComponentLoader.loadInto(editEndDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
 
         musicianControllerList = new LinkedList<>();
         stereoControllerList = new LinkedList<>();
 
-        onMusicianRequirementAddButtonClick();
-        onStereoRequirementAddButtonClick();
+        onEditMusicianRequirementAddButtonClick();
+        onEditStereoRequirementAddButtonClick();
 
     }
 
-    public void onBack() {
+    public void onEditBack() {
         RootService.getController().getNavigationController().open("events-page.fxml");
     }
 
-    public void onMusicianRequirementAddButtonClick() {
-        RequirementFormController<MusicianRole> controller = ComponentLoader.loadInto(musicianRequirementVBox,
+    public void onEditMusicianRequirementAddButtonClick() {
+        RequirementFormController<MusicianRole> controller = ComponentLoader.loadInto(editMusicianRequirementVBox,
                 getClass().getResource("/ku/cs/views/components/requirement-form.fxml"));
 
         if (roles != null) {
@@ -90,8 +89,8 @@ public class CreateEventController {
         musicianControllerList.add(controller);
     }
 
-    public void onStereoRequirementAddButtonClick() {
-        RequirementFormController<StereoType> controller = ComponentLoader.loadInto(stereoRequirementVBox,
+    public void onEditStereoRequirementAddButtonClick() {
+        RequirementFormController<StereoType> controller = ComponentLoader.loadInto(editStereoRequirementVBox,
                 getClass().getResource("/ku/cs/views/components/requirement-form.fxml"));
 
         if (types != null) {
@@ -106,7 +105,7 @@ public class CreateEventController {
         stereoControllerList.add(controller);
     }
 
-    public void onDoneButton() {
+    public void onEditDoneButton() {
 
         ClientCreateEvent clientCreateEvent = new ClientCreateEvent();
 
@@ -140,5 +139,4 @@ public class CreateEventController {
             RootService.showErrorBar(e.getMessage());
         }
     }
-
 }
