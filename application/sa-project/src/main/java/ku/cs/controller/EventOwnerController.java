@@ -34,6 +34,6 @@ public class EventOwnerController {
 
     public void OnCancelEvent(ActionEvent actionEvent) {}
 
-    public void OnEditEvent() {RootService.getController().open("event-edit.fxml");}
+
 }
 

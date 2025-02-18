@@ -1,14 +1,16 @@
 package ku.cs.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import ku.cs.model.MusicianRequirement;
-import ku.cs.model.MusicianRole;
-import ku.cs.model.StereoRequirement;
-import ku.cs.model.StereoType;
+import ku.cs.model.*;
 import ku.cs.net.ClientCreateEvent;
+import ku.cs.net.ClientGetEvent;
 import ku.cs.net.ClientGetRole;
 import ku.cs.net.ClientGetStereoType;
+import ku.cs.service.Navigation;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
@@ -26,6 +28,22 @@ public class EventEditController {
     public VBox editStereoRequirementVBox;
     @FXML
     private VBox eventName1;
+    @FXML
+    public Label eventOwnerLabel;
+    @FXML
+    public Label eventDateLabel;
+    @FXML
+    public Label eventDetailLabel;
+    @FXML
+    public Button cancelEventButton;
+    @FXML
+    public VBox musicianRequirementVBox;
+    @FXML
+    public VBox stereoRequirementVBox;
+    @FXML
+    public Button approveButton;
+    @FXML
+    public Label statusLabel;
 
     private List<RequirementFormController<MusicianRole>> musicianControllerList;
     private List<RequirementFormController<StereoType>> stereoControllerList;
@@ -35,10 +53,10 @@ public class EventEditController {
     private DateFormController endDateTimeFormController;
     private List<MusicianRole> roles;
     private List<StereoType> types;
+    private EventDetail eventDetail;
 
     @FXML
     private void initialize() {
-
         try {
 
             ClientGetRole clientRole = new ClientGetRole();
@@ -48,6 +66,7 @@ public class EventEditController {
             types = clientStereoType.getStereoTypes();
 
         } catch (Exception ignored){}
+
 
         eventNameController = ComponentLoader.loadInto(eventName1, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
         eventNameController.setTitleText("Event Name");
@@ -67,11 +86,12 @@ public class EventEditController {
         onEditMusicianRequirementAddButtonClick();
         onEditStereoRequirementAddButtonClick();
 
+
+
     }
 
-    public void onEditBack() {
-        RootService.getController().getNavigationController().open("events-page.fxml");
-    }
+    public void onEditBack() {RootService.getController().open("events-detail.fxml");}
+
 
     public void onEditMusicianRequirementAddButtonClick() {
         RequirementFormController<MusicianRole> controller = ComponentLoader.loadInto(editMusicianRequirementVBox,
@@ -104,6 +124,8 @@ public class EventEditController {
 
         stereoControllerList.add(controller);
     }
+
+
 
     public void onEditDoneButton() {
 

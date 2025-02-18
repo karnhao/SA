@@ -185,4 +185,6 @@ public class EventDetailController {
     private void reloadPage() {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
     }
+
+    public void OnEditEvent() {RootService.getController().open("event-edit.fxml");}
 }
