@@ -5,6 +5,10 @@ module ku.cs {
     requires org.json;
     requires bcrypt;
 
+    // เพิ่ม ZXing Library
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
+
     opens ku.cs.sa_project to javafx.fxml;
     exports ku.cs.sa_project;
 
