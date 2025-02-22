@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.ThemeSelectorController" spacing="10">
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.ThemeSelectorController">
     <children>
         <ColorPicker fx:id="colorPicker" />
-        <Button text="Apply Theme" fx:id="applyButton" />
-        <Region fx:id="preview" style="-fx-background-color: teal; width: 100px; height: 50px;" />
+        <Button fx:id="applyButton" text="Apply Theme" />
+        <HBox fx:id="preview" style="-fx-background-color: teal; -fx-min-width: 200px; -fx-min-height: 200px; border: 1px solid black;" />
     </children>
 </VBox>

@@ -25,13 +25,16 @@ public class MainApp extends Application {
         configRoute();
 
         FXRouter.bind(this, stage);
-        FXRouter.goTo("root"); //root
+        //FXRouter.goTo("root"); //root
+        FXRouter.goTo("theme-selector");
         setTheme("default.css");
     }
 
     private static void configRoute() {
         String resourcesPath = "ku/cs/views/";
-        FXRouter.when("root", resourcesPath + "root.fxml", "Good Application 100% No Scam 😋😋😋", MIN_WIGHT, 760);
+        //FXRouter.when("root", resourcesPath + "root.fxml", "Good Application 100% No Scam 😋😋😋", MIN_WIGHT, 760);
+        FXRouter.when("theme-selector", resourcesPath + "theme-selector.fxml", "Select Theme", 400, 300);
+
     }
 
     /**

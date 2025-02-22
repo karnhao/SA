@@ -1,39 +1,44 @@
 package ku.cs.controller;
-import javafx.application.Application;
-import javafx.scene.Scene;
+
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 
-public class ThemeSelectorController extends Application {
+public class ThemeSelectorController {
     private static Color themeColor = Color.TEAL; // Default theme color
-    public Region preview;
-    public ColorPicker colorPicker;
-    public Button applyButton;
 
-    @Override
-    public void start(Stage primaryStage) {
-        ColorPicker colorPicker = new ColorPicker(themeColor);
-        Button applyButton = new Button("Apply Theme");
-        Region preview = new Region();
-        preview.setStyle("-fx-background-color: " + toRgbString(themeColor) + "; width: 100px; height: 50px;");
+    @FXML
+    private StackPane rootPane;
+
+    @FXML
+    private HBox preview;
+
+    @FXML
+    private ColorPicker colorPicker;
+
+    @FXML
+    private Button applyButton;
+
+    @FXML
+    public void initialize() {
+        colorPicker.setValue(themeColor);
+        updatePreview();
 
         applyButton.setOnAction(e -> {
             themeColor = colorPicker.getValue();
-            preview.setStyle("-fx-background-color: " + toRgbString(themeColor) + ";");
+            updatePreview();
             System.out.println("Theme color changed to: " + themeColor);
         });
-
-        VBox root = new VBox(10, colorPicker, applyButton, preview);
-        Scene scene = new Scene(root, 300, 200);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Theme Selector");
-        primaryStage.show();
     }
 
+    private void updatePreview() {
+        // กำหนดสีพื้นหลังให้ HBox โดยตรง
+        preview.setStyle("-fx-background-color: " + toRgbString(themeColor) + "; -fx-min-width: 200px; -fx-min-height: 200px; -fx-border-color: black;");
+    }
     public static Color getThemeColor() {
         return themeColor;
     }
@@ -42,4 +47,3 @@ public class ThemeSelectorController extends Application {
         return String.format("rgb(%d, %d, %d)", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
     }
 }
-
