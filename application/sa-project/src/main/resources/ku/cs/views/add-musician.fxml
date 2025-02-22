@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.AddMusicianController">
+<VBox xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.AddMusicianController">
    <children>
       <HBox>
          <children>
@@ -52,14 +52,14 @@
          <children>
             <Button mnemonicParsing="false" onAction="#backToEventRequirement" prefWidth="100.0" styleClass="button-green" stylesheets="@../themes/default.css" text="Back" HBox.hgrow="ALWAYS">
                <HBox.margin>
-                  <Insets />
+                  <Insets top="-4.0" />
                </HBox.margin>
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Button>
             <Button mnemonicParsing="false" onAction="#addMusicianToRequirement" prefWidth="100.0" styleClass="button-green" stylesheets="@../themes/default.css" text="Add" HBox.hgrow="ALWAYS">
                <HBox.margin>
-                  <Insets />
+                  <Insets top="-4.0" />
                </HBox.margin>
                <font>
                   <Font name="System Bold" size="18.0" />
