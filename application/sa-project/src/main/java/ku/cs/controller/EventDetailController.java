@@ -28,6 +28,8 @@ public class EventDetailController {
     public Button approveButton;
     @FXML
     public Label statusLabel;
+    @FXML
+    public Button musicianRatingButton;
 
     private EventDetail eventDetail;
     @FXML
@@ -182,6 +184,13 @@ public class EventDetailController {
             RootService.showErrorBar(e.getMessage());
         }
     }
+
+    @FXML
+    private void onMusicianRatingButtonClick() {
+        Navigation.open("musician-rating.fxml");
+    }
+
+
     private void reloadPage() {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
     }

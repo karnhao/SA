@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.MusicainRatingController">
+   <children>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+         <children>
+            <Label text="Rating">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font></Label>
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button fx:id="musicianRatingButton" mnemonicParsing="false" onAction="#onBackButtonClick" styleClass="button-green" stylesheets="@../themes/default.css" text="Back" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
+         </children></HBox>
+      <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <VBox />
+               </children></AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</VBox>
