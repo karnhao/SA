@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.AgentUserListController">
+<VBox stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.AgentUserListController">
    <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="my-scroll-pane" VBox.vgrow="ALWAYS">
          <content>
@@ -35,6 +35,9 @@
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets top="4.0" />
+                           </HBox.margin>
                         </Label>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" text="Email" HBox.hgrow="ALWAYS">
                            <font>
@@ -74,6 +77,9 @@
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets top="4.0" />
+                           </HBox.margin>
                         </Label>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="0.0" text="Email" HBox.hgrow="ALWAYS">
                            <font>
