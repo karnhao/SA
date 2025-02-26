@@ -12,9 +12,9 @@ public class AdvertiserController {
 
     @FXML private ImageView advertiserImage;
     private final String[] imagePaths = {
-        "C:/PM3/SA/application/sa-project/src/main/resources/ku/cs/images/advertiser/advertiser1.jpg",
-        "C:/PM3/SA/application/sa-project/src/main/resources/ku/cs/images/advertiser/advertiser2.jpg",
-        "C:/PM3/SA/application/sa-project/src/main/resources/ku/cs/images/advertiser/advertiser3.jpg"
+        "src/main/resources/ku/cs/images/advertiser/advertiser1.jpg",
+        "src/main/resources/ku/cs/images/advertiser/advertiser2.jpg",
+        "src/main/resources/ku/cs/images/advertiser/advertiser3.jpg"
     };
     private int currentImageIndex = 0;
 
