@@ -41,8 +41,8 @@ public class EventListController extends Controller {
             if (query != null) {
                 Map<String, String> map = queryToMap(query);
                 musician_role_string = map.get("role");
-
-                musician_roles = musician_role_string.split(",");
+                if (musician_role_string != null)
+                    musician_roles = musician_role_string.split(",");
             }
 
             InputStream is = exchange.getRequestBody();
@@ -54,7 +54,7 @@ public class EventListController extends Controller {
 
             String accessToken = jsonObject.getString("access_token");
 
-            JSONObject responseJSON = musician_roles == null ? eventService.getAllEvent(accessToken) : eventService.getAllEventByMusicianRoles(accessToken, musician_roles);
+            JSONObject responseJSON = eventService.getAllEvent(accessToken, musician_roles);
             String response = responseJSON.toString();
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
@@ -65,4 +65,5 @@ public class EventListController extends Controller {
             responseError(exchange, e);
         }
     }
+
 }
