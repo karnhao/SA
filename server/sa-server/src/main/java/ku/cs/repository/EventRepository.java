@@ -237,19 +237,12 @@ public class EventRepository extends Repository {
         }
     }
 
-    public List<Event> getAllEventByUUID(String uuid, String[] musicianRolesFilter) throws SQLException {
+    public List<Event> getAllEventByUUID(String uuid) throws SQLException {
         try {
-
-            if (musicianRolesFilter == null || musicianRolesFilter.length == 0) {
-                this.statement = connection.prepareStatement(
-                        "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event WHERE UUID = ?;");
-                ((PreparedStatement) this.statement).setString(1, uuid);
-                this.resultSet = ((PreparedStatement) this.statement).executeQuery();
-            } else {
-                // TODO: Create sql statement for getting all events that match musicianRoles
-                this.statement = connection.prepareStatement("TODO: create sql statement");
-                this.resultSet = this.statement.executeQuery("?");
-            }
+            this.statement = connection.prepareStatement(
+                    "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event WHERE UUID = ?;");
+            ((PreparedStatement) this.statement).setString(1, uuid);
+            this.resultSet = ((PreparedStatement) this.statement).executeQuery();
 
             List<Event> result = new LinkedList<Event>();
 
@@ -285,10 +278,6 @@ public class EventRepository extends Repository {
         }
     }
 
-    public List<Event> getAllEventByUUID(String uuid) throws SQLException {
-        return this.getAllEventByUUID(uuid, null);
-    }
-
     public void createEvent(String ownerUUID, Event event) throws SQLException {
         try {
             this.statement = connection.createStatement();
@@ -309,21 +298,11 @@ public class EventRepository extends Repository {
         }
     }
 
-    public List<Event> getAllEvent(String[] musicianRolesFilter) throws SQLException {
+    public List<Event> getAllEvent() throws SQLException {
         try {
-
-            if (musicianRolesFilter == null || musicianRolesFilter.length == 0) {
-                this.statement = connection.createStatement();
-                this.resultSet = this.statement.executeQuery(
-                        "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event;");
-            } else {
-                // TODO: Create sql statement for getting all events that match musicianRoles
-                this.statement = connection.prepareStatement("TODO: create sql statement");
-
-                ((PreparedStatement) this.statement).setString(1, null);
-
-                this.resultSet = ((PreparedStatement) this.statement).executeQuery();
-            }
+            this.statement = connection.createStatement();
+            this.resultSet = this.statement.executeQuery(
+                    "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event;");
 
             List<Event> result = new LinkedList<Event>();
 
@@ -358,10 +337,6 @@ public class EventRepository extends Repository {
         } finally {
             this.statement.close();
         }
-    }
-
-    public List<Event> getAllEvent() throws SQLException {
-        return this.getAllEvent(null);
     }
 
     public List<Event> getEventsByMusicianUUID(String musicianUUID) {
