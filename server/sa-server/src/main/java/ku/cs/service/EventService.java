@@ -86,6 +86,44 @@ public class EventService {
         return jsonObject;
     }
 
+    public JSONObject getAllEventByMusicianRoles(String accessToken, String[] musicianRoles) throws SQLException, AuthenticationException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null)
+            throw new AuthenticationException("Authentication Failed");
+
+        User user = userRepository.getUserByUUID(uuid);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent(musicianRoles) : eventRepository.getAllEventByUUID(uuid, musicianRoles);
+        events.stream().map(e -> this.toJSONObject(e, null, null, null, null)).forEach(array::put);
+
+        jsonObject.put("events", array);
+
+        return jsonObject;
+    }
+
+    public JSONObject getAllEvent(String accessToken, String[] musicianRoles) throws SQLException, AuthenticationException {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null)
+            throw new AuthenticationException("Authentication Failed");
+
+        User user = userRepository.getUserByUUID(uuid);
+
+        JSONObject jsonObject = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent() : eventRepository.getAllEventByUUID(uuid);
+        events.stream().map(e -> this.toJSONObject(e, null, null, null, null)).forEach(array::put);
+
+        jsonObject.put("events", array);
+
+        return jsonObject;
+    }
+
     public JSONObject getEvent(String accessToken, String event_id) throws AuthenticationException, SQLException {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
