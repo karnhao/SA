@@ -3,6 +3,7 @@ package ku.cs.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ku.cs.model.Event;
 import ku.cs.net.ClientGetEventList;
@@ -13,6 +14,7 @@ import ku.cs.util.ComponentLoader;
 public class HomePageController {
     public VBox vBoxHomepage;
     public Label titleLabel;
+    public HBox hBox1;
 
     @FXML
     public void initialize() {
@@ -21,6 +23,7 @@ public class HomePageController {
 
         ClientGetEventList clientGetEventList = new ClientGetEventList();
         clientGetEventList.getEventList().forEach(this::addItem);
+        AdvertiserController advertiseController = ComponentLoader.loadInto(hBox1, getClass().getResource("/ku/cs/views/components/advertiser.fxml"));
 
     }
     public void addItem(Event event){
