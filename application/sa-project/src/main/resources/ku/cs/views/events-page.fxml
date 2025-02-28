@@ -31,7 +31,7 @@
          <VBox.margin>
             <Insets left="10.0" right="10.0" top="10.0" />
          </VBox.margin></HBox>
-      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+      <HBox fx:id="normalSearchBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
          <children>
             <TextField fx:id="searchEventTextField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Search Event" HBox.hgrow="ALWAYS" />
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSearchButtonClick" text="Search" />
@@ -40,6 +40,25 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </VBox.margin>
       </HBox>
+      <Button fx:id="advanceSearchButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAdvanceSearchClick" text="Advance Search">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
+      </Button>
+      <VBox fx:id="advanceSearchBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+         <children>
+            <HBox fx:id="normalSearchBox1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+               <children>
+                  <TextField fx:id="searchEventTextField1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Search Event" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <VBox fx:id="musicianRoleCheckBoxBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSearchButtonClick" text="Search" />
+         </children>
+      </VBox>
       <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="my-scroll-pane">
          <content>
             <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" />
