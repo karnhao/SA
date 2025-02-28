@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
 
-<VBox spacing="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.ThemeSelectorController">
-    <children>
-        <ColorPicker fx:id="colorPicker" />
-        <Button fx:id="applyButton" text="Apply Theme" />
-        <HBox fx:id="preview" style="-fx-background-color: teal; -fx-min-width: 200px; -fx-min-height: 200px; border: 1px solid black;" />
-    </children>
-</VBox>
+<HBox spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.ThemeSelectorController">
+    <Button text="เปลี่ยนธีม" onAction="#switchTheme"/>
+</HBox>

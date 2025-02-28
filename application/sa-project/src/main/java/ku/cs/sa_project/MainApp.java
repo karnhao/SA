@@ -25,15 +25,13 @@ public class MainApp extends Application {
         configRoute();
 
         FXRouter.bind(this, stage);
-        //FXRouter.goTo("root"); //root
-        FXRouter.goTo("theme-selector");
+        FXRouter.goTo("root"); //root
         setTheme("default.css");
     }
 
     private static void configRoute() {
         String resourcesPath = "ku/cs/views/";
-        //FXRouter.when("root", resourcesPath + "root.fxml", "Good Application 100% No Scam 😋😋😋", MIN_WIGHT, 760);
-        FXRouter.when("theme-selector", resourcesPath + "theme-selector.fxml", "Select Theme", 400, 300);
+        FXRouter.when("root", resourcesPath + "root.fxml", "Good Application 100% No Scam 😋😋😋", MIN_WIGHT, 760);
 
     }
 
@@ -43,10 +41,14 @@ public class MainApp extends Application {
      */
     public static void setTheme(String styleFileName) {
         URL stylesheetURL = MainApp.class.getResource(THEME_PATH + styleFileName);
-        String styleSheet = "";
+        if (stylesheetURL == null) return;
 
-        if (stylesheetURL != null) styleSheet = stylesheetURL.toExternalForm(); // theme
-        if (currentStyle != null) MainApp.stage.getScene().getStylesheets().remove(currentStyle);
+        String styleSheet = stylesheetURL.toExternalForm();
+        if (currentStyle != null) {
+            MainApp.stage.getScene().getStylesheets().remove(currentStyle);
+        }
+
+        MainApp.stage.getScene().getStylesheets().clear(); // ล้างสไตล์ก่อนใส่ใหม่
         MainApp.stage.getScene().getStylesheets().add(styleSheet);
         MainApp.currentStyle = styleSheet;
     }

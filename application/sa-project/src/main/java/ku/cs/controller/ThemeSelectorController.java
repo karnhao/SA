@@ -2,48 +2,34 @@ package ku.cs.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
+import ku.cs.sa_project.MainApp;
 
 public class ThemeSelectorController {
-    private static Color themeColor = Color.TEAL; // Default theme color
+    private static int theme = 0; // 0 = light, 1 = dark
 
     @FXML
-    private StackPane rootPane;
-
-    @FXML
-    private HBox preview;
-
-    @FXML
-    private ColorPicker colorPicker;
-
-    @FXML
-    private Button applyButton;
+    private Button themeButton;
 
     @FXML
     public void initialize() {
-        colorPicker.setValue(themeColor);
-        updatePreview();
-
-        applyButton.setOnAction(e -> {
-            themeColor = colorPicker.getValue();
-            updatePreview();
-            System.out.println("Theme color changed to: " + themeColor);
-        });
+        updateButtonText();
     }
 
-    private void updatePreview() {
-        // กำหนดสีพื้นหลังให้ HBox โดยตรง
-        preview.setStyle("-fx-background-color: " + toRgbString(themeColor) + "; -fx-min-width: 200px; -fx-min-height: 200px; -fx-border-color: black;");
-    }
-    public static Color getThemeColor() {
-        return themeColor;
+    @FXML
+    public void switchTheme() {
+        theme = (theme == 0) ? 1 : 0;
+        updateAppearance();
     }
 
-    private String toRgbString(Color color) {
-        return String.format("rgb(%d, %d, %d)", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
+    public static void updateAppearance() {
+        if (theme == 0) {
+            MainApp.setTheme("default.css");
+        } else {
+            MainApp.setTheme("test.css");
+        }
+    }
+
+    private void updateButtonText() {
+        themeButton.setText((theme == 0) ? "Switch to Dark Mode" : "Switch to Light Mode");
     }
 }
