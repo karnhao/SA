@@ -35,7 +35,7 @@ public class ClientGetEvent {
             eventDetail.setEndDate(LocalDateTime.parse(eventJSON.getString("end_datetime")));
             eventDetail.setMusicianRequirements(toMusicianRequirementList(eventJSON.getJSONArray("musician_requirement")));
             eventDetail.setStereoRequirements(toStereoRequirementList(eventJSON.getJSONArray("stereo_requirement")));
-
+            eventDetail.setPrice(eventJSON.getInt("price"));
             String owner_id = eventJSON.getString("owner_id");
             ClientUserInfo clientUserInfo = new ClientUserInfo();
             User owner = clientUserInfo.getUserInfo(owner_id);

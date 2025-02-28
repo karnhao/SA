@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ku.cs.model.*;
 import ku.cs.net.*;
@@ -28,6 +30,11 @@ public class EventDetailController {
     public Button approveButton;
     @FXML
     public Label statusLabel;
+    @FXML
+    public HBox priceBox;
+    @FXML
+    public TextField textFieldPrice;
+
 
     private EventDetail eventDetail;
     @FXML
@@ -76,7 +83,10 @@ public class EventDetailController {
             }
         }
 
-
+        String userRole = RootService.getData().getUser().getRole();
+        if (!userRole.equalsIgnoreCase("agent")){
+            priceBox.setVisible(false);
+        }
 
         Platform.runLater(RootService::hideLoadingIndicator);
 
@@ -184,5 +194,18 @@ public class EventDetailController {
     }
     private void reloadPage() {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
+    }
+
+    public void setEventPrice(){
+        String input = textFieldPrice.getText();
+        int price;
+        try {
+            price = Integer.parseInt(input);
+            ClientSetEventPrice setEventPrice = new ClientSetEventPrice();
+            setEventPrice.setEventPrice(this.eventDetail.getEventID(), price);
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+            RootService.showErrorBar(e.getMessage());
+        }
     }
 }

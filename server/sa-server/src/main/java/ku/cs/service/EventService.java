@@ -267,6 +267,20 @@ public class EventService {
         return "OK";
     }
 
+    public String setEventPrice(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        User sourceUser = userRepository.getUserByUUID(uuid);
+        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new Exception("Access Denied");
+
+        if(!eventRepository.setEventPrice(jsonObject.getString("event_id"),jsonObject.getInt("price"))) throw new Exception("Failed");
+
+        return "OK";
+    }
+
     private JSONObject toJSONObject(Event event, List<MusicianRequirement> musicianRequirements,
             List<StereoRequirement> stereoRequirements, List<Musician> musicians, List<Stereo> stereos) {
         JSONObject o = new JSONObject();
@@ -277,7 +291,7 @@ public class EventService {
         o.put("start_datetime", event.getStartDateTime().toString());
         o.put("end_datetime", event.getEndDateTime());
         o.put("owner_id", event.getOwnerID());
-
+        o.put("price", event.getPrice());
         JSONArray mArray = new JSONArray();
 
         if (musicianRequirements != null) {
