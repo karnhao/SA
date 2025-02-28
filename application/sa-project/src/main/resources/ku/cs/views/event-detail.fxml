@@ -5,11 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<<<<<<< HEAD
-<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #f0f0f0;" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventDetailController">
-=======
 <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #f0f0f0;" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventDetailController">
->>>>>>> ff5e644c97d8ca3994cf4c4455695be763fb1ef1
     <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
         <Label style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #008080;" text="Event" HBox.hgrow="ALWAYS">
          <font>

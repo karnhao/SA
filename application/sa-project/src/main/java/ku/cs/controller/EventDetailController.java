@@ -187,8 +187,9 @@ public class EventDetailController {
 
     @FXML
     private void onMusicianRatingButtonClick() {
-        Navigation.open("musician-rating.fxml");
+        Navigation.open("musician-rating.fxml", eventDetail.getMusicianRequirements());
     }
+
 
 
     private void reloadPage() {
