@@ -8,6 +8,7 @@ module ku.cs {
     // เพิ่ม ZXing Library
     requires com.google.zxing;
     requires com.google.zxing.javase;
+    requires javafx.graphics;
 
     opens ku.cs.sa_project to javafx.fxml;
     exports ku.cs.sa_project;
