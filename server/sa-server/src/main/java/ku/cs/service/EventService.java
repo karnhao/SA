@@ -67,6 +67,71 @@ public class EventService {
         return "success";
     }
 
+    public String updateEvent(String eventID, JSONObject jsonObject) throws SQLException, AuthenticationException {
+        // ตรวจสอบสิทธิ์การเข้าถึง (access token)
+        String accessToken = jsonObject.getString("access_token");
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+
+        if (uuid == null) throw new AuthenticationException("Unauthorized");
+
+        // ดึงข้อมูลที่อัปเดต
+        JSONObject eventJSONObject = jsonObject.getJSONObject("event");
+        Event event = eventRepository.getEventByEID(eventID);
+
+        if (event == null) {
+            throw new SQLException("Event not found");
+        }
+
+        // อัปเดตข้อมูลของอีเวนต์
+        if (eventJSONObject.has("title")) {
+            event.setTitle(eventJSONObject.getString("title"));
+        }
+        if (eventJSONObject.has("description")) {
+            event.setDescription(eventJSONObject.getString("description"));
+        }
+        if (eventJSONObject.has("start_datetime")) {
+            event.setStartDateTime(LocalDateTime.parse(eventJSONObject.getString("start_datetime")));
+        }
+        if (eventJSONObject.has("end_datetime")) {
+            event.setEndDateTime(LocalDateTime.parse(eventJSONObject.getString("end_datetime")));
+        }
+
+        // อัปเดตสถานะ (ถ้าต้องการ)
+        if (eventJSONObject.has("status")) {
+            event.setStatus(eventJSONObject.getString("status"));
+        }
+
+        // ส่งการอัปเดตไปยังฐานข้อมูล
+        eventRepository.updateEvent(event);
+
+        // ถ้ามีการเปลี่ยนแปลงในข้อกำหนดของนักดนตรีหรือเครื่องเสียง
+        if (jsonObject.has("requirement")) {
+            JSONObject requirementJSONObject = jsonObject.getJSONObject("requirement");
+
+            // อัปเดตข้อกำหนดของนักดนตรี
+            if (requirementJSONObject.has("musicians")) {
+                JSONArray musiciansArray = requirementJSONObject.getJSONArray("musicians");
+                for (int i = 0; i < musiciansArray.length(); i++) {
+                    JSONObject musicianObj = musiciansArray.getJSONObject(i);
+                    requirementsRepository.addMusicianRequirement(eventID, musicianObj.getString("role_id"), musicianObj.getInt("quantity"));
+                }
+            }
+
+            // อัปเดตข้อกำหนดของเครื่องเสียง
+            if (requirementJSONObject.has("stereos")) {
+                JSONArray stereosArray = requirementJSONObject.getJSONArray("stereos");
+                for (int i = 0; i < stereosArray.length(); i++) {
+                    JSONObject stereoObj = stereosArray.getJSONObject(i);
+                    requirementsRepository.addStereoRequirement(eventID, stereoObj.getString("type_id"), stereoObj.getInt("quantity"));
+                }
+            }
+        }
+
+        return "Event update successful";
+    }
+
+
     public JSONObject getAllEvent(String accessToken) throws SQLException, AuthenticationException {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);

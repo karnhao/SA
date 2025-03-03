@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ku.cs.model.*;
-import ku.cs.net.ClientCreateEvent;
+import ku.cs.net.ClientUpdateEvent;
 import ku.cs.net.ClientGetEvent;
 import ku.cs.net.ClientGetRole;
 import ku.cs.net.ClientGetStereoType;
@@ -79,7 +79,6 @@ public class EventEditController {
         // โหลดฟอร์มการแก้ไข
         eventNameController = ComponentLoader.loadInto(eventName1, getClass().getResource("/ku/cs/views/components/textForm.fxml"));
         eventNameController.setTitleText("Event Name");
-// ถ้ามีข้อมูลเก่าให้ตั้งค่าในฟอร์ม
         if (eventDetail != null && eventDetail.getTitle() != null) {
             eventNameController.getTextField().setText(eventDetail.getTitle());
         } else {
@@ -88,7 +87,6 @@ public class EventEditController {
 
         descriptionController = ComponentLoader.loadInto(eventName1, getClass().getResource("/ku/cs/views/components/text-area-form.fxml"));
         descriptionController.setTitleText("Event Description");
-// ถ้ามีข้อมูลเก่าให้ตั้งค่าในฟอร์ม
         if (eventDetail != null && eventDetail.getDescription() != null) {
             descriptionController.getTextArea().setText(eventDetail.getDescription());
         } else {
@@ -96,17 +94,14 @@ public class EventEditController {
         }
 
         startDateTimeFormController = ComponentLoader.loadInto(editStartDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
-// ตั้งค่าเริ่มต้นหากมีข้อมูลเก่า
         if (eventDetail != null && eventDetail.getStartDate() != null) {
             startDateTimeFormController.setDateTime(eventDetail.getStartDate());
         }
 
         endDateTimeFormController = ComponentLoader.loadInto(editEndDateTimeVBox, getClass().getResource("/ku/cs/views/components/date-form.fxml"));
-// ตั้งค่าเริ่มต้นหากมีข้อมูลเก่า
         if (eventDetail != null && eventDetail.getEndDate() != null) {
             endDateTimeFormController.setDateTime(eventDetail.getEndDate());
         }
-
 
         // สร้างลิสต์สำหรับควบคุมข้อมูล
         musicianControllerList = new LinkedList<>();
@@ -117,16 +112,13 @@ public class EventEditController {
             eventDetail.getMusicianRequirements().forEach(musicianRequirement -> {
                 RequirementFormController<MusicianRole> controller = ComponentLoader.loadInto(editMusicianRequirementVBox,
                         getClass().getResource("/ku/cs/views/components/requirement-form.fxml"));
-                // ตรวจสอบว่า roles มีข้อมูลหรือไม่
                 if (roles != null) {
                     roles.forEach(r -> controller.getComboBox().getItems().add(r));
                 }
 
-                // กำหนดค่า ComboBox และ Quantity
                 controller.getComboBox().setValue(musicianRequirement.getMusicianRole());
                 controller.setQuantity(musicianRequirement.getQuantity());
 
-                // เพิ่ม Listener สำหรับการลบ
                 controller.addDeleteListener(() -> {
                     controller.delete();
                     musicianControllerList.remove(controller);
@@ -142,16 +134,13 @@ public class EventEditController {
                 RequirementFormController<StereoType> controller = ComponentLoader.loadInto(editStereoRequirementVBox,
                         getClass().getResource("/ku/cs/views/components/requirement-form.fxml"));
 
-                // ตรวจสอบว่า types มีข้อมูลหรือไม่
                 if (types != null) {
                     types.forEach(t -> controller.getComboBox().getItems().add(t));
                 }
 
-                // กำหนดค่า ComboBox และ Quantity
                 controller.getComboBox().setValue(stereoRequirement.getType());
                 controller.setQuantity(stereoRequirement.getQuantity());
 
-                // เพิ่ม Listener สำหรับการลบ
                 controller.addDeleteListener(() -> {
                     controller.delete();
                     stereoControllerList.remove(controller);
@@ -167,17 +156,12 @@ public class EventEditController {
     }
 
     public void onBackToEventDetail() {
-        // ตรวจสอบว่า eventDetail ไม่เป็น null ก่อน
-        if (eventDetail != null) {
-            String eventID = eventDetail.getEventID();
-            // เปิดหน้าจอ event-detail.fxml พร้อมส่ง eventID ไปด้วย
-            Navigation.open("event-detail.fxml", eventID);
-        } else {
-            // ถ้า eventDetail เป็น null จะแสดงข้อความข้อผิดพลาด
-            RootService.showErrorBar("Event details are missing.");
+        try {
+            RootService.getController().getNavigationController().open("event-detail.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();  // ดู Error ใน Console
         }
     }
-
 
     public void onEditMusicianRequirementAddButtonClick() {
         RequirementFormController<MusicianRole> controller = ComponentLoader.loadInto(editMusicianRequirementVBox,
@@ -212,7 +196,7 @@ public class EventEditController {
     }
 
     public void onEditDoneButton() {
-        ClientCreateEvent clientCreateEvent = new ClientCreateEvent();
+        ClientUpdateEvent clientUpdateEvent = new ClientUpdateEvent();  // ใช้ ClientUpdateEvent แทน ClientCreateEvent
 
         // สร้างรายการของ musicianRequirement
         List<MusicianRequirement> musicianRequirements = musicianControllerList.stream().map(c -> {
@@ -231,8 +215,12 @@ public class EventEditController {
         }).toList();
 
         try {
+            // อัปเดตสถานะเป็น "consider"
+            eventDetail.setStatus("consider");
+
             // ส่งข้อมูลที่อัปเดตกลับไปยังเซิร์ฟเวอร์
-            String res = clientCreateEvent.createEvent(
+            String res = clientUpdateEvent.updateEvent(  // เรียกใช้ ClientUpdateEvent
+                    eventDetail.getEventID(),  // ใช้ eventID ที่ดึงมา
                     eventNameController.getText(),
                     startDateTimeFormController.getDateTime(),
                     endDateTimeFormController.getDateTime(),
@@ -240,7 +228,13 @@ public class EventEditController {
                     musicianRequirements,
                     stereoRequirements
             );
+
             RootService.showBar(res);
+
+            // แสดงสถานะใหม่ใน UI
+            editStatusLabel.setText("consider");
+
+            // กลับไปที่หน้า event
             RootService.getController().getNavigationController().open("events-page.fxml");
         } catch (Exception e) {
             e.printStackTrace();

@@ -186,5 +186,5 @@ public class EventDetailController {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
     }
 
-    public void OnEditEvent() {RootService.getController().open("event-edit.fxml");}
+    public void OnEditEvent() {RootService.getController().getNavigationController().open("event-edit.fxml");}
 }
