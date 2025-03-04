@@ -1,14 +1,14 @@
 package ku.cs.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ku.cs.model.Musician;
 import ku.cs.model.MusicianRequirement;
 import ku.cs.service.Navigation;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MusicianRatingController {
@@ -24,32 +24,23 @@ public class MusicianRatingController {
 
         for (MusicianRequirement requirement : musicianRequirements) {
             for (Musician musician : requirement.getMusicians()) {
-                // สร้าง HBox สำหรับแต่ละนักดนตรี
-                HBox musicianItem = new HBox();
-
-                // Label สำหรับชื่อศิลปิน
-                Label musicianLabel = new Label(musician.getName());
-                musicianLabel.setStyle("-fx-font-size: 20px;");
-
-                // ปุ่ม Like และ Unlike
-                Button likeButton = new Button("Like");
-                Button unlikeButton = new Button("Unlike");
-
-                // ใส่ทุกอย่างลงใน HBox
-                musicianItem.getChildren().addAll(musicianLabel, likeButton, unlikeButton);
-
-                // เพิ่ม HBox เข้าไปใน VBox
-                musicianListVBox.getChildren().add(musicianItem);
+                addMusicianToList(musician);
             }
         }
     }
 
-    @FXML
-    public Button musicianRatingButton;
+    private void addMusicianToList(Musician musician) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ku/cs/views/musician-rating-item.fxml"));
+            VBox musicianItem = loader.load();
 
-    @FXML
-    private void onBackButtonClick() {
-        Navigation.open("event-detail.fxml");
+            MusicianRatingItemController controller = loader.getController();
+            controller.setMusician(musician);
+
+            musicianListVBox.getChildren().add(musicianItem);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
