@@ -1,5 +1,6 @@
 package ku.cs.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,6 +40,10 @@ public class EventRequirementController {
 
     public void addItem(RequirementItem ri) {
         ri.add(vBox);
+    }
+
+    public void onDoneClick(ActionEvent actionEvent) {
+
     }
 
     public interface RequirementItem {

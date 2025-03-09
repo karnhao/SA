@@ -10,7 +10,7 @@ public class Event {
     private String status;
     private String id;
     private String ownerID;
-
+    private int price;
     public String getTitle() {
         return title;
     }
@@ -65,5 +65,11 @@ public class Event {
 
     public void setOwnerID(String ownerID) {
         this.ownerID = ownerID;
+    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public int getPrice() {
+        return price;
     }
 }

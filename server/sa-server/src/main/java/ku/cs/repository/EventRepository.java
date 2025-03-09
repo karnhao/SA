@@ -28,7 +28,7 @@ public class EventRepository extends Repository {
 
             this.resultSet = this.statement.executeQuery(
                     String.format(
-                            "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event WHERE EID = '%s';",
+                            "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION,PRICE, UUID FROM event WHERE EID = '%s';",
                             eid));
 
             this.resultSet.next();
@@ -41,7 +41,7 @@ public class EventRepository extends Repository {
             String resultTitle = this.resultSet.getString("TITLE");
             String resultDescription = this.resultSet.getString("DESCRIPTION");
             String resultOwnerUUID = this.resultSet.getString("UUID");
-
+            int resultPrice = this.resultSet.getInt("PRICE");
             Event event = new Event();
             event.setId(resultEID);
             event.setTitle(resultTitle);
@@ -50,7 +50,7 @@ public class EventRepository extends Repository {
             event.setEndDateTime(LocalDateTime.of(resultEndDate.toLocalDate(), resultEndTime.toLocalTime()));
             event.setStatus(resultStatus);
             event.setOwnerID(resultOwnerUUID);
-
+            event.setPrice(resultPrice);
             return event;
 
         } catch (SQLException e) {
@@ -513,6 +513,23 @@ public class EventRepository extends Repository {
         try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
 
             ps.setString(1, eid);
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean setEventPrice(String eid,int price) {
+        String updateQuery = "UPDATE event SET PRICE = ? WHERE EID = ?";
+        
+        try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            ps.setInt(1, price);
+            ps.setString(2, eid);
             int rowsUpdated = ps.executeUpdate();
 
             return rowsUpdated > 0;
