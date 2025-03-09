@@ -26,7 +26,8 @@ public class EventService {
     private RequirementRepository requirementsRepository;
     private UserRepository userRepository;
 
-    public EventService(EventRepository eventRepository, RequirementRepository requirementsRepository, UserRepository userRepository) {
+    public EventService(EventRepository eventRepository, RequirementRepository requirementsRepository,
+            UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.requirementsRepository = requirementsRepository;
         this.userRepository = userRepository;
@@ -67,7 +68,8 @@ public class EventService {
         return "success";
     }
 
-    public JSONObject getAllEvent(String accessToken) throws SQLException, AuthenticationException {
+    public JSONObject getAllEvent(String accessToken, String[] musicianRoles)
+            throws SQLException, AuthenticationException {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
         if (uuid == null)
@@ -78,8 +80,33 @@ public class EventService {
         JSONObject jsonObject = new JSONObject();
         JSONArray array = new JSONArray();
 
-        List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent() : eventRepository.getAllEventByUUID(uuid);
-        events.stream().map(e -> this.toJSONObject(e, null, null, null, null)).forEach(array::put);
+        List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent()
+                : eventRepository.getAllEventByUUID(uuid);
+        events.stream()
+                // filter musician roles
+                .filter(e -> {
+                    if (musicianRoles != null) {
+
+                        List<MusicianRequirement> mRequirements = null;
+                        try {
+                            mRequirements = requirementsRepository.getMusicianRequirementList(e.getId());
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        for (String filterRole : musicianRoles) {
+                            for (MusicianRequirement eventRequirementRole : mRequirements) {
+                                if (filterRole.equalsIgnoreCase(eventRequirementRole.getRoleName()))
+                                    return true;
+                            }
+                        }
+
+                        return false;
+                    }
+                    // musicianRoles == null means no musician role filtering
+                    return true;
+                })
+                .map(e -> this.toJSONObject(e, null, null, null, null)).forEach(array::put);
 
         jsonObject.put("events", array);
 
@@ -112,7 +139,8 @@ public class EventService {
         String uuid = authenticationService.getUserID(accessToken);
 
         User sourceUser = userRepository.getUserByUUID(uuid);
-        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access Denied");
+        if (!sourceUser.getRole().equalsIgnoreCase("agent"))
+            throw new AuthenticationException("Access Denied");
 
         eventRepository.addMusicianRequest(target_uuid, eventID, roleID);
 
@@ -129,7 +157,8 @@ public class EventService {
         String uuid = authenticationService.getUserID(accessToken);
 
         User sourceUser = userRepository.getUserByUUID(uuid);
-        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new AuthenticationException("Access Denied");
+        if (!sourceUser.getRole().equalsIgnoreCase("agent"))
+            throw new AuthenticationException("Access Denied");
 
         eventRepository.addStereoRequest(eventID, stereoID);
 
@@ -175,12 +204,13 @@ public class EventService {
 
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        if (uuid == null)
+            throw new AuthenticationException("Unauthorized");
 
         String eid = jsonObject.getString("event_id");
         String role_id = jsonObject.getString("role_id");
 
-        if(!eventRepository.acceptMusicianEvent(uuid, eid, role_id)) {
+        if (!eventRepository.acceptMusicianEvent(uuid, eid, role_id)) {
             throw new Exception("ERROR: Failed to accept");
         }
 
@@ -192,12 +222,13 @@ public class EventService {
 
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        if (uuid == null)
+            throw new AuthenticationException("Unauthorized");
 
         String eid = jsonObject.getString("event_id");
         String role_id = jsonObject.getString("role_id");
 
-        if(!eventRepository.rejectMusicianEvent(uuid, eid, role_id)) {
+        if (!eventRepository.rejectMusicianEvent(uuid, eid, role_id)) {
             throw new Exception("ERROR: Failed to accept");
         }
 
@@ -209,12 +240,13 @@ public class EventService {
 
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        if (uuid == null)
+            throw new AuthenticationException("Unauthorized");
 
         String eid = jsonObject.getString("event_id");
         String stid = jsonObject.getString("stereo_id");
 
-        if(!eventRepository.acceptStereoEvent(stid, eid)) {
+        if (!eventRepository.acceptStereoEvent(stid, eid)) {
             throw new Exception("ERROR: Failed to accept");
         }
 
@@ -226,12 +258,13 @@ public class EventService {
 
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        if (uuid == null)
+            throw new AuthenticationException("Unauthorized");
 
         String eid = jsonObject.getString("event_id");
         String stid = jsonObject.getString("stereo_id");
 
-        if(!eventRepository.rejectStereoEvent(stid, eid)) {
+        if (!eventRepository.rejectStereoEvent(stid, eid)) {
             throw new Exception("ERROR: Failed to reject");
         }
 
@@ -242,12 +275,15 @@ public class EventService {
         String accessToken = jsonObject.getString("access_token");
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        if (uuid == null)
+            throw new AuthenticationException("Unauthorized");
 
         User sourceUser = userRepository.getUserByUUID(uuid);
-        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new Exception("Access Denied");
+        if (!sourceUser.getRole().equalsIgnoreCase("agent"))
+            throw new Exception("Access Denied");
 
-        if(!eventRepository.approveEvent(jsonObject.getString("event_id"))) throw new Exception("Failed");
+        if (!eventRepository.approveEvent(jsonObject.getString("event_id")))
+            throw new Exception("Failed");
         eventRepository.createHistoryForPromisedEvent(jsonObject.getString("event_id"));
 
         return "OK";
@@ -257,12 +293,15 @@ public class EventService {
         String accessToken = jsonObject.getString("access_token");
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        if (uuid == null)
+            throw new AuthenticationException("Unauthorized");
 
         User sourceUser = userRepository.getUserByUUID(uuid);
-        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new Exception("Access Denied");
+        if (!sourceUser.getRole().equalsIgnoreCase("agent"))
+            throw new Exception("Access Denied");
 
-        if(!eventRepository.cancelEvent(jsonObject.getString("event_id"))) throw new Exception("Failed");
+        if (!eventRepository.cancelEvent(jsonObject.getString("event_id")))
+            throw new Exception("Failed");
 
         return "OK";
     }
@@ -300,7 +339,7 @@ public class EventService {
                 n.put("id", m.getMusician_id());
                 n.put("quantity", m.getQuantity());
                 n.put("name", m.getRoleName());
-                
+
                 JSONArray nArray = new JSONArray();
                 if (musicians != null) {
                     musicians.stream().filter(t -> t.getMusicianRoleID().equals(m.getMusician_id())).forEach(t -> {
@@ -316,7 +355,7 @@ public class EventService {
                 }
 
                 n.put("musicians", nArray);
-                
+
                 mArray.put(n);
             });
 
