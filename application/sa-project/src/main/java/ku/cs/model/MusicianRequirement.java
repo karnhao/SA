@@ -6,7 +6,7 @@ public class MusicianRequirement implements Requirement {
     private int quantity;
     private MusicianRole musicianRole;
     private List<Musician> musicians;
-
+    private String status;
     @Override
     public String getID() {
         return this.musicianRole.getId();
@@ -34,6 +34,14 @@ public class MusicianRequirement implements Requirement {
 
     public List<Musician> getMusicians() {
         return musicians;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

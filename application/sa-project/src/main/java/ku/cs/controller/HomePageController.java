@@ -1,6 +1,5 @@
 package ku.cs.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -11,19 +10,21 @@ import ku.cs.service.Navigation;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
-public class HomePageController {
+public class HomePageController implements NavigationController.NavigationListener {
     public VBox vBoxHomepage;
     public Label titleLabel;
     public HBox hBox1;
+    private AdvertiserController advertiserController;
 
     @FXML
     public void initialize() {
+        RootService.getController().getNavigationController().setTitleText("HOME");
         titleLabel.setText(String.format("Welcome %s", RootService.getData().getUser().getName()));
         RootService.getController().getNavigationController().setTitleText("");
 
         ClientGetEventList clientGetEventList = new ClientGetEventList();
         clientGetEventList.getEventList().forEach(this::addItem);
-        AdvertiserController advertiseController = ComponentLoader.loadInto(hBox1, getClass().getResource("/ku/cs/views/components/advertiser.fxml"));
+        this.advertiserController = ComponentLoader.loadInto(hBox1, getClass().getResource("/ku/cs/views/components/advertiser.fxml"));
 
     }
     public void addItem(Event event){
@@ -33,5 +34,11 @@ public class HomePageController {
 
     public void onCreateEvent() {
         Navigation.open("create-event.fxml");
+    }
+
+    @Override
+    public void onPageChange() {
+        if (this.advertiserController != null)
+            this.advertiserController.stop();
     }
 }

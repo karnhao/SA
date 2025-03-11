@@ -1,13 +1,19 @@
 package ku.cs.controller;
 
+import com.google.zxing.WriterException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ku.cs.model.*;
 import ku.cs.net.*;
 import ku.cs.service.Navigation;
+import ku.cs.service.QRCodeGenerator;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
@@ -28,8 +34,17 @@ public class EventDetailController {
     public Button approveButton;
     @FXML
     public Label statusLabel;
+    @FXML
+    public HBox priceBox;
+    @FXML
+    public TextField textFieldPrice;
+    @FXML
+    public Label priceLabel;
+    @FXML
+    public ImageView qrCode;
 
     private EventDetail eventDetail;
+
     @FXML
     private void initialize() {
         ClientGetEvent clientGetEvent = new ClientGetEvent();
@@ -76,8 +91,17 @@ public class EventDetailController {
             }
         }
 
-
-
+        String userRole = RootService.getData().getUser().getRole();
+        if (!userRole.equalsIgnoreCase("agent")){
+            priceBox.setVisible(false);
+            priceLabel.setVisible(true);
+        }
+        if (eventDetail.getPrice() != 0){
+            priceLabel.setText(eventDetail.getPrice().toString());
+        }else{
+            priceLabel.setText("ยังไม่ได้กำหนดราคา");
+            qrCode.setVisible(false);
+        }
         Platform.runLater(RootService::hideLoadingIndicator);
 
     }
@@ -184,5 +208,28 @@ public class EventDetailController {
     }
     private void reloadPage() {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
+    }
+
+    public void setEventPrice(){
+        String input = textFieldPrice.getText();
+        int price;
+        try {
+            price = Integer.parseInt(input);
+            ClientSetEventPrice setEventPrice = new ClientSetEventPrice();
+            setEventPrice.setEventPrice(this.eventDetail.getEventID(), price);
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+            RootService.showErrorBar(e.getMessage());
+        }
+    }
+    public void generateAndShowQRCode() {
+        try {
+            String phoneNumber = "0971462865"; // ใส่เบอร์ PromptPay
+            int amount = eventDetail.getPrice(); // จำนวนเงิน
+            Image qrImage = QRCodeGenerator.generateQRCode(phoneNumber, amount);
+            qrCode.setImage(qrImage);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
     }
 }
