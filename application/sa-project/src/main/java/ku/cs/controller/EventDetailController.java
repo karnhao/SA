@@ -220,6 +220,9 @@ public class EventDetailController {
         } catch (NumberFormatException e){
             e.printStackTrace();
             RootService.showErrorBar(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            RootService.showErrorBar(e.getMessage());
         }
     }
     public void generateAndShowQRCode() {
