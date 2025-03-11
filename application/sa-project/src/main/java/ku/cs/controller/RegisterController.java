@@ -142,6 +142,34 @@ public class RegisterController {
     }
 
     private boolean isPasswordValid() {
-        return passwordFormController.getText().equals(passwordConfirmFormController.getText());
+    String password = passwordFormController.getText();
+    String confirmPassword = passwordConfirmFormController.getText();
+
+    // ตรวจสอบความยาว
+    if (password.length() < 8) {
+        Platform.runLater(() -> RootService.showErrorBar("Password must be at least 8 characters long"));
+        return false;
     }
+
+    // ตรวจสอบว่ามีตัวพิมพ์เล็ก
+    if (!password.matches(".*[a-z].*")) {
+        Platform.runLater(() -> RootService.showErrorBar("Password must contain at least one lowercase letter"));
+        return false;
+    }
+
+    // ตรวจสอบว่ามีตัวพิมพ์ใหญ่
+    if (!password.matches(".*[A-Z].*")) {
+        Platform.runLater(() -> RootService.showErrorBar("Password must contain at least one uppercase letter"));
+        return false;
+    }
+
+    // ตรวจสอบว่ารหัสผ่านตรงกัน
+    if (!password.equals(confirmPassword)) {
+        Platform.runLater(() -> RootService.showErrorBar("Confirm Password failed"));
+        return false;
+    }
+
+    return true;
+}
+
 }
