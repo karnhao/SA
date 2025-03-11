@@ -224,6 +224,8 @@ public class EventDetailController {
             e.printStackTrace();
             RootService.showErrorBar(e.getMessage());
         }
+
+        this.reloadPage();
     }
     public void generateAndShowQRCode() {
         try {
