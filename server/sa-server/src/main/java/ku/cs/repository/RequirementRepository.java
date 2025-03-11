@@ -1,6 +1,7 @@
 package ku.cs.repository;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -94,6 +95,22 @@ public class RequirementRepository extends Repository {
 
         } catch (SQLException e) {
             return null;
+        } finally {
+            this.statement.close();
+        }
+    }
+
+    public void setMusicianRequirementStatus(String status, String eid, String rid) throws SQLException {
+        try {
+            PreparedStatement ps = this.connection.prepareStatement("UPDATE musicianrequirement SET `STATUS` = ? WHERE `EID` = ? AND `ROLE_ID` = ?; ");
+
+            ps.setString(1, status);
+            ps.setString(2, eid);
+            ps.setString(3, rid);
+
+            ps.executeUpdate();
+
+            
         } finally {
             this.statement.close();
         }
