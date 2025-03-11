@@ -116,4 +116,20 @@ public class RequirementRepository extends Repository {
         }
     }
 
+    public void setStereoRequirementStatus(String status, String eid, String tid) throws SQLException {
+        try {
+            PreparedStatement ps = this.connection.prepareStatement("UPDATE stereorequirement SET `STATUS` = ? WHERE `EID` = ? AND `TYPE_ID` = ?; ");
+
+            ps.setString(1, status);
+            ps.setString(2, eid);
+            ps.setString(3, tid);
+
+            ps.executeUpdate();
+
+            
+        } finally {
+            this.statement.close();
+        }
+    }
+
 }

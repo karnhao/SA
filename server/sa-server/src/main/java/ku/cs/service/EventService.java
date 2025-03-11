@@ -364,6 +364,17 @@ public class EventService {
         return "OK";
     }
 
+    public String setStereoRequirementStatus(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+        this.checkAgent(accessToken);
+
+        requirementsRepository.setMusicianRequirementStatus(
+                jsonObject.getString("status"),
+                jsonObject.getString("eid"),
+                jsonObject.getString("tid"));
+        return "OK";
+    }
+
     private void checkAgent(String accessToken) throws Exception {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
