@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.MusicianRatingController">
+   <children>
+      <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+         <children>
+            <Label text="Rating Musician">
+               <font>
+                  <Font name="System Bold" size="28.0" />
+               </font></Label>
+            <Pane HBox.hgrow="ALWAYS" />
+         </children></HBox>
+      <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <content>
+            <VBox fx:id="musicianListVBox">
+               <padding>
+                  <Insets left="500.0" />
+               </padding></VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</VBox>

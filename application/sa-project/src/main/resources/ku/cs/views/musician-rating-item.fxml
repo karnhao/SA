@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.MusicianRatingItemController">
+    <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+                <Label fx:id="musicianNameLabel" minWidth="-Infinity" text="Musician Name">
+               <font>
+                  <Font size="40.0" />
+               </font>
+                </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                      <Button fx:id="likeButton" minWidth="-Infinity" onAction="#handleLike" text="Like" textFill="#0040ff" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                     <effect>
+                        <DropShadow height="41.52" radius="15.7425" spread="0.31" width="23.45">
+                           <color>
+                              <Color red="0.11666666716337204" green="1.0" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                      </Button>
+                      <Button fx:id="unlikeButton" minWidth="-Infinity" onAction="#handleUnlike" text="Unlike" textFill="RED" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="40.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                     <effect>
+                        <DropShadow height="53.24" radius="24.655" width="47.38">
+                           <color>
+                              <Color red="1.0" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                      </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+    </children>
+</VBox>

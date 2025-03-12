@@ -35,6 +35,7 @@ public class EventDetailController {
     @FXML
     public Label statusLabel;
     @FXML
+    public Button musicianRatingButton;
     public HBox priceBox;
     @FXML
     public TextField textFieldPrice;
@@ -242,10 +243,17 @@ public class EventDetailController {
             RootService.showErrorBar(e.getMessage());
         }
     }
+
+    @FXML
+    private void onMusicianRatingButtonClick() {
+        Navigation.open("musician-rating.fxml", eventDetail.getMusicianRequirements());
+    }
+
+
+
     private void reloadPage() {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
     }
-
 
     public void OnEditEvent() {RootService.getController().getNavigationController().open("event-edit.fxml");}
 
