@@ -42,6 +42,8 @@ public class EventDetailController {
     public Label priceLabel;
     @FXML
     public ImageView qrCode;
+    @FXML
+    public Label labelInstrument;
 
     private EventDetail eventDetail;
 
@@ -137,6 +139,7 @@ public class EventDetailController {
         }
         Platform.runLater(RootService::hideLoadingIndicator);
 
+        checkInstrumentsCompletion();
     }
 
     public void updateEventDetails(String owner, String date, String detail, String status) {
@@ -275,4 +278,20 @@ public class EventDetailController {
         }
     }
 
+    private void checkInstrumentsCompletion() {
+        boolean allMusiciansComplete = eventDetail.getMusicianRequirements().stream()
+                .allMatch(req -> req.getMusicians().stream()
+                        .filter(m -> m.getStatus().equalsIgnoreCase("promise"))
+                        .count() >= req.getQuantity());
+
+        boolean allStereosComplete = eventDetail.getStereoRequirements().stream()
+                .allMatch(req -> req.getStereos().stream()
+                        .filter(s -> s.getStatus().equalsIgnoreCase("promise"))
+                        .count() >= req.getQuantity());
+
+        if (allMusiciansComplete && allStereosComplete) {
+            labelInstrument.setVisible(true);
+            labelInstrument.setText("     Musician and Stereo are complete.... pls standby.");
+        }
+    }
 }
