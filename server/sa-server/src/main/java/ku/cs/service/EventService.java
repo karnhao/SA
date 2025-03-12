@@ -341,14 +341,7 @@ public class EventService {
 
     public String approveEvent(JSONObject jsonObject) throws Exception {
         String accessToken = jsonObject.getString("access_token");
-        AuthenticationService authenticationService = AuthenticationService.get();
-        String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null)
-            throw new AuthenticationException("Unauthorized");
-
-        User sourceUser = userRepository.getUserByUUID(uuid);
-        if (!sourceUser.getRole().equalsIgnoreCase("agent"))
-            throw new Exception("Access Denied");
+        this.checkAgent(accessToken);
 
         if (!eventRepository.approveEvent(jsonObject.getString("event_id")))
             throw new Exception("Failed");
@@ -359,14 +352,7 @@ public class EventService {
 
     public String cancelEvent(JSONObject jsonObject) throws Exception {
         String accessToken = jsonObject.getString("access_token");
-        AuthenticationService authenticationService = AuthenticationService.get();
-        String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null)
-            throw new AuthenticationException("Unauthorized");
-
-        User sourceUser = userRepository.getUserByUUID(uuid);
-        if (!sourceUser.getRole().equalsIgnoreCase("agent"))
-            throw new Exception("Access Denied");
+        this.checkAgent(accessToken);
 
         if (!eventRepository.cancelEvent(jsonObject.getString("event_id")))
             throw new Exception("Failed");
@@ -376,14 +362,10 @@ public class EventService {
 
     public String setEventPrice(JSONObject jsonObject) throws Exception {
         String accessToken = jsonObject.getString("access_token");
-        AuthenticationService authenticationService = AuthenticationService.get();
-        String uuid = authenticationService.getUserID(accessToken);
-        if (uuid == null) throw new AuthenticationException("Unauthorized");
+        this.checkAgent(accessToken);
 
-        User sourceUser = userRepository.getUserByUUID(uuid);
-        if (!sourceUser.getRole().equalsIgnoreCase("agent")) throw new Exception("Access Denied");
-
-        if(!eventRepository.setEventPrice(jsonObject.getString("event_id"),jsonObject.getInt("price"))) throw new Exception("Failed");
+        if (!eventRepository.setEventPrice(jsonObject.getString("event_id"), jsonObject.getInt("price")))
+            throw new Exception("Failed");
 
         return "OK";
     }
@@ -407,6 +389,7 @@ public class EventService {
                 n.put("id", m.getMusician_id());
                 n.put("quantity", m.getQuantity());
                 n.put("name", m.getRoleName());
+                n.put("status", m.getStatus());
 
                 JSONArray nArray = new JSONArray();
                 if (musicians != null) {
@@ -437,6 +420,7 @@ public class EventService {
                 n.put("id", s.getType_id());
                 n.put("quantity", s.getQuantity());
                 n.put("name", s.getTypeName());
+                n.put("status", s.getStatus());
 
                 JSONArray nArray = new JSONArray();
                 if (stereos != null) {
@@ -462,5 +446,38 @@ public class EventService {
         }
 
         return o;
+    }
+
+    public String setMusicianRequirementStatus(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+        this.checkAgent(accessToken);
+
+        requirementsRepository.setMusicianRequirementStatus(
+                jsonObject.getString("status"),
+                jsonObject.getString("eid"),
+                jsonObject.getString("rid"));
+        return "OK";
+    }
+
+    public String setStereoRequirementStatus(JSONObject jsonObject) throws Exception {
+        String accessToken = jsonObject.getString("access_token");
+        this.checkAgent(accessToken);
+
+        requirementsRepository.setMusicianRequirementStatus(
+                jsonObject.getString("status"),
+                jsonObject.getString("eid"),
+                jsonObject.getString("tid"));
+        return "OK";
+    }
+
+    private void checkAgent(String accessToken) throws Exception {
+        AuthenticationService authenticationService = AuthenticationService.get();
+        String uuid = authenticationService.getUserID(accessToken);
+        if (uuid == null)
+            throw new AuthenticationException("Unauthorized");
+
+        User sourceUser = userRepository.getUserByUUID(uuid);
+        if (!sourceUser.getRole().equalsIgnoreCase("agent"))
+            throw new Exception("Access Denied");
     }
 }
