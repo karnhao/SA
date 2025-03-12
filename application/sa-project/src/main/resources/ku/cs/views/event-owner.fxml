@@ -9,11 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< HEAD
 <VBox alignment="TOP_CENTER" style="-fx-background-color: #f0f0f0;" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventOwnerController">
-=======
-<VBox alignment="TOP_CENTER" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventOwnerController">
->>>>>>> 15af6f8f810e95b7d5bbbb0c65affc0c7f207e21
     <HBox alignment="CENTER" VBox.vgrow="NEVER">
         <Label style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #008080;" text="Event" HBox.hgrow="ALWAYS">
          <font>
