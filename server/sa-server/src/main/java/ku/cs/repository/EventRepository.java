@@ -137,15 +137,14 @@ public class EventRepository extends Repository {
         try {
             this.statement = connection.prepareStatement(
                     "SELECT mm.STATUS, mm.ROLE_ID, mm.UUID, mr.ROLE_NAME, u.NAME, u.PHONE_NUMBER, u.EMAIL_ADDRESS " +
-                    "FROM musicianeventmap mm " +
-                    "INNER JOIN musicianrole mr ON mm.ROLE_ID = mr.ROLE_ID " +
-                    "INNER JOIN user u ON mm.UUID = u.UUID " +
-                    "WHERE mm.EID = ?;"
-            );
+                            "FROM musicianeventmap mm " +
+                            "INNER JOIN musicianrole mr ON mm.ROLE_ID = mr.ROLE_ID " +
+                            "INNER JOIN user u ON mm.UUID = u.UUID " +
+                            "WHERE mm.EID = ?;");
             ((PreparedStatement) this.statement).setString(1, eid);
             this.resultSet = ((PreparedStatement) this.statement).executeQuery();
             LinkedList<Musician> result = new LinkedList<>();
-            
+
             while (this.resultSet.next()) {
                 String resultStatus = this.resultSet.getString("STATUS");
                 String resultName = this.resultSet.getString("NAME");
@@ -193,7 +192,8 @@ public class EventRepository extends Repository {
     public List<Stereo> getStereoFromEventID(String eid) throws SQLException {
         try {
             this.statement = connection.prepareStatement(
-                    "SELECT sm.STATUS, sm.STID, st.STNAME, st.TYPE_ID, s.NAME STEREO_NAME, u.NAME OWNER_NAME, u.PHONE_NUMBER OWNER_PHONE_NUMBER, u.EMAIL_ADDRESS OWNER_EMAIL_ADDRESS, u.UUID\r\n" +
+                    "SELECT sm.STATUS, sm.STID, st.STNAME, st.TYPE_ID, s.NAME STEREO_NAME, u.NAME OWNER_NAME, u.PHONE_NUMBER OWNER_PHONE_NUMBER, u.EMAIL_ADDRESS OWNER_EMAIL_ADDRESS, u.UUID\r\n"
+                            +
                             "FROM stereoeventmap sm\r\n" +
                             "INNER JOIN stereo s ON sm.STID = s.STID\r\n" +
                             "INNER JOIN stereotype st ON s.TYPE_ID = st.TYPE_ID\r\n" +
@@ -301,7 +301,6 @@ public class EventRepository extends Repository {
     public List<Event> getAllEvent() throws SQLException {
         try {
             this.statement = connection.createStatement();
-
             this.resultSet = this.statement.executeQuery(
                     "SELECT EID, START_DATE, END_DATE, START_TIME, END_TIME, STATUS, TITLE, DESCRIPTION, UUID FROM event;");
 
@@ -342,10 +341,11 @@ public class EventRepository extends Repository {
 
     public List<Event> getEventsByMusicianUUID(String musicianUUID) {
         List<Event> events = new LinkedList<>();
-        String query = "SELECT e.EID, e.START_DATE, e.END_DATE, e.START_TIME, e.END_TIME, e.STATUS, e.TITLE, e.DESCRIPTION, e.UUID " +
-                       "FROM event e " +
-                       "JOIN musicianeventmap mem ON e.EID = mem.EID " +
-                       "WHERE mem.UUID = ?";
+        String query = "SELECT e.EID, e.START_DATE, e.END_DATE, e.START_TIME, e.END_TIME, e.STATUS, e.TITLE, e.DESCRIPTION, e.UUID "
+                +
+                "FROM event e " +
+                "JOIN musicianeventmap mem ON e.EID = mem.EID " +
+                "WHERE mem.UUID = ?";
 
         try (PreparedStatement ps = this.connection.prepareStatement(query)) {
 
@@ -382,11 +382,12 @@ public class EventRepository extends Repository {
 
     public List<Event> getEventsByStereoOwnerUUID(String musicianUUID) {
         List<Event> events = new LinkedList<>();
-        String query = "SELECT e.EID, e.START_DATE, e.END_DATE, e.START_TIME, e.END_TIME, e.STATUS, e.TITLE, e.DESCRIPTION, e.UUID " +
-                       "FROM event e " +
-                       "JOIN stereoeventmap sem ON e.EID = sem.EID " +
-                       "JOIN stereo s ON sem.STID = s.STID " +
-                       "WHERE s.UUID = ?";
+        String query = "SELECT e.EID, e.START_DATE, e.END_DATE, e.START_TIME, e.END_TIME, e.STATUS, e.TITLE, e.DESCRIPTION, e.UUID "
+                +
+                "FROM event e " +
+                "JOIN stereoeventmap sem ON e.EID = sem.EID " +
+                "JOIN stereo s ON sem.STID = s.STID " +
+                "WHERE s.UUID = ?";
 
         try (PreparedStatement ps = this.connection.prepareStatement(query)) {
 
@@ -423,7 +424,7 @@ public class EventRepository extends Repository {
 
     public boolean acceptMusicianEvent(String uuid, String eid, String role_id) {
         String updateQuery = "UPDATE musicianeventmap SET STATUS = 'promise' WHERE UUID = ? AND EID = ? AND ROLE_ID = ?";
-        
+
         try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
 
             ps.setString(1, uuid);
@@ -441,7 +442,7 @@ public class EventRepository extends Repository {
 
     public boolean rejectMusicianEvent(String uuid, String eid, String role_id) {
         String updateQuery = "UPDATE musicianeventmap SET STATUS = 'reject' WHERE UUID = ? AND EID = ? AND ROLE_ID = ?";
-        
+
         try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
 
             ps.setString(1, uuid);
@@ -460,7 +461,7 @@ public class EventRepository extends Repository {
     public boolean acceptStereoEvent(String stid, String eid) {
         String updateQuery = "UPDATE stereoeventmap SET STATUS = 'promise' WHERE STID = ? AND EID = ?";
         try (
-             PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+                PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
 
             ps.setString(1, stid);
             ps.setString(2, eid);
@@ -477,7 +478,7 @@ public class EventRepository extends Repository {
     public boolean rejectStereoEvent(String stid, String eid) {
         String updateQuery = "UPDATE stereoeventmap SET STATUS = 'reject' WHERE STID = ? AND EID = ?";
         try (
-             PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+                PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
 
             ps.setString(1, stid);
             ps.setString(2, eid);
@@ -493,7 +494,7 @@ public class EventRepository extends Repository {
 
     public boolean approveEvent(String eid) {
         String updateQuery = "UPDATE event SET STATUS = 'done' WHERE EID = ?";
-        
+
         try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
 
             ps.setString(1, eid);
@@ -509,7 +510,7 @@ public class EventRepository extends Repository {
 
     public boolean cancelEvent(String eid) {
         String updateQuery = "UPDATE event SET STATUS = 'cancel' WHERE EID = ?";
-        
+
         try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
 
             ps.setString(1, eid);
@@ -567,7 +568,7 @@ public class EventRepository extends Repository {
                 PreparedStatement insertPstmt = this.connection.prepareStatement(insertQuery);
                 insertPstmt.setDate(1, new java.sql.Date(System.currentTimeMillis()));
                 insertPstmt.setString(2, java.util.UUID.randomUUID().toString());
-                insertPstmt.setString(3, "done");  // Or set the appropriate status
+                insertPstmt.setString(3, "done"); // Or set the appropriate status
                 insertPstmt.setString(4, uuid);
                 insertPstmt.setString(5, incomingEID);
                 insertPstmt.executeUpdate();
@@ -587,7 +588,7 @@ public class EventRepository extends Repository {
                 PreparedStatement insertPstmt = this.connection.prepareStatement(insertQuery);
                 insertPstmt.setDate(1, new java.sql.Date(System.currentTimeMillis()));
                 insertPstmt.setString(2, java.util.UUID.randomUUID().toString());
-                insertPstmt.setString(3, "reject");  // Or set the appropriate status
+                insertPstmt.setString(3, "reject"); // Or set the appropriate status
                 insertPstmt.setString(4, uuid);
                 insertPstmt.setString(5, incomingEID);
                 insertPstmt.executeUpdate();
@@ -598,8 +599,10 @@ public class EventRepository extends Repository {
             e.printStackTrace();
         } finally {
             try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
+                if (rs != null)
+                    rs.close();
+                if (pstmt != null)
+                    pstmt.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

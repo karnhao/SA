@@ -11,6 +11,7 @@ import java.io.File;
 public class AdvertiserController {
 
     @FXML private ImageView advertiserImage;
+    private Timeline timeline;
     private final String[] imagePaths = {
         "src/main/resources/ku/cs/images/advertiser/advertiser1.jpg",
         "src/main/resources/ku/cs/images/advertiser/advertiser2.jpg",
@@ -22,6 +23,10 @@ public class AdvertiserController {
     public void initialize() {
         loadImage(imagePaths[currentImageIndex]);
         startImageRotation();
+    }
+
+    public void stop() {
+        if (this.timeline != null) this.timeline.stop();
     }
 
     private void loadImage(String path) {
@@ -41,7 +46,7 @@ public class AdvertiserController {
     }
 
     private void startImageRotation() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
+        this.timeline = new Timeline(new KeyFrame(Duration.seconds(5), event -> {
             currentImageIndex = (currentImageIndex + 1) % imagePaths.length;
             loadImage(imagePaths[currentImageIndex]);
         }));

@@ -68,7 +68,8 @@ public class EventService {
         return "success";
     }
 
-    public JSONObject getAllEvent(String accessToken) throws SQLException, AuthenticationException {
+    public JSONObject getAllEvent(String accessToken, String[] musicianRoles)
+            throws SQLException, AuthenticationException {
         AuthenticationService authenticationService = AuthenticationService.get();
         String uuid = authenticationService.getUserID(accessToken);
         if (uuid == null)
@@ -81,7 +82,31 @@ public class EventService {
 
         List<Event> events = user.getRole().equalsIgnoreCase("agent") ? eventRepository.getAllEvent()
                 : eventRepository.getAllEventByUUID(uuid);
-        events.stream().map(e -> this.toJSONObject(e, null, null, null, null)).forEach(array::put);
+        events.stream()
+                // filter musician roles
+                .filter(e -> {
+                    if (musicianRoles != null) {
+
+                        List<MusicianRequirement> mRequirements = null;
+                        try {
+                            mRequirements = requirementsRepository.getMusicianRequirementList(e.getId());
+                        } catch (SQLException e1) {
+                            e1.printStackTrace();
+                        }
+
+                        for (String filterRole : musicianRoles) {
+                            for (MusicianRequirement eventRequirementRole : mRequirements) {
+                                if (filterRole.equalsIgnoreCase(eventRequirementRole.getRoleName()))
+                                    return true;
+                            }
+                        }
+
+                        return false;
+                    }
+                    // musicianRoles == null means no musician role filtering
+                    return true;
+                })
+                .map(e -> this.toJSONObject(e, null, null, null, null)).forEach(array::put);
 
         jsonObject.put("events", array);
 
