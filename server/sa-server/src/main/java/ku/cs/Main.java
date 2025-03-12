@@ -29,6 +29,7 @@ import ku.cs.controller.RejectStereoEventController;
 import ku.cs.controller.RequestMusicianController;
 import ku.cs.controller.RequestStereoController;
 import ku.cs.controller.SetAvailableRoleController;
+import ku.cs.controller.SetEventPriceController;
 import ku.cs.controller.SignUpController;
 import ku.cs.controller.StereoListController;
 import ku.cs.controller.UpdatePasswordController;
@@ -109,6 +110,7 @@ public class Main {
         server.createContext("/reject_stereo_event", new RejectStereoEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/approve", new ApproveEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/cancel", new CancelEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/setEventPrice",new SetEventPriceController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.setExecutor(null);
         server.start();
 

@@ -10,7 +10,6 @@ public class Event {
     private String status;
     private User owner;
     private String eventID;
-
     public Event() {}
 
     public LocalDateTime getStartDate() {
