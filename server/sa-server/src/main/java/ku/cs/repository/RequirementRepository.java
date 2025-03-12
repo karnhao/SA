@@ -46,17 +46,19 @@ public class RequirementRepository extends Repository {
             this.statement = connection.createStatement();
 
             this.resultSet = this.statement.executeQuery(String.format(
-                    "SELECT m.ROLE_ID, m.QUANTITY, n.ROLE_NAME FROM musicianrequirement m JOIN musicianrole n ON m.ROLE_ID = n.ROLE_ID WHERE EID = '%s';", eid));
+                    "SELECT m.ROLE_ID, m.QUANTITY, n.ROLE_NAME, n.STATUS FROM musicianrequirement m JOIN musicianrole n ON m.ROLE_ID = n.ROLE_ID WHERE EID = '%s';", eid));
 
             while (this.resultSet.next()) {
                 MusicianRequirement r = new MusicianRequirement();
                 String resultID = resultSet.getString("ROLE_ID");
                 String resultName = resultSet.getString("ROLE_NAME");
+                String status = resultSet.getString("STATUS");
                 int resultQuantity = resultSet.getInt("QUANTITY");
 
                 r.setMusician_id(resultID);
                 r.setQuantity(resultQuantity);
                 r.setRoleName(resultName);
+                r.setStatus(status);
 
                 requirements.add(r);
             }
@@ -76,17 +78,19 @@ public class RequirementRepository extends Repository {
             this.statement = connection.createStatement();
 
             this.resultSet = this.statement.executeQuery(String.format(
-                    "SELECT m.TYPE_ID, m.QUANTITY, n.STNAME FROM stereorequirement m JOIN stereotype n ON m.TYPE_ID = n.TYPE_ID WHERE EID = '%s';", eid));
+                    "SELECT m.TYPE_ID, m.QUANTITY, n.STNAME, n.STATUS FROM stereorequirement m JOIN stereotype n ON m.TYPE_ID = n.TYPE_ID WHERE EID = '%s';", eid));
 
             while (this.resultSet.next()) {
                 StereoRequirement r = new StereoRequirement();
                 String resultID = resultSet.getString("TYPE_ID");
                 String resultName = resultSet.getString("STNAME");
+                String status = resultSet.getString("STATUS");
                 int resultQuantity = resultSet.getInt("QUANTITY");
 
                 r.setType_id(resultID);
                 r.setQuantity(resultQuantity);
                 r.setTypeName(resultName);
+                r.setStatus(status);
 
                 requirements.add(r);
             }

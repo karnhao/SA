@@ -296,6 +296,7 @@ public class EventService {
                 n.put("id", m.getMusician_id());
                 n.put("quantity", m.getQuantity());
                 n.put("name", m.getRoleName());
+                n.put("status", m.getStatus());
 
                 JSONArray nArray = new JSONArray();
                 if (musicians != null) {
@@ -326,6 +327,7 @@ public class EventService {
                 n.put("id", s.getType_id());
                 n.put("quantity", s.getQuantity());
                 n.put("name", s.getTypeName());
+                n.put("status", s.getStatus());
 
                 JSONArray nArray = new JSONArray();
                 if (stereos != null) {
