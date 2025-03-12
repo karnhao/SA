@@ -92,11 +92,11 @@ public class EventDetailController {
         }
 
         String userRole = RootService.getData().getUser().getRole();
-        if (!userRole.equalsIgnoreCase("agent")){
+        if (!userRole.equalsIgnoreCase("agent")) {
             priceBox.setVisible(false);
             priceLabel.setVisible(true);
         }
-        if (eventDetail.getPrice() != 0){
+        if (eventDetail.getPrice() != 0) {
             priceLabel.setText(eventDetail.getPrice().toString());
         }else{
             priceLabel.setText("ยังไม่ได้กำหนดราคา");
@@ -215,8 +215,9 @@ public class EventDetailController {
         int price;
         try {
             price = Integer.parseInt(input);
+            int priceWithPercent = (int) (price * 1.05);
             ClientSetEventPrice setEventPrice = new ClientSetEventPrice();
-            setEventPrice.setEventPrice(this.eventDetail.getEventID(), price);
+            setEventPrice.setEventPrice(this.eventDetail.getEventID(), priceWithPercent);
         } catch (NumberFormatException e){
             e.printStackTrace();
             RootService.showErrorBar(e.getMessage());
