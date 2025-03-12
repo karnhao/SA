@@ -280,3 +280,31 @@
 .split-pane {
     -fx-padding: 0;
 }
+
+/* Light Theme */
+.root {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+.vbox-background {
+    -fx-background-color: white;
+}
+
+.header-background {
+    -fx-background-color: #f0f0f0;
+}
+
+.header-title, .topic, .label {
+    -fx-text-fill: black; /* เปลี่ยนข้อความเป็นสีดำ */
+}
+
+/* ปรับปุ่มให้ Font เป็นสีขาว */
+.button {
+    -fx-background-color: #008080; /* สีปุ่มเขียวอมฟ้า */
+    -fx-text-fill: white; /* เปลี่ยนข้อความของปุ่มเป็นสีขาว */
+}
+
+.button:hover {
+    -fx-background-color: #006666; /* เปลี่ยนสีเมื่อโฮเวอร์ */
+}
+
