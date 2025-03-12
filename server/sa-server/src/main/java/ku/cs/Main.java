@@ -11,6 +11,46 @@ import com.sun.net.httpserver.HttpServer;
 import ku.cs.controller.*;
 import ku.cs.repository.*;
 import ku.cs.service.*;
+import ku.cs.controller.AcceptMusicianEventController;
+import ku.cs.controller.AcceptStereoEventController;
+import ku.cs.controller.ApproveEventController;
+import ku.cs.controller.CancelEventController;
+import ku.cs.controller.CreateEventController;
+import ku.cs.controller.CreateStereoController;
+import ku.cs.controller.EventListController;
+import ku.cs.controller.GetAllUserController;
+import ku.cs.controller.GetAvailableRoleController;
+import ku.cs.controller.GetEventController;
+import ku.cs.controller.GetRequestedEventsController;
+import ku.cs.controller.GetRolesController;
+import ku.cs.controller.GetStereoController;
+import ku.cs.controller.GetStereoTypeController;
+import ku.cs.controller.HelloController;
+import ku.cs.controller.LoginController;
+import ku.cs.controller.RejectMusicianEventController;
+import ku.cs.controller.RejectStereoEventController;
+import ku.cs.controller.RequestMusicianController;
+import ku.cs.controller.RequestStereoController;
+import ku.cs.controller.SetAvailableRoleController;
+import ku.cs.controller.SetEventPriceController;
+import ku.cs.controller.SignUpController;
+import ku.cs.controller.StereoListController;
+import ku.cs.controller.UpdatePasswordController;
+import ku.cs.controller.UpdateUserInfoController;
+import ku.cs.controller.UserInfoController;
+import ku.cs.repository.EventRepository;
+import ku.cs.repository.MusicianRoleRepository;
+import ku.cs.repository.RequirementRepository;
+import ku.cs.repository.StereoRepository;
+import ku.cs.repository.StereoTypeRepository;
+import ku.cs.repository.UserRepository;
+import ku.cs.service.EventService;
+import ku.cs.service.LoginService;
+import ku.cs.service.MusicianRoleService;
+import ku.cs.service.SignUpService;
+import ku.cs.service.StereoService;
+import ku.cs.service.StereoTypeService;
+import ku.cs.service.UserService;
 
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -76,6 +116,7 @@ public class Main {
         server.createContext("/approve", new ApproveEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/cancel", new CancelEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/rate_musician", new RateMusicianController(new MusicianService(musicianRepository))); // เพิ้ม
+        server.createContext("/setEventPrice",new SetEventPriceController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.setExecutor(null);
         server.start();
 

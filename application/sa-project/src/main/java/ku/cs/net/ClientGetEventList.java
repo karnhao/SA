@@ -28,6 +28,39 @@ public class ClientGetEventList {
         }
     }
 
+    public List<Event> getEventListWithOptions(String[] musicianRoles) {
+
+        if (musicianRoles != null && musicianRoles.length == 0) {
+            musicianRoles = null;
+        }
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("access_token", Client.getClient().getAccessToken());
+
+            StringBuilder path = new StringBuilder("/event_list");
+            if (musicianRoles != null) {
+                path.append("?");
+            }
+
+            if (musicianRoles != null) {
+                path.append("role=");
+                for (byte i = 0; i < musicianRoles.length; i++) {
+                    path.append(musicianRoles[i]);
+                    if (i < musicianRoles.length - 1) path.append(",");
+                }
+            }
+
+            // HTTP Connection with json body
+            HttpURLConnection httpURLConnection = Client.getClient().getHttpURLConnection(jsonObject.toString(), path.toString());
+
+            // Get Response JSON
+            return getEvents(httpURLConnection);
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Event> getRequestedEventMusician() {
         try {
             JSONObject jsonObject = new JSONObject();

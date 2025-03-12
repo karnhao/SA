@@ -7,11 +7,16 @@ public class EventDetail extends Event {
     private List<StereoRequirement> stereoRequirements;
     private List<Musician> musicians;
     private List<Stereo> stereos;
-
+    private Integer  price;
     public List<Musician> getMusicians() {
         return musicians;
     }
-
+    public Integer getPrice() {
+        return price;
+    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
     public void setMusicians(List<Musician> musicians) {
         this.musicians = musicians;
     }

@@ -66,7 +66,11 @@ public class Client {
     }
 
     public HttpURLConnection getHttpURLConnection(String bodyJson, String path, String query) throws URISyntaxException, IOException {
-        URL url = new URI(client.getHostUrlString() + path + ((query == null) ? "" : "?" + query) ).toURL();
+        URL url = new URI(
+                convertToValidURL(
+                        client.getHostUrlString() + path + ((query == null) ? "" : "?" + query)
+                )
+        ).toURL();
 
         System.out.println(url);
 
@@ -157,5 +161,9 @@ public class Client {
 
     public String getAccessToken() {
         return this.accessToken;
+    }
+
+    private String convertToValidURL(String url) {
+        return url.replaceAll(" ", "%20");
     }
 }
