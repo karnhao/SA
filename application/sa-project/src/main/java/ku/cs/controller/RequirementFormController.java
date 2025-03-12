@@ -49,4 +49,9 @@ public class RequirementFormController<T> {
     public void delete() {
         this.vBox.getChildren().clear();
     }
+
+    public void setQuantity(int quantity) {
+        spinner.getValueFactory().setValue(quantity);  // ตั้งค่าจำนวนใน Spinner
+    }
+
 }

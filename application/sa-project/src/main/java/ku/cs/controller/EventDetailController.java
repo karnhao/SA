@@ -210,6 +210,9 @@ public class EventDetailController {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
     }
 
+
+    public void OnEditEvent() {RootService.getController().getNavigationController().open("event-edit.fxml");}
+
     public void setEventPrice(){
         String input = textFieldPrice.getText();
         int price;
@@ -232,4 +235,5 @@ public class EventDetailController {
             e.printStackTrace();
         }
     }
+
 }
