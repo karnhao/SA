@@ -74,7 +74,7 @@ public class EventDetailController {
             musicianRequirementController.getAddButton().setVisible(RootService.getData().getUser().getRole().equalsIgnoreCase("agent"));
             musicianRequirementController.setOnAddButtonRunnable(() -> Navigation.open("add-musician.fxml", new Object[]{eventDetail, musicianRequirement.getMusicianRole()}));
             musicianRequirementController.statusChoiceBox.setValue(requirementStatus);
-            musicianRequirementController.statusChoiceBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldV, newV) -> {
+            musicianRequirementController.statusChoiceBox.getSelectionModel().selectedItemProperty().addListener((_, _, newV) -> {
                 ClientEvent clientEvent = new ClientEvent();
                 try {
                     if (newV.equalsIgnoreCase("no status")) newV = null;
@@ -104,7 +104,7 @@ public class EventDetailController {
             stereoRequirementController.getAddButton().setVisible(RootService.getData().getUser().getRole().equalsIgnoreCase("agent"));
             stereoRequirementController.setOnAddButtonRunnable(() -> Navigation.open("add-stereo.fxml", new Object[]{eventDetail, stereoRequirement.getType()}));
             stereoRequirementController.statusChoiceBox.setValue(requirementStatus);
-            stereoRequirementController.statusChoiceBox.getSelectionModel().selectedItemProperty().addListener((observableValue, oldV, newV) -> {
+            stereoRequirementController.statusChoiceBox.getSelectionModel().selectedItemProperty().addListener((_, _, newV) -> {
                 ClientEvent clientEvent = new ClientEvent();
                 try {
                     if (newV.equalsIgnoreCase("no status")) newV = null;
@@ -150,7 +150,7 @@ public class EventDetailController {
         ListItemController controller = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/list-item.fxml"));
         controller.addLabels(musician.getName(), musician.getEmail(), musician.getPhone_number(), musician.getStatus());
 
-        Button acceptButton = controller.addButton("Accept", actionEvent -> {
+        Button acceptButton = controller.addButton("Accept", _ -> {
             ClientAcceptMusicianEvent client = new ClientAcceptMusicianEvent();
             try {
                 String r = client.accept(eventDetail.getEventID(), role_id);
@@ -160,7 +160,7 @@ public class EventDetailController {
                 RootService.showErrorBar(e.getMessage());
             }
         });
-        Button rejectButton = controller.addButton("Reject", actionEvent -> {
+        Button rejectButton = controller.addButton("Reject", _ -> {
             ClientRejectMusicianEvent client = new ClientRejectMusicianEvent();
             try {
                 String r = client.reject(eventDetail.getEventID(), role_id);
@@ -184,7 +184,7 @@ public class EventDetailController {
         ListItemController controller = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/list-item.fxml"));
         controller.addLabels(stereo.getName(), stereo.getOwner_name(), stereo.getOwner_phone_number(), stereo.getStatus());
 
-        Button acceptButton = controller.addButton("Accept", actionEvent -> {
+        Button acceptButton = controller.addButton("Accept", _ -> {
             ClientAcceptStereoEvent client = new ClientAcceptStereoEvent();
             try {
                 String r = client.accept(eventDetail.getEventID(), stereo.getId());
@@ -194,7 +194,7 @@ public class EventDetailController {
                 RootService.showErrorBar(e.getMessage());
             }
         });
-        Button rejectButton = controller.addButton("Reject", actionEvent -> {
+        Button rejectButton = controller.addButton("Reject", _ -> {
             ClientRejectStereoEvent client = new ClientRejectStereoEvent();
             try {
                 String r = client.reject(eventDetail.getEventID());
