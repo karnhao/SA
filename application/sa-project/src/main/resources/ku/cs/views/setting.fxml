@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ComboBox?>
 <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.SettingController">
     <children>
         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Your Account" underline="true">
@@ -17,6 +18,22 @@
                 <Font name="System Bold" size="24.0" />
             </font>
         </Label>
+
+        <Button fx:id="themeToggleButton"
+                text="Switch Theme"
+                onAction="#onToggleTheme"
+                maxWidth="1.7976931348623157E308"
+                styleClass="button-green">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+        <VBox alignment="CENTER_RIGHT" spacing="5.0">
+            <HBox alignment="CENTER">
+                <Button fx:id="themeButton" text="Switch Theme" onAction="#switchTheme"/>
+            </HBox>
+        </VBox>
+
 
         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" VBox.vgrow="ALWAYS">
          <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="0.0" HBox.hgrow="ALWAYS">

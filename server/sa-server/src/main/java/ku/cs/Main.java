@@ -28,6 +28,7 @@ import ku.cs.controller.RejectMusicianEventController;
 import ku.cs.controller.RejectStereoEventController;
 import ku.cs.controller.RequestMusicianController;
 import ku.cs.controller.RequestStereoController;
+import ku.cs.controller.RequirementController;
 import ku.cs.controller.SetAvailableRoleController;
 import ku.cs.controller.SetEventPriceController;
 import ku.cs.controller.SignUpController;
@@ -83,6 +84,9 @@ public class Main {
         RequirementRepository requirementRepository = new RequirementRepository(conn);
         StereoRepository stereoRepository = new StereoRepository(conn);
 
+        // create service
+        EventService eventService = new EventService(eventRepository, requirementRepository, userResponsitory);
+
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new HelloController());
         server.createContext("/reg", new SignUpController(new SignUpService(userResponsitory)));
@@ -93,24 +97,25 @@ public class Main {
         server.createContext("/getallusers", new GetAllUserController(new UserService(userResponsitory)));
         server.createContext("/getmusicianroles", new GetRolesController(new MusicianRoleService(roleResponsitory)));
         server.createContext("/getstereotypes", new GetStereoTypeController(new StereoTypeService(stereoTypeResponsitory)));
-        server.createContext("/create_event", new CreateEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/event_list", new EventListController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/create_event", new CreateEventController(eventService));
+        server.createContext("/event_list", new EventListController(eventService));
         server.createContext("/create_stereo", new CreateStereoController(new StereoService(stereoRepository, userResponsitory)));
-        server.createContext("/event", new GetEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/event", new GetEventController(eventService));
         server.createContext("/stereo", new GetStereoController(new StereoService(stereoRepository, userResponsitory)));
         server.createContext("/stereo_list", new StereoListController(new StereoService(stereoRepository, userResponsitory)));
         server.createContext("/set_available_roles", new SetAvailableRoleController(new UserService(userResponsitory)));
         server.createContext("/get_available_roles", new GetAvailableRoleController(new UserService(userResponsitory)));
-        server.createContext("/request_musician", new RequestMusicianController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/request_stereo", new RequestStereoController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/get_requested_events", new GetRequestedEventsController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/accept_musician_event", new AcceptMusicianEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/reject_musician_event", new RejectMusicianEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/accept_stereo_event", new AcceptStereoEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/reject_stereo_event", new RejectStereoEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/approve", new ApproveEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/cancel", new CancelEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/setEventPrice",new SetEventPriceController(new EventService(eventRepository, requirementRepository, userResponsitory)));
+        server.createContext("/request_musician", new RequestMusicianController(eventService));
+        server.createContext("/request_stereo", new RequestStereoController(eventService));
+        server.createContext("/get_requested_events", new GetRequestedEventsController(eventService));
+        server.createContext("/accept_musician_event", new AcceptMusicianEventController(eventService));
+        server.createContext("/reject_musician_event", new RejectMusicianEventController(eventService));
+        server.createContext("/accept_stereo_event", new AcceptStereoEventController(eventService));
+        server.createContext("/reject_stereo_event", new RejectStereoEventController(eventService));
+        server.createContext("/approve", new ApproveEventController(eventService));
+        server.createContext("/cancel", new CancelEventController(eventService));
+        server.createContext("/setEventPrice",new SetEventPriceController(eventService));
+        server.createContext("/requirement",new RequirementController(eventService));
         server.setExecutor(null);
         server.start();
 

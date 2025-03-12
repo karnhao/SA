@@ -1,6 +1,7 @@
 package ku.cs.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import ku.cs.model.MusicianRequirement;
 import ku.cs.model.MusicianRole;
@@ -139,4 +140,5 @@ public class CreateEventController {
             RootService.showErrorBar(e.getMessage());
         }
     }
+
 }

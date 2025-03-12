@@ -41,4 +41,12 @@ public class DateFormController {
                         Integer.parseInt(minuteTextField.getText()))
         );
     }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        if (dateTime != null) {
+            datePicker.setValue(dateTime.toLocalDate()); // กำหนดค่าใน DatePicker
+            hourTextField.setText(String.format("%02d", dateTime.getHour())); // กำหนดค่าใน TextField ชั่วโมง
+            minuteTextField.setText(String.format("%02d", dateTime.getMinute())); // กำหนดค่าใน TextField นาที
+        }
+    }
 }
