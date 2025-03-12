@@ -6,6 +6,7 @@ public class StereoRequirement implements Requirement {
     private int quantity;
     private StereoType type;
     private List<Stereo> stereos;
+    private String status;
 
     @Override
     public String getID() {
@@ -39,5 +40,13 @@ public class StereoRequirement implements Requirement {
 
     public void setStereos(List<Stereo> stereos) {
         this.stereos = stereos;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
