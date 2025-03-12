@@ -59,7 +59,7 @@ public class Main {
         Connection conn = null;
         String user;
         String password;
-        String dataSourceUrl = "jdbc:mysql://localhost/sakbp";
+        String dataSourceUrl = "jdbc:mysql://localhost/sa";
         
         user = System.getenv("SPRING_DATASOURCE_USERNAME");
         password = System.getenv("SPRING_DATASOURCE_PASSWORD");
