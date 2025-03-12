@@ -46,7 +46,7 @@ public class RequirementRepository extends Repository {
             this.statement = connection.createStatement();
 
             this.resultSet = this.statement.executeQuery(String.format(
-                    "SELECT m.ROLE_ID, m.QUANTITY, n.ROLE_NAME, n.STATUS FROM musicianrequirement m JOIN musicianrole n ON m.ROLE_ID = n.ROLE_ID WHERE EID = '%s';", eid));
+                    "SELECT m.ROLE_ID, m.QUANTITY, n.ROLE_NAME, m.STATUS FROM musicianrequirement m JOIN musicianrole n ON m.ROLE_ID = n.ROLE_ID WHERE EID = '%s';", eid));
 
             while (this.resultSet.next()) {
                 MusicianRequirement r = new MusicianRequirement();
@@ -78,7 +78,7 @@ public class RequirementRepository extends Repository {
             this.statement = connection.createStatement();
 
             this.resultSet = this.statement.executeQuery(String.format(
-                    "SELECT m.TYPE_ID, m.QUANTITY, n.STNAME, n.STATUS FROM stereorequirement m JOIN stereotype n ON m.TYPE_ID = n.TYPE_ID WHERE EID = '%s';", eid));
+                    "SELECT m.TYPE_ID, m.QUANTITY, n.STNAME, m.STATUS FROM stereorequirement m JOIN stereotype n ON m.TYPE_ID = n.TYPE_ID WHERE EID = '%s';", eid));
 
             while (this.resultSet.next()) {
                 StereoRequirement r = new StereoRequirement();

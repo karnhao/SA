@@ -60,7 +60,8 @@ public class ClientGetEvent {
             MusicianRequirement r = new MusicianRequirement();
             r.setQuantity(o.getInt("quantity"));
             r.setMusicianRole(role);
-            r.setStatus(o.getString("status"));
+            if (!o.isNull("status"))
+                r.setStatus(o.getString("status"));
 
             JSONArray array = o.getJSONArray("musicians");
             List<Musician> musicians = new LinkedList<>();
@@ -94,7 +95,8 @@ public class ClientGetEvent {
             StereoRequirement r = new StereoRequirement();
             r.setQuantity(o.getInt("quantity"));
             r.setType(type);
-            r.setStatus(o.getString("status"));
+            if (!o.isNull("status"))
+                r.setStatus(o.getString("status"));
 
             JSONArray array = o.getJSONArray("stereos");
             List<Stereo> stereos = new LinkedList<>();
