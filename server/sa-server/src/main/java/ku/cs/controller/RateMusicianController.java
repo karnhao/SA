@@ -1,8 +1,6 @@
 package ku.cs.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 import org.json.JSONObject;
@@ -21,41 +19,46 @@ public class RateMusicianController extends Controller {
     public void handle(HttpExchange exchange) throws IOException {
         System.out.println("[Server] Received request at: " + exchange.getRequestURI());
 
-        InputStream is = exchange.getRequestBody();
-        String jsonString = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        System.out.println("[Server] Request JSON: " + jsonString);
+        if (!exchange.getRequestMethod().equalsIgnoreCase("POST")) {
+            exchange.sendResponseHeaders(405, -1); // Method Not Allowed
+            exchange.close();
+            return;
+        }
 
         try {
+            String jsonString = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+            System.out.println("[Server] Request JSON: " + jsonString);
+
             JSONObject jsonObject = new JSONObject(jsonString);
 
-            // ✅ ดึง "musician_uuid" จาก "data" (แก้ไขจากโค้ดเดิม)
-            if (!jsonObject.has("data")) {
-                throw new IllegalArgumentException("Missing key: data");
+            if (!jsonObject.has("musician_id")) {
+                throw new IllegalArgumentException("Missing key: musician_id");
             }
 
-            JSONObject dataObject = jsonObject.getJSONObject("data");
+            String musicianId = jsonObject.getString("musician_id");
+            System.out.println("[Server] Processing musician ID: " + musicianId);
 
-            if (!dataObject.has("UUID")) {
-                throw new IllegalArgumentException("Missing key: musician_uuid");
+            String resultMessage = musicianService.incrementMusicianPoint(musicianId);
+
+            JSONObject responseJson = new JSONObject();
+            responseJson.put("message", resultMessage);
+
+            byte[] responseBytes = responseJson.toString().getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().set("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, responseBytes.length);
+
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(responseBytes);
             }
 
-            String musicianUUID = dataObject.getString("UUID");
-            System.out.println("[Server] Processing musician UUID: " + musicianUUID);
-
-            // ✅ เพิ่มคะแนนให้ Musician
-            String response = musicianService.incrementMusicianPoint(musicianUUID);
-
-            // ✅ ส่ง Response กลับไปยัง Client
-            exchange.sendResponseHeaders(200, response.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
-
-            System.out.println("[Server] Response sent: " + response);
+            System.out.println("[Server] Response sent: " + responseJson.toString(4));
         } catch (Exception e) {
             e.printStackTrace();
             responseError(exchange, e);
+        } finally {
+            exchange.close();
         }
     }
+
 
 }

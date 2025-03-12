@@ -37,14 +37,14 @@ public class MusicianRatingItemController {
 
                         Platform.runLater(() -> {
                             System.out.println("[UI] Response received: " + response);
-                            showAlert("ให้คะแนนเรียบร้อย!\n" + response);
+                            showAlert("ให้คะแนนเรียบร้อย!\n");
                             disableButtons();
                         });
 
                     } catch (Exception e) {
                         Platform.runLater(() -> {
-                            System.out.println("[UI] Error: " + e.getMessage());
-                            showAlert("เกิดข้อผิดพลาด: " + e.getMessage());
+                            // System.out.println("[UI] Error: " + e.getMessage());
+                            // showAlert("เกิดข้อผิดพลาด: " + e.getMessage());
                         });
                     }
                     return null;
@@ -54,6 +54,7 @@ public class MusicianRatingItemController {
             new Thread(task).start();
         }
     }
+
 
 
     @FXML

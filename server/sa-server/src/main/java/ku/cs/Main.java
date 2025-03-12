@@ -45,6 +45,8 @@ public class Main {
         EventRepository eventRepository = new EventRepository(conn);
         RequirementRepository requirementRepository = new RequirementRepository(conn);
         StereoRepository stereoRepository = new StereoRepository(conn);
+        MusicianRepository musicianRepository = new MusicianRepository(conn); // เพิ้ม MusicianRepository
+
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
         server.createContext("/", new HelloController());
@@ -73,7 +75,7 @@ public class Main {
         server.createContext("/reject_stereo_event", new RejectStereoEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/approve", new ApproveEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
         server.createContext("/cancel", new CancelEventController(new EventService(eventRepository, requirementRepository, userResponsitory)));
-        server.createContext("/rate_musician", new RateMusicianController(new MusicianService(conn)));
+        server.createContext("/rate_musician", new RateMusicianController(new MusicianService(musicianRepository))); // เพิ้ม
         server.setExecutor(null);
         server.start();
 
