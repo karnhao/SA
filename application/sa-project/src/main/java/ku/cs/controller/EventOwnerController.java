@@ -32,7 +32,8 @@ public class EventOwnerController {
         RootService.getController().open("login.fxml");
     }
 
-    public void OnCancelEvent(ActionEvent actionEvent) {
-    }
+    public void OnCancelEvent(ActionEvent actionEvent) {}
+
+
 }
 

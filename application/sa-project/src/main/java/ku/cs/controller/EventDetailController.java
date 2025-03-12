@@ -43,6 +43,8 @@ public class EventDetailController {
     public Label priceLabel;
     @FXML
     public ImageView qrCode;
+    @FXML
+    public Label labelInstrument;
 
     private EventDetail eventDetail;
 
@@ -54,6 +56,7 @@ public class EventDetailController {
 
         eventDetail = clientGetEvent.getEvent(eid);
         User owner = eventDetail.getOwner();
+        boolean isAgent = RootService.getData().getUser().getRole().equalsIgnoreCase("agent");
 
         updateEventDetails(
                 owner.getName() + " " + owner.getPhone_number(),
@@ -66,11 +69,27 @@ public class EventDetailController {
                     getClass().getResource("/ku/cs/views/event-requirement.fxml")
             );
 
+            String requirementStatus = musicianRequirement.getStatus();
+            requirementStatus = requirementStatus == null ? "NO STATUS" : requirementStatus;
+
             musicianRequirementController.setTitleLabelText(musicianRequirement.getMusicianRole().getName());
             musicianRequirementController.setNumber(musicianRequirement.getMusicians().stream().filter(m->m.getStatus().equalsIgnoreCase("promise")).toList().size());
             musicianRequirementController.setMaxNumber(musicianRequirement.getQuantity());
             musicianRequirementController.getAddButton().setVisible(RootService.getData().getUser().getRole().equalsIgnoreCase("agent"));
             musicianRequirementController.setOnAddButtonRunnable(() -> Navigation.open("add-musician.fxml", new Object[]{eventDetail, musicianRequirement.getMusicianRole()}));
+            musicianRequirementController.statusChoiceBox.setValue(requirementStatus);
+            musicianRequirementController.statusChoiceBox.getSelectionModel().selectedItemProperty().addListener((_, _, newV) -> {
+                ClientEvent clientEvent = new ClientEvent();
+                try {
+                    if (newV.equalsIgnoreCase("no status")) newV = null;
+                    String res = clientEvent.setMusicianRequirementStatus(this.eventDetail.getEventID(), musicianRequirement.getID(), newV);
+                    RootService.showBar(res);
+                } catch (Exception e) {
+                    RootService.showErrorBar(e.getMessage());
+                }
+            });
+            musicianRequirementController.statusChoiceBox.setDisable(!isAgent);
+
             for (Musician musician : musicianRequirement.getMusicians()) {
                 musicianRequirementController.addItem(vBox -> this.addMusicianItem(vBox, musician, musicianRequirement.getMusicianRole().getId()));
             }
@@ -82,22 +101,38 @@ public class EventDetailController {
                     getClass().getResource("/ku/cs/views/event-requirement.fxml")
             );
 
+            String requirementStatus = stereoRequirement.getStatus();
+            requirementStatus = requirementStatus == null ? "NO STATUS" : requirementStatus;
+
             stereoRequirementController.setTitleLabelText(stereoRequirement.getType().getName());
             stereoRequirementController.setNumber(stereoRequirement.getStereos().stream().filter(s->s.getStatus().equalsIgnoreCase("promise")).toList().size());
             stereoRequirementController.setMaxNumber(stereoRequirement.getQuantity());
             stereoRequirementController.getAddButton().setVisible(RootService.getData().getUser().getRole().equalsIgnoreCase("agent"));
             stereoRequirementController.setOnAddButtonRunnable(() -> Navigation.open("add-stereo.fxml", new Object[]{eventDetail, stereoRequirement.getType()}));
+            stereoRequirementController.statusChoiceBox.setValue(requirementStatus);
+            stereoRequirementController.statusChoiceBox.getSelectionModel().selectedItemProperty().addListener((_, _, newV) -> {
+                ClientEvent clientEvent = new ClientEvent();
+                try {
+                    if (newV.equalsIgnoreCase("no status")) newV = null;
+                    String res = clientEvent.setStereoRequirementStatus(this.eventDetail.getEventID(), stereoRequirement.getID(), newV);
+                    RootService.showBar(res);
+                } catch (Exception e) {
+                    RootService.showErrorBar(e.getMessage());
+                }
+            });
+            stereoRequirementController.statusChoiceBox.setDisable(!isAgent);
+
             for (Stereo stereo : stereoRequirement.getStereos()) {
                 stereoRequirementController.addItem(vBox -> addStereoItem(vBox, stereo));
             }
         }
 
         String userRole = RootService.getData().getUser().getRole();
-        if (!userRole.equalsIgnoreCase("agent")){
+        if (!userRole.equalsIgnoreCase("agent")) {
             priceBox.setVisible(false);
             priceLabel.setVisible(true);
         }
-        if (eventDetail.getPrice() != 0){
+        if (eventDetail.getPrice() != 0) {
             priceLabel.setText(eventDetail.getPrice().toString());
         }else{
             priceLabel.setText("ยังไม่ได้กำหนดราคา");
@@ -105,6 +140,7 @@ public class EventDetailController {
         }
         Platform.runLater(RootService::hideLoadingIndicator);
 
+        checkInstrumentsCompletion();
     }
 
     public void updateEventDetails(String owner, String date, String detail, String status) {
@@ -122,7 +158,7 @@ public class EventDetailController {
         ListItemController controller = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/list-item.fxml"));
         controller.addLabels(musician.getName(), musician.getEmail(), musician.getPhone_number(), musician.getStatus());
 
-        Button acceptButton = controller.addButton("Accept", actionEvent -> {
+        Button acceptButton = controller.addButton("Accept", _ -> {
             ClientAcceptMusicianEvent client = new ClientAcceptMusicianEvent();
             try {
                 String r = client.accept(eventDetail.getEventID(), role_id);
@@ -132,7 +168,7 @@ public class EventDetailController {
                 RootService.showErrorBar(e.getMessage());
             }
         });
-        Button rejectButton = controller.addButton("Reject", actionEvent -> {
+        Button rejectButton = controller.addButton("Reject", _ -> {
             ClientRejectMusicianEvent client = new ClientRejectMusicianEvent();
             try {
                 String r = client.reject(eventDetail.getEventID(), role_id);
@@ -156,7 +192,7 @@ public class EventDetailController {
         ListItemController controller = ComponentLoader.loadInto(vBox, getClass().getResource("/ku/cs/views/components/list-item.fxml"));
         controller.addLabels(stereo.getName(), stereo.getOwner_name(), stereo.getOwner_phone_number(), stereo.getStatus());
 
-        Button acceptButton = controller.addButton("Accept", actionEvent -> {
+        Button acceptButton = controller.addButton("Accept", _ -> {
             ClientAcceptStereoEvent client = new ClientAcceptStereoEvent();
             try {
                 String r = client.accept(eventDetail.getEventID(), stereo.getId());
@@ -166,7 +202,7 @@ public class EventDetailController {
                 RootService.showErrorBar(e.getMessage());
             }
         });
-        Button rejectButton = controller.addButton("Reject", actionEvent -> {
+        Button rejectButton = controller.addButton("Reject", _ -> {
             ClientRejectStereoEvent client = new ClientRejectStereoEvent();
             try {
                 String r = client.reject(eventDetail.getEventID());
@@ -219,18 +255,25 @@ public class EventDetailController {
         Navigation.open("event-detail.fxml", eventDetail.getEventID());
     }
 
+    public void OnEditEvent() {RootService.getController().getNavigationController().open("event-edit.fxml");}
 
     public void setEventPrice(){
         String input = textFieldPrice.getText();
         int price;
         try {
             price = Integer.parseInt(input);
+            int priceWithPercent = (int) (price * 1.05);
             ClientSetEventPrice setEventPrice = new ClientSetEventPrice();
-            setEventPrice.setEventPrice(this.eventDetail.getEventID(), price);
+            setEventPrice.setEventPrice(this.eventDetail.getEventID(), priceWithPercent);
         } catch (NumberFormatException e){
             e.printStackTrace();
             RootService.showErrorBar(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            RootService.showErrorBar(e.getMessage());
         }
+
+        this.reloadPage();
     }
     public void generateAndShowQRCode() {
         try {
@@ -240,6 +283,23 @@ public class EventDetailController {
             qrCode.setImage(qrImage);
         } catch (WriterException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void checkInstrumentsCompletion() {
+        boolean allMusiciansComplete = eventDetail.getMusicianRequirements().stream()
+                .allMatch(req -> req.getMusicians().stream()
+                        .filter(m -> m.getStatus().equalsIgnoreCase("promise"))
+                        .count() >= req.getQuantity());
+
+        boolean allStereosComplete = eventDetail.getStereoRequirements().stream()
+                .allMatch(req -> req.getStereos().stream()
+                        .filter(s -> s.getStatus().equalsIgnoreCase("promise"))
+                        .count() >= req.getQuantity());
+
+        if (allMusiciansComplete && allStereosComplete) {
+            labelInstrument.setVisible(true);
+            labelInstrument.setText("     Musician and Stereo are complete.... pls standby.");
         }
     }
 }

@@ -3,8 +3,10 @@ package ku.cs.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import ku.cs.net.ClientEvent;
 
 public class EventRequirementController {
     public Label titleLabel;
@@ -12,10 +14,14 @@ public class EventRequirementController {
     public Label maxNumberLabel;
     public VBox vBox;
     public Button addButton;
+    public ChoiceBox<String> statusChoiceBox;
     private Runnable onAddButtonRunnable;
 
     @FXML
     public void initialize() {
+        statusChoiceBox.getItems().add("DONE");
+        statusChoiceBox.getItems().add("NOT DONE");
+        statusChoiceBox.setValue("NO STATUS");
     }
 
     public void onAddButton() {
@@ -42,12 +48,12 @@ public class EventRequirementController {
         ri.add(vBox);
     }
 
-    public void onDoneClick(ActionEvent actionEvent) {
-
-    }
-
     public interface RequirementItem {
         void add(VBox vBox);
+    }
+
+    public void setStatus(String status) {
+        this.statusChoiceBox.setValue(status);
     }
 
     public Button getAddButton() {

@@ -4,6 +4,7 @@ public class MusicianRequirement {
     private int quantity;
     private String musician_id;
     private String roleName;
+    private String status;
 
     public String getMusician_id() {
         return musician_id;
@@ -27,5 +28,13 @@ public class MusicianRequirement {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" style="-fx-background-color: #f0f0f0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventOwnerController">
+<VBox alignment="TOP_CENTER" style="-fx-background-color: #f0f0f0;" stylesheets="@../themes/default.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ku.cs.controller.EventOwnerController">
     <HBox alignment="CENTER" VBox.vgrow="NEVER">
         <Label style="-fx-font-size: 36; -fx-font-weight: bold; -fx-text-fill: #008080;" text="Event" HBox.hgrow="ALWAYS">
          <font>
@@ -19,6 +19,11 @@
             <Insets left="5.0" />
          </HBox.margin></Label>
         <Pane HBox.hgrow="ALWAYS" />
+      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#OnEditEvent" style="-fx-font-weight: bold; -fx-font-size: 18;" styleClass="button-green" stylesheets="@../themes/default.css" text="Edit" HBox.hgrow="ALWAYS">
+         <HBox.margin>
+            <Insets right="10.0" />
+         </HBox.margin>
+      </Button>
         <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#OnBackToHome" style="-fx-font-weight: bold; -fx-font-size: 18;" styleClass="button-green" stylesheets="@../themes/default.css" text="Back" HBox.hgrow="ALWAYS">
          <font>
             <Font size="18.0" />
@@ -88,7 +93,7 @@
             <Insets top="100.0" />
         </padding>
     </HBox>
-   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" stylesheets="@../themes/default.css">
       <children>
          <Button alignment="CENTER" mnemonicParsing="false" onAction="#OnCancelEvent" style="-fx-font-weight: bold; -fx-font-size: 18;" styleClass="button-green" stylesheets="@../themes/default.css" text="Cancel Event">
             <font>

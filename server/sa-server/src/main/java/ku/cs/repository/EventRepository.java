@@ -524,6 +524,43 @@ public class EventRepository extends Repository {
         }
     }
 
+
+    public boolean updateEvent(Event event) {
+        String updateQuery = "UPDATE event SET " +
+                "START_DATE = ?, " +
+                "END_DATE = ?, " +
+                "START_TIME = ?, " +
+                "END_TIME = ?, " +
+                "STATUS = ?, " +
+                "TITLE = ?, " +
+                "DESCRIPTION = ? " +
+                "WHERE EID = ?";
+
+        try (PreparedStatement ps = this.connection.prepareStatement(updateQuery)) {
+
+            // ตั้งค่าพารามิเตอร์ของ prepared statement
+            ps.setDate(1, Date.valueOf(event.getStartDateTime().toLocalDate()));
+            ps.setDate(2, Date.valueOf(event.getEndDateTime().toLocalDate()));
+            ps.setTime(3, Time.valueOf(event.getStartDateTime().toLocalTime()));
+            ps.setTime(4, Time.valueOf(event.getEndDateTime().toLocalTime()));
+            ps.setString(5, event.getStatus());
+            ps.setString(6, event.getTitle());
+            ps.setString(7, event.getDescription());
+            ps.setString(8, event.getId());  // EID
+
+            // ทำการอัปเดตในฐานข้อมูล
+            int rowsUpdated = ps.executeUpdate();
+
+            return rowsUpdated > 0; // ถ้ามีการอัปเดตข้อมูลสำเร็จ
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // ถ้าเกิดข้อผิดพลาดในการอัปเดต
+        }
+    }
+
+
+
     public boolean setEventPrice(String eid,int price) {
         String updateQuery = "UPDATE event SET PRICE = ? WHERE EID = ?";
         
@@ -540,6 +577,7 @@ public class EventRepository extends Repository {
             return false;
         }
     }
+
 
     public void createHistoryForPromisedEvent(String incomingEID) {
         PreparedStatement pstmt = null;

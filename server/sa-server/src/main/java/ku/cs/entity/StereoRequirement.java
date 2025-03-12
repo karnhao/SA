@@ -4,6 +4,7 @@ public class StereoRequirement {
     private int quantity;
     private String type_id;
     private String typeName;
+    private String status;
 
     public String getType_id() {
         return type_id;
@@ -27,5 +28,13 @@ public class StereoRequirement {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

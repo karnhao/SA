@@ -21,7 +21,13 @@
          <font>
             <Font name="System Bold" size="24.0" />
          </font></Label>
+      <Label fx:id="labelInstrument" style="-fx-font-size: 24; -fx-text-fill: #008080;" text="Instruments status" visible="false" />
       <Pane HBox.hgrow="ALWAYS" />
+      <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#OnEditEvent" style="-fx-font-size: 18;" styleClass="button-green" stylesheets="@../themes/default.css" text="Edit">
+         <HBox.margin>
+            <Insets right="5.0" />
+         </HBox.margin>
+      </Button>
       <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#OnBackToHome" styleClass="button-green" stylesheets="@../themes/default.css" text="Back" HBox.hgrow="ALWAYS">
          <font>
             <Font size="18.0" />

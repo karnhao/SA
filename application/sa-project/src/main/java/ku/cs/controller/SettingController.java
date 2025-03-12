@@ -1,11 +1,13 @@
 package ku.cs.controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import ku.cs.model.MusicianRole;
 import ku.cs.model.User;
 import ku.cs.net.*;
+import ku.cs.sa_project.MainApp;
 import ku.cs.service.RootService;
 import ku.cs.util.ComponentLoader;
 
@@ -17,6 +19,12 @@ public class SettingController {
     public ImageView profileImage;
     @FXML
     public VBox vBox;
+    @FXML
+    private Button themeToggleButton;
+    @FXML
+    private Button themeButton;
+    private static int theme = 0;
+    private boolean isDarkTheme = false;
     public VBox musicianAvailableRoleVBox;
     public VBox rolesVBox;
     private TextFormController nameFormController;
@@ -27,7 +35,7 @@ public class SettingController {
     private List<AvailableRoleFormController<MusicianRole>> roleFormControllerList;
 
     public void initialize() {
-
+        updateButtonText();
         User userData = RootService.getData().getUser();
         if (!userData.getRole().equalsIgnoreCase("musician")) musicianAvailableRoleVBox.setVisible(false);
 
@@ -62,6 +70,33 @@ public class SettingController {
 
     public void OnChangeProfileImage() {
 
+    }
+
+    @FXML
+    public void switchTheme() {
+        theme = (theme == 0) ? 1 : 0;
+        updateAppearance();
+    }
+
+    public static void updateAppearance() {
+        if (theme == 0) {
+            System.out.println("Switching to Light Theme");
+            MainApp.setTheme("default.css");
+        } else {
+            System.out.println("Switching to Dark Theme");
+            MainApp.setTheme("test.css");
+        }
+    }
+    private void updateButtonText() {
+        if (themeButton != null) {
+            themeButton.setText((theme == 0) ? "Switch to Dark Mode" : "Switch to Light Mode");
+        }
+    }
+    @FXML
+    public void onToggleTheme() {
+        isDarkTheme = !isDarkTheme;
+        String theme = isDarkTheme ? "test.css" : "default.css";
+        MainApp.setTheme(theme);
     }
 
     public void OnLogOut() {
