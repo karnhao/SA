@@ -53,6 +53,7 @@ public class EventDetailController {
 
         eventDetail = clientGetEvent.getEvent(eid);
         User owner = eventDetail.getOwner();
+        boolean isAgent = RootService.getData().getUser().getRole().equalsIgnoreCase("agent");
 
         updateEventDetails(
                 owner.getName() + " " + owner.getPhone_number(),
@@ -84,6 +85,8 @@ public class EventDetailController {
                     RootService.showErrorBar(e.getMessage());
                 }
             });
+            musicianRequirementController.statusChoiceBox.setDisable(!isAgent);
+
             for (Musician musician : musicianRequirement.getMusicians()) {
                 musicianRequirementController.addItem(vBox -> this.addMusicianItem(vBox, musician, musicianRequirement.getMusicianRole().getId()));
             }
@@ -114,6 +117,7 @@ public class EventDetailController {
                     RootService.showErrorBar(e.getMessage());
                 }
             });
+            stereoRequirementController.statusChoiceBox.setDisable(!isAgent);
 
             for (Stereo stereo : stereoRequirement.getStereos()) {
                 stereoRequirementController.addItem(vBox -> addStereoItem(vBox, stereo));
